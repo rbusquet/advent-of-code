@@ -1,6 +1,7 @@
 import re
 from typing import NamedTuple
 
+
 class Claim(NamedTuple):
     id_: int
     x: int
