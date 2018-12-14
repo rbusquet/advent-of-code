@@ -2,6 +2,9 @@ import re
 from typing import NamedTuple
 
 
+print('--- DAY 03: part 1 ---')
+
+
 class Claim(NamedTuple):
     id_: int
     x: int
@@ -34,6 +37,8 @@ for i in fabric:
 
 print(f'Total overlaps: {count}')
 
+
+print('--- DAY 03: part 2 ---')
 for claim in claims:
     test = []
     for w in range(claim.w):

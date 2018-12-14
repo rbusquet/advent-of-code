@@ -2,7 +2,9 @@ import datetime
 import re
 from collections import Counter, defaultdict
 from typing import NamedTuple
-from pprint import pprint
+
+
+print('--- DAY 04: part 1 ---')
 
 
 class Entry(NamedTuple):
@@ -21,7 +23,6 @@ with open('input4.txt') as f:
         entries.append(Entry(parsed_datetime, info))
 
 entries = sorted(entries, key=lambda e: e.date_time)
-pprint(entries)
 
 guard_regex = re.compile(r'Guard #(\d+).*')
 guards = defaultdict(list)
@@ -52,8 +53,6 @@ choosen_guard = max(
     key=most_sleep
 )
 
-pprint(choosen_guard)
-
 choosen_guard_nights = choosen_guard[1]
 
 minutes_sleeping = []
@@ -63,14 +62,16 @@ for night in choosen_guard_nights:
         sleeps_at = night[index]
         wakes_up = night[index + 1]
         sleeping = list(range(sleeps_at, wakes_up))
-        print(f'slept during {sleeping}')
         minutes_sleeping.extend(sleeping)
 
 
 counter = Counter(minutes_sleeping)
 choosen_minute = counter.most_common(1)[0][0]
-print(choosen_minute)
-print(f'Value = {int(choosen_guard[0])*choosen_minute}')
+
+print(f'Chosen guard ID * chosen minute = {int(choosen_guard[0]) * choosen_minute}')
+
+
+print('--- DAY 04: part 2 ---')
 
 all_counters = []
 for guard_id, nights in guards.items():
@@ -91,6 +92,4 @@ print(all_counters)
 
 x = max(all_counters, key=lambda x: x[0][1])
 
-print(x[0][0] * int(x[1]))
-
-
+print(f'Chosen guard ID * chosen minute = {x[0][0] * int(x[1])}')
