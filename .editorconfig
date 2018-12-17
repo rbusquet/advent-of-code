@@ -8,6 +8,7 @@ insert_final_newline = true
 [*.py]
 indent_style = space
 indent_size = 4
+trim_trailing_whitespace = true
 
 [*.txt]
 insert_final_newline = false
