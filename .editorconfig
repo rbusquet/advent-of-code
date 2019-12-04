@@ -12,3 +12,7 @@ trim_trailing_whitespace = true
 
 [*.txt]
 insert_final_newline = false
+
+[*.go]
+indent_style = tab
+indent_size = 4
