@@ -75,8 +75,8 @@ func wireLocations(wire string) map[Point]int {
 	return points
 }
 
-// Do Day3 calculations
-func Do() {
+// Run day 3
+func Run() {
 	fmt.Println("-- Day 3 --")
 	scanner := utils.GenerateLineScanner("./day3/input.txt")
 	scanner.Scan()

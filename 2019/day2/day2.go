@@ -29,8 +29,8 @@ func runProgram(noun int, verb int, memory ...int) []int {
 	return memory
 }
 
-// Do Day2 calculations
-func Do() {
+// Run day 2
+func Run() {
 	fmt.Println("-- Day 2 --")
 	scanner := utils.GenerateCommaSeparatedScanner("./day2/input2.txt")
 	memory := []int{}

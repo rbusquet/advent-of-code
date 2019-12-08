@@ -30,8 +30,8 @@ func findPasswords(min int, max int) []string {
 	return passwords
 }
 
-// Do day 4
-func Do() {
+// Run day 4
+func Run() {
 	fmt.Println("-- Day 4 --")
 	validPasswords := findPasswords(372037, 905157)
 	fmt.Println("Part one output:", len(validPasswords))

@@ -17,8 +17,8 @@ func calculateTotalFuel(mass int) int {
 	return 0
 }
 
-// Do calculates for day 1
-func Do() {
+// Run day 1
+func Run() {
 	fmt.Println("-- Day 1 --")
 	scanner := utils.GenerateLineScanner("./day1/input1.txt")
 	total := 0
