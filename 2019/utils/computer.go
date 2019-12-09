@@ -8,7 +8,7 @@ type Computer struct {
 	instruction int
 }
 
-	func NewComputer(program *[]int, input int) Computer {
+func NewComputer(program *[]int, input int) Computer {
 	return Computer{program: program, input: input}
 }
 

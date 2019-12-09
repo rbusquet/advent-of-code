@@ -46,7 +46,7 @@ while True:
 
         node = Node(children_count, metadata_count)
         nodes.append(node)
-        
+
         if current_parent:
             current_parent.children.append(node)
 

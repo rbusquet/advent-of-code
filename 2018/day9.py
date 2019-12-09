@@ -11,7 +11,7 @@ class Marble:
         self.id = id
         self.previous: 'Marble' = self
         self.next: 'Marble' = self
-    
+
     def replace(self, marble_id: int) -> 'Marble':
         other = Marble(marble_id)
         other.previous = self.previous
@@ -25,7 +25,7 @@ class Marble:
         for i in range(n):
             ret = ret.next
         return ret
-    
+
     def get_before(self, n: int) -> 'Marble':
         ret = self
         for i in range(n):

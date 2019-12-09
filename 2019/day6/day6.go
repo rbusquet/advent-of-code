@@ -27,12 +27,6 @@ func (u *Universe) getObject(name string) *Planet {
 	return planet
 }
 
-func (u *Universe) log() {
-	for _, planet := range u.objects {
-		fmt.Println(planet)
-	}
-}
-
 func (u *Universe) countPlanetOrbits(planet string) int {
 	p := u.getObject(planet)
 	if p.parent == "" {

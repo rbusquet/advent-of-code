@@ -47,9 +47,9 @@ func Permutations(input []int, size int) [][]int {
 	if size == 1 {
 		return [][]int{append([]int{}, input...)}
 	}
-	results := Permutations(input, size - 1)
+	results := Permutations(input, size-1)
 	for i := 0; i < size-1; i++ {
-		if size % 2 == 0 {
+		if size%2 == 0 {
 			input[i], input[size-1] = input[size-1], input[i]
 		} else {
 			input[0], input[size-1] = input[size-1], input[0]

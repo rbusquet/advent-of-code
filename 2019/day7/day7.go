@@ -26,10 +26,6 @@ func (a *Amplifier) setInput(input int) {
 	a.computer.SetInput(input)
 }
 
-func (a *Amplifier) getOutput() int {
-	return a.computer.GetOutput()
-}
-
 // Run day 7
 func Run() {
 	fmt.Println("-- Day 7 --")
