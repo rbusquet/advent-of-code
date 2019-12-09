@@ -8,6 +8,7 @@ import (
 	"advent-of-code/2019/day5"
 	"advent-of-code/2019/day6"
 	"advent-of-code/2019/day7"
+	"advent-of-code/2019/day8"
 )
 
 func main() {
@@ -18,4 +19,5 @@ func main() {
 	day5.Run()
 	day6.Run()
 	day7.Run()
+	day8.Run()
 }

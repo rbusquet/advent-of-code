@@ -4,6 +4,7 @@ import (
 	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func runProgram(noun int, verb int, memory ...int) []int {
@@ -36,7 +37,7 @@ func Run() {
 	memory := []int{}
 
 	for scanner.Scan() {
-		if val, err := strconv.Atoi(scanner.Text()); err != nil {
+		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err != nil {
 			panic(err)
 		} else {
 			memory = append(memory, val)

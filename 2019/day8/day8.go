@@ -1,4 +1,4 @@
-package main
+package day8
 
 import (
 	"advent-of-code/2019/utils"
@@ -6,8 +6,10 @@ import (
 	"math"
 )
 
-func main() {
-	scanner := utils.GenerateLineScanner("./input.txt")
+// Run day 8
+func Run() {
+	fmt.Println("-- Day 8 --")
+	scanner := utils.GenerateLineScanner("./day8/input.txt")
 	scanner.Scan()
 	row := scanner.Text()
 
@@ -40,7 +42,7 @@ func main() {
 		}
 	}
 	output := count["1"][chosenLayer] * count["2"][chosenLayer]
-	fmt.Println(output)
+	fmt.Println("Part one output:", output)
 
 	final := []string{}
 	for i := 0; i < pixelCount; i++ {
@@ -69,6 +71,7 @@ func main() {
 		"0": " ",
 		"1": "X",
 	}
+	fmt.Println("Part two output:")
 	for index, x := range final {
 		if index%25 == 0 {
 			fmt.Println()

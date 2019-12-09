@@ -4,6 +4,7 @@ import (
 	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // Amplifier is each of the thrust amplifiers of the ship
@@ -54,7 +55,7 @@ func readProgram(filename string) []int {
 	memory := []int{}
 	scanner := utils.GenerateCommaSeparatedScanner(filename)
 	for scanner.Scan() {
-		if val, err := strconv.Atoi(scanner.Text()); err == nil {
+		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err == nil {
 			memory = append(memory, val)
 		}
 	}
