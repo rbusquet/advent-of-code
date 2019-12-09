@@ -1,3 +1,5 @@
+from itertools import permutations
+
 print('--- DAY 01: part 1 ---')
 
 data = []
