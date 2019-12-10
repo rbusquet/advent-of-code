@@ -38,4 +38,7 @@ X  X  XX   XXX X    XXXX
 -- Day 9 --
 Part one output: 2316632620
 Part two output: 78869
+-- Day 10 --
+Part one output: 282
+Part two output: 1008
 ```
