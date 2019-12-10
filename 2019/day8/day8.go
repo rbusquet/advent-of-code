@@ -69,4 +69,5 @@ func Run() {
 		}
 		fmt.Print(mapper[x])
 	}
+	fmt.Println()
 }

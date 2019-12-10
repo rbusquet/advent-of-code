@@ -1,15 +1,18 @@
 package utils
 
 type Computer struct {
-	program     *[]int
-	input       int
-	output      int
-	pointer     int
-	instruction int
+	program      *[]int
+	memory       *map[int]int
+	input        int
+	output       int
+	pointer      int
+	instruction  int
+	relativeBase int
 }
 
 func NewComputer(program *[]int, input int) Computer {
-	return Computer{program: program, input: input}
+	memory := make(map[int]int)
+	return Computer{program: program, input: input, memory: &memory}
 }
 
 func (c *Computer) Execute() (output int, code string) {
@@ -34,6 +37,8 @@ func (c *Computer) Execute() (output int, code string) {
 		return c.lessThan(), "OP"
 	case 8:
 		return c.equals(), "OP"
+	case 9:
+		return c.setRelativeBase(), "OP"
 	}
 	return c.output, "ERROR"
 }
@@ -42,7 +47,7 @@ func (c *Computer) add() int {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
-	c.write(x + y)
+	c.write(x+y, c.instruction/10000%10)
 	// fmt.Printf("Add %d + %d = %d@%d\n", x, y, x+y, pos)
 	return c.output
 }
@@ -51,13 +56,13 @@ func (c *Computer) multiply() int {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
-	c.write(x * y)
+	c.write(x*y, c.instruction/10000%10)
 	// fmt.Printf("Multiply %d * %d = %d@%d\n", x, y, x*y, pos)
 	return c.output
 }
 
 func (c *Computer) readInput() int {
-	c.write(c.input)
+	c.write(c.input, c.instruction/100%10)
 	// fmt.Printf("Set %d to input %d\n", pos, c.input)
 	return c.output
 }
@@ -98,10 +103,10 @@ func (c *Computer) lessThan() int {
 	y := c.read(c.instruction / 1000 % 10)
 	// fmt.Printf("Test %d < %d?", x, y)
 	if x < y {
-		c.write(1)
+		c.write(1, c.instruction/10000%10)
 		// fmt.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
-		c.write(0)
+		c.write(0, c.instruction/10000%10)
 		// fmt.Printf(" No! write 0 to %d\n", pos)
 	}
 	return c.output
@@ -112,33 +117,62 @@ func (c *Computer) equals() int {
 	y := c.read(c.instruction / 1000 % 10)
 	// fmt.Printf("Test %d == %d?", x, y)
 	if x == y {
-		c.write(1)
+		c.write(1, c.instruction/10000%10)
 		// fmt.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
-		c.write(0)
+		c.write(0, c.instruction/10000%10)
 		// fmt.Printf(" No! write 0 to %d\n", pos)
 	}
 	return c.output
 }
 
-func (c *Computer) read(mode int) int {
-	memory := *c.program
-	var value int
-	switch mode {
-	case 0:
-		value = memory[memory[c.pointer]]
-	case 1:
-		value = memory[c.pointer]
+func (c *Computer) readMemory(pos int) int {
+	program := *c.program
+	extraMemory := *c.memory
+	if pos >= len(program) {
+		return extraMemory[pos]
 	}
-	c.pointer++
-	return value
+	return program[pos]
 }
 
-func (c *Computer) write(value int) int {
-	pos := (*c.program)[c.pointer]
-	(*c.program)[pos] = value
+func (c *Computer) writeMemory(pos int, value int) {
+	program := *c.program
+	extraMemory := *c.memory
+	if pos >= len(program) {
+		extraMemory[pos] = value
+		return
+	}
+	program[pos] = value
+}
+
+func (c *Computer) read(mode int) int {
+	var address int
+	switch mode {
+	case 0:
+		address = c.readMemory(c.pointer)
+	case 1:
+		address = c.pointer
+	case 2:
+		address = c.readMemory(c.pointer) + c.relativeBase
+	}
 	c.pointer++
-	return pos
+	return c.readMemory(address)
+}
+
+func (c *Computer) write(value int, mode int) int {
+	var address int
+	switch mode {
+	case 0:
+		address = c.readMemory(c.pointer)
+	case 1:
+		address = c.pointer
+	case 2:
+		address = c.readMemory(c.pointer) + c.relativeBase
+	}
+	c.writeMemory(address, value)
+
+	c.pointer++
+	return address
 }
 
 func (c *Computer) SetInput(input int) {
@@ -146,5 +180,11 @@ func (c *Computer) SetInput(input int) {
 }
 
 func (c *Computer) GetOutput() int {
+	return c.output
+}
+
+func (c *Computer) setRelativeBase() int {
+	x := c.read(c.instruction / 100 % 10)
+	c.relativeBase += x
 	return c.output
 }

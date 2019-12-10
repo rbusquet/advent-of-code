@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 )
 
 // GenerateLineScanner generates
@@ -57,4 +59,16 @@ func Permutations(input []int, size int) [][]int {
 		results = append(results, Permutations(input, size-1)...)
 	}
 	return results
+}
+
+// ReadProgram reads an IntCode program from a file
+func ReadProgram(filename string) (program []int) {
+	memory := []int{}
+	scanner := GenerateCommaSeparatedScanner(filename)
+	for scanner.Scan() {
+		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err == nil {
+			memory = append(memory, val)
+		}
+	}
+	return memory
 }

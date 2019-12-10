@@ -3,8 +3,6 @@ package day7
 import (
 	"advent-of-code/2019/utils"
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 // Amplifier is each of the thrust amplifiers of the ship
@@ -51,19 +49,8 @@ func Run() {
 	fmt.Println("Part two result:", currentResult)
 }
 
-func readProgram(filename string) []int {
-	memory := []int{}
-	scanner := utils.GenerateCommaSeparatedScanner(filename)
-	for scanner.Scan() {
-		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err == nil {
-			memory = append(memory, val)
-		}
-	}
-	return memory
-}
-
 func runConfig(config []int) int {
-	memory := readProgram("./day7/input.txt")
+	memory := utils.ReadProgram("./day7/input.txt")
 	input := 0
 	code := ""
 	for _, phase := range config {
@@ -81,7 +68,7 @@ func runConfig(config []int) int {
 }
 
 func runLoop(config []int) int {
-	memory := readProgram("./day7/input.txt")
+	memory := utils.ReadProgram("./day7/input.txt")
 	input := 0
 	cycle := 0
 	code := ""

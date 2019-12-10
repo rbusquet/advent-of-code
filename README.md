@@ -29,10 +29,13 @@ Part two result: 12932154
 Part one output: 1703
 Part two output:
 
-X  X  XX   XX  XXXX XXXX 
-X  X X  X X  X X    X    
-XXXX X    X    XXX  XXX  
-X  X X    X XX X    X    
-X  X X  X X  X X    X    
+X  X  XX   XX  XXXX XXXX
+X  X X  X X  X X    X
+XXXX X    X    XXX  XXX
+X  X X    X XX X    X
+X  X X  X X  X X    X
 X  X  XX   XXX X    XXXX
+-- Day 9 --
+Part one output: 2316632620
+Part two output: 78869
 ```
