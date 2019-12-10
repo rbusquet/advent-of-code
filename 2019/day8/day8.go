@@ -47,21 +47,12 @@ func Run() {
 	final := []string{}
 	for i := 0; i < pixelCount; i++ {
 		result := "2"
-		for l := len(layers) - 1; l >= 0; l-- {
+		for l := 0; l < len(layers); l++ {
 			layer := layers[l]
-			switch layer[i] {
-			case "2":
-				continue
-			case "0":
-				{
-					result = "0"
-					break
-				}
-			case "1":
-				{
-					result = "1"
-					break
-				}
+			pixel := layer[i]
+			if pixel == "0" || pixel == "1" {
+				result = pixel
+				break
 			}
 		}
 		final = append(final, result)
@@ -73,16 +64,9 @@ func Run() {
 	}
 	fmt.Println("Part two output:")
 	for index, x := range final {
-		if index%25 == 0 {
+		if index%width == 0 {
 			fmt.Println()
 		}
 		fmt.Print(mapper[x])
 	}
-	// Output: HCGFE
-	// X  X  XX   XX  XXXX XXXX
-	// X  X X  X X  X X    X
-	// XXXX X    X    XXX  XXX
-	// X  X X    X XX X    X
-	// X  X X  X X  X X    X
-	// X  X  XX   XXX X    XXXX
 }
