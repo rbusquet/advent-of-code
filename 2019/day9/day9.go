@@ -8,16 +8,17 @@ import (
 func run(input int) {
 	memory := utils.ReadProgram("./day9/input.txt")
 
-	computer := utils.NewComputer(&memory, input)
+	entry := make(chan int)
 
-	for {
-		output, code := computer.Execute()
-		if code == "OUTPUT" {
-			fmt.Println(output)
-		} else if code == "HALT" {
-			break
-		}
+	computer := utils.NewComputer(&memory, entry)
+	go computer.Execute()
+	entry <- input
+
+	result := 0
+	for o := range computer.GetOutput() {
+		result = o
 	}
+	fmt.Println(result)
 }
 
 // Run day 9

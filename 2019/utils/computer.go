@@ -1,129 +1,135 @@
 package utils
 
+// Computer can run programs using IntCode defined in adventofcode.com/2019
 type Computer struct {
 	program      *[]int
 	memory       *map[int]int
-	input        int
-	output       int
+	input        chan int
+	output       chan int
 	pointer      int
 	instruction  int
 	relativeBase int
+	// logger       *log.Logger
 }
 
-func NewComputer(program *[]int, input int) Computer {
+// NewComputer instantiates a new computer object
+func NewComputer(program *[]int, input chan int) Computer {
 	memory := make(map[int]int)
-	return Computer{program: program, input: input, memory: &memory}
+	output := make(chan int)
+	// logger := log.New(os.Stdout, fmt.Sprintf("ID %.6s: ", uuid.New()), 0)
+	return Computer{program: program, input: input, memory: &memory, output: output} // logger: logger}
 }
 
-func (c *Computer) Execute() (output int, code string) {
-	c.instruction = c.read(1)
-	opcode := c.instruction % 100
-	switch opcode {
-	case 99:
-		return c.output, "HALT"
-	case 1:
-		return c.add(), "OP"
-	case 2:
-		return c.multiply(), "OP"
-	case 3:
-		return c.readInput(), "OP"
-	case 4:
-		return c.writeOutput(), "OUTPUT"
-	case 5:
-		return c.jumpIfTrue(), "OP"
-	case 6:
-		return c.jumpIfFalse(), "OP"
-	case 7:
-		return c.lessThan(), "OP"
-	case 8:
-		return c.equals(), "OP"
-	case 9:
-		return c.setRelativeBase(), "OP"
+// Execute is a routine to execute a program until it halts
+func (c *Computer) Execute() {
+loop:
+	for {
+		c.instruction = c.read(1)
+		opcode := c.instruction % 100
+		switch opcode {
+		case 99:
+			break loop
+		case 1:
+			c.add()
+		case 2:
+			c.multiply()
+		case 3:
+			c.readInput()
+		case 4:
+			c.writeOutput()
+		case 5:
+			c.jumpIfTrue()
+		case 6:
+			c.jumpIfFalse()
+		case 7:
+			c.lessThan()
+		case 8:
+			c.equals()
+		case 9:
+			c.setRelativeBase()
+		}
 	}
-	return c.output, "ERROR"
+	// c.logger.Println("Closing output...")
+	close(c.output)
+	return
 }
 
-func (c *Computer) add() int {
+func (c *Computer) add() {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x+y, c.instruction/10000%10)
-	// fmt.Printf("Add %d + %d = %d@%d\n", x, y, x+y, pos)
-	return c.output
+	// c.logger.Printf("Add %d + %d = %d@%d\n", x, y, x+y, pos)
 }
 
-func (c *Computer) multiply() int {
+func (c *Computer) multiply() {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x*y, c.instruction/10000%10)
-	// fmt.Printf("Multiply %d * %d = %d@%d\n", x, y, x*y, pos)
-	return c.output
+	// c.logger.Printf("Multiply %d * %d = %d@%d\n", x, y, x*y, pos)
 }
 
-func (c *Computer) readInput() int {
-	c.write(c.input, c.instruction/100%10)
-	// fmt.Printf("Set %d to input %d\n", pos, c.input)
-	return c.output
+func (c *Computer) readInput() {
+	// c.logger.Println("Waiting for input...")
+	res := <-c.input
+	c.write(res, c.instruction/100%10)
+	// c.logger.Printf("save %d @ %d\n", res, pos)
 }
 
-func (c *Computer) writeOutput() int {
-	c.output = c.read(c.instruction / 100 % 10)
-	// fmt.Printf("Read output %d\n", c.output)
+func (c *Computer) writeOutput() {
+	out := c.read(c.instruction / 100 % 10)
+	c.output <- out
+	// c.logger.Printf("Set output %d\n", out)
 	// c.pointer++
-	return c.output
 }
 
-func (c *Computer) jumpIfTrue() int {
+func (c *Computer) jumpIfTrue() {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
-	// fmt.Printf("Test %d != 0?", test)
+	// c.logger.Printf("Test %d != 0?", test)
 	if test != 0 {
-		// fmt.Printf(" Yes! move pointer from %d to %d", c.pointer, newPos)
+		// c.logger.Printf(" Yes! move pointer from %d to %d\n", c.pointer, newPos)
 		c.pointer = newPos
 	}
 	// fmt.Println()
-	return c.output
 }
 
-func (c *Computer) jumpIfFalse() int {
+func (c *Computer) jumpIfFalse() {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
-	// fmt.Printf("Test %d == 0?", test)
+	// c.logger.Printf("Test %d == 0?", test)
 	if test == 0 {
-		// fmt.Printf(" Yes! move pointer from %d to %d", c.pointer, newPos)
+		// c.logger.Printf(" Yes! move pointer from %d to %d\n", c.pointer, newPos)
 		c.pointer = newPos
 	}
 	// fmt.Println()
-	return c.output
 }
 
-func (c *Computer) lessThan() int {
+func (c *Computer) lessThan() {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
-	// fmt.Printf("Test %d < %d?", x, y)
+	// c.logger.Printf("Test %d < %d?", x, y)
 	if x < y {
 		c.write(1, c.instruction/10000%10)
-		// fmt.Printf(" Yes! write 1 to %d\n", pos)
+		// c.logger.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
 		c.write(0, c.instruction/10000%10)
-		// fmt.Printf(" No! write 0 to %d\n", pos)
+		// c.logger.Printf(" No! write 0 to %d\n", pos)
 	}
-	return c.output
 }
 
-func (c *Computer) equals() int {
+func (c *Computer) equals() {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
-	// fmt.Printf("Test %d == %d?", x, y)
+	// c.logger.Printf("Test %d == %d?", x, y)
 	if x == y {
 		c.write(1, c.instruction/10000%10)
-		// fmt.Printf(" Yes! write 1 to %d\n", pos)
+		// c.logger.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
 		c.write(0, c.instruction/10000%10)
-		// fmt.Printf(" No! write 0 to %d\n", pos)
+		// c.logger.Printf(" No! write 0 to %d\n", pos)
 	}
-	return c.output
 }
 
 func (c *Computer) readMemory(pos int) int {
@@ -175,16 +181,12 @@ func (c *Computer) write(value int, mode int) int {
 	return address
 }
 
-func (c *Computer) SetInput(input int) {
-	c.input = input
-}
-
-func (c *Computer) GetOutput() int {
+// GetOutput exposes the output channel for this computer
+func (c *Computer) GetOutput() chan int {
 	return c.output
 }
 
-func (c *Computer) setRelativeBase() int {
+func (c *Computer) setRelativeBase() {
 	x := c.read(c.instruction / 100 % 10)
 	c.relativeBase += x
-	return c.output
 }

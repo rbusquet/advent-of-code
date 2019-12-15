@@ -8,21 +8,18 @@ import (
 // Amplifier is each of the thrust amplifiers of the ship
 type Amplifier struct {
 	computer *utils.Computer
+	input    chan int
 }
 
 // NewAmplifier returns Amplifier
-func NewAmplifier(program []int, input int) Amplifier {
+func NewAmplifier(program []int, input chan int) Amplifier {
 	cp := append([]int{}, program...)
 	computer := utils.NewComputer(&cp, input)
-	return Amplifier{&computer}
+	return Amplifier{&computer, input}
 }
 
-func (a *Amplifier) step() (output int, code string) {
-	return a.computer.Execute()
-}
-
-func (a *Amplifier) setInput(input int) {
-	a.computer.SetInput(input)
+func (a *Amplifier) output() chan int {
+	return a.computer.GetOutput()
 }
 
 // Run day 7
@@ -45,6 +42,7 @@ func Run() {
 		if result > currentResult {
 			currentResult = result
 		}
+		// break
 	}
 	fmt.Println("Part two result:", currentResult)
 }
@@ -52,62 +50,44 @@ func Run() {
 func runConfig(config []int) int {
 	memory := utils.ReadProgram("./day7/input.txt")
 	input := 0
-	code := ""
+	in := make(chan int)
 	for _, phase := range config {
-		amplifier := NewAmplifier(memory, phase)
-		amplifier.step()
-		amplifier.setInput(input)
-		for {
-			input, code = amplifier.step()
-			if code == "HALT" {
-				break
-			}
-		}
+		amplifier := NewAmplifier(memory, in)
+		go amplifier.computer.Execute()
+		amplifier.input <- phase
+		amplifier.input <- input
+		input = <-amplifier.output()
 	}
 	return input
 }
 
 func runLoop(config []int) int {
 	memory := utils.ReadProgram("./day7/input.txt")
-	input := 0
-	cycle := 0
-	code := ""
-	amplifiers := make(map[int]*Amplifier)
 
-	halted := make(map[int]bool)
+	entry := make(chan int)
+	lastOutput := entry
 
-	for {
-		if len(halted) == len(config) {
-			break
-		}
-		i := cycle % len(config)
-		if halted[i] {
-			cycle++
-			continue
-		}
-
-		phase := config[i]
-
-		_, exists := amplifiers[i]
-		if !exists {
-			amp := NewAmplifier(memory, phase)
-			amp.step()
-			amplifiers[i] = &amp
-		}
-		amplifier := amplifiers[i]
-		amplifier.setInput(input)
-		for {
-			input, code = amplifier.step()
-			if code == "OUTPUT" {
-				break
-			}
-			if code == "HALT" {
-				halted[i] = true
-				break
-			}
-		}
-
-		cycle++
+	for _, phase := range config {
+		input := make(chan int)
+		amplifier := NewAmplifier(memory, input)
+		go amplifier.computer.Execute()
+		input <- phase
+		go amplifier.pipe(lastOutput)
+		lastOutput = amplifier.output()
 	}
-	return input
+	entry <- 0
+
+	var o int
+
+	for o = range lastOutput {
+		entry <- o
+	}
+	return o
+}
+
+func (a *Amplifier) pipe(entry chan int) {
+	for value := range entry {
+		a.input <- value
+	}
+	close(a.input)
 }

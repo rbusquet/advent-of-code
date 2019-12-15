@@ -12,8 +12,8 @@ repos:
     rev: master
     hooks:
       - id: go-fmt
+      - id: go-lint
       - id: go-imports
       - id: validate-toml
-      - id: golangci-lint
       - id: go-unit-tests
       - id: go-build
