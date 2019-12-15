@@ -41,4 +41,15 @@ Part two output: 78869
 -- Day 10 --
 Part one output: 282
 Part two output: 1008
+-- Day 11 --
+Part one output: 1894
+Part two output:
+
+   XX X  X XXXX X    XXXX   XX XXX  X  X
+    X X X     X X       X    X X  X X  X
+    X XX     X  X      X     X XXX  XXXX
+    X X X   X   X     X      X X  X X  X
+ X  X X X  X    X    X    X  X X  X X  X
+  XX  X  X XXXX XXXX XXXX  XX  XXX  X  X
+
 ```
