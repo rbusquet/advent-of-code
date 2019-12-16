@@ -72,3 +72,36 @@ func ReadProgram(filename string) (program []int) {
 	}
 	return memory
 }
+
+// AbsInt is an abs implementation for integers
+func AbsInt(v int64) int64 {
+	if v < 0 {
+		return -v
+	}
+	return v
+}
+
+// Sum adds the int values in an slice
+func Sum(items ...int) int {
+	initial := 0
+	for i := range items {
+		initial += items[i]
+	}
+	return initial
+}
+
+// GCD returns the greated common divisor for two integers
+func GCD(a, b int64) int64 {
+	if a > b {
+		return GCD(a-b, b)
+	}
+	if b > a {
+		return GCD(a, b-a)
+	}
+	return a
+}
+
+// LCM returns lower common multiplier for two integers
+func LCM(a, b int64) int64 {
+	return AbsInt(a*b) / GCD(a, b)
+}

@@ -9,15 +9,13 @@ type Computer struct {
 	pointer      int
 	instruction  int
 	relativeBase int
-	// logger       *log.Logger
 }
 
 // NewComputer instantiates a new computer object
 func NewComputer(program *[]int, input chan int) Computer {
 	memory := make(map[int]int)
 	output := make(chan int)
-	// logger := log.New(os.Stdout, fmt.Sprintf("ID %.6s: ", uuid.New()), 0)
-	return Computer{program: program, input: input, memory: &memory, output: output} // logger: logger}
+	return Computer{program: program, input: input, memory: &memory, output: output}
 }
 
 // Execute is a routine to execute a program until it halts
@@ -49,7 +47,6 @@ loop:
 			c.setRelativeBase()
 		}
 	}
-	// c.logger.Println("Closing output...")
 	close(c.output)
 	return
 }
@@ -59,7 +56,6 @@ func (c *Computer) add() {
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x+y, c.instruction/10000%10)
-	// c.logger.Printf("Add %d + %d = %d@%d\n", x, y, x+y, pos)
 }
 
 func (c *Computer) multiply() {
@@ -67,68 +63,51 @@ func (c *Computer) multiply() {
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x*y, c.instruction/10000%10)
-	// c.logger.Printf("Multiply %d * %d = %d@%d\n", x, y, x*y, pos)
 }
 
 func (c *Computer) readInput() {
-	// c.logger.Println("Waiting for input...")
 	res := <-c.input
 	c.write(res, c.instruction/100%10)
-	// c.logger.Printf("save %d @ %d\n", res, pos)
 }
 
 func (c *Computer) writeOutput() {
 	out := c.read(c.instruction / 100 % 10)
 	c.output <- out
-	// c.logger.Printf("Set output %d\n", out)
-	// c.pointer++
 }
 
 func (c *Computer) jumpIfTrue() {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
-	// c.logger.Printf("Test %d != 0?", test)
 	if test != 0 {
-		// c.logger.Printf(" Yes! move pointer from %d to %d\n", c.pointer, newPos)
 		c.pointer = newPos
 	}
-	// fmt.Println()
 }
 
 func (c *Computer) jumpIfFalse() {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
-	// c.logger.Printf("Test %d == 0?", test)
 	if test == 0 {
-		// c.logger.Printf(" Yes! move pointer from %d to %d\n", c.pointer, newPos)
 		c.pointer = newPos
 	}
-	// fmt.Println()
 }
 
 func (c *Computer) lessThan() {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
-	// c.logger.Printf("Test %d < %d?", x, y)
 	if x < y {
 		c.write(1, c.instruction/10000%10)
-		// c.logger.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
 		c.write(0, c.instruction/10000%10)
-		// c.logger.Printf(" No! write 0 to %d\n", pos)
 	}
 }
 
 func (c *Computer) equals() {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
-	// c.logger.Printf("Test %d == %d?", x, y)
 	if x == y {
 		c.write(1, c.instruction/10000%10)
-		// c.logger.Printf(" Yes! write 1 to %d\n", pos)
 	} else {
 		c.write(0, c.instruction/10000%10)
-		// c.logger.Printf(" No! write 0 to %d\n", pos)
 	}
 }
 

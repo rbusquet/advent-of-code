@@ -132,4 +132,5 @@ func Run() {
 	colors = run(white)
 	fmt.Println("Part two output:")
 	paint(colors)
+	fmt.Println()
 }

@@ -1,230 +1,137 @@
-package main
+package day12
 
 import (
+	"advent-of-code/2019/utils"
 	"fmt"
-	"math"
+	"strconv"
+	"strings"
 )
 
-type Vector struct {
-	x int
-	y int
-	z int
-}
-
-type Velocity Vector
-
+// Moon holds position and velocity information of a moon
 type Moon struct {
-	position *Vector
-	velocity *Velocity
+	position []int64
+	velocity []int64
 }
 
-func (m Moon) String() string {
-	return fmt.Sprint(*m.position, *m.velocity)
+// NewMoon returns a moon from a line in the format `<x=X, y=Y, z=Z>`
+func NewMoon(line string) *Moon {
+	moon := Moon{[]int64{}, []int64{0, 0, 0}}
+	line = strings.Trim(line, ">")
+	for _, bit := range strings.Split(line, ",") {
+		val, _ := strconv.Atoi(strings.Split(bit, "=")[1])
+		moon.position = append(moon.position, int64(val))
+	}
+	return &moon
 }
 
-func (m *Moon) applyGravity(other *Moon) {
-	m.applyGravityX(other)
-	m.applyGravityY(other)
-	m.applyGravityZ(other)
-}
-
-func (m *Moon) applyGravityX(other *Moon) {
-	if m.position.x < other.position.x {
-		m.velocity.x++
-	} else if m.position.x > other.position.x {
-		m.velocity.x--
+func (m *Moon) applyAxisGravity(system []*Moon, axis int) {
+	for _, moon := range system {
+		if m.position[axis] < moon.position[axis] {
+			m.velocity[axis]++
+		} else if m.position[axis] > moon.position[axis] {
+			m.velocity[axis]--
+		}
 	}
 }
 
-func (m *Moon) applyGravityY(other *Moon) {
-	if m.position.y < other.position.y {
-		m.velocity.y++
-	} else if m.position.y > other.position.y {
-		m.velocity.y--
+func (m *Moon) applyGravity(system []*Moon) {
+	for axis := 0; axis < 3; axis++ {
+		m.applyAxisGravity(system, axis)
 	}
 }
 
-func (m *Moon) applyGravityZ(other *Moon) {
-	if m.position.z < other.position.z {
-		m.velocity.z++
-	} else if m.position.z > other.position.z {
-		m.velocity.z--
+func (m *Moon) applyAxisSpeed(axis int) {
+	m.position[axis] += m.velocity[axis]
+}
+
+func (m *Moon) applySpeed() {
+	for axis := 0; axis < 3; axis++ {
+		m.applyAxisSpeed(axis)
 	}
 }
 
-func (m *Moon) applyVelocity() {
-	m.applyVelocityX()
-	m.applyVelocityY()
-	m.applyVelocityZ()
-}
-
-func (m *Moon) applyVelocityX() { m.position.x += m.velocity.x }
-func (m *Moon) applyVelocityY() { m.position.y += m.velocity.y }
-func (m *Moon) applyVelocityZ() { m.position.z += m.velocity.z }
-
-func (m *Moon) applySystemGravity(system *[4]*Moon) {
-	for _, other := range system {
-		m.applyGravity(other)
+func (m *Moon) totalEnergy() int64 {
+	potential := int64(0)
+	for axis := 0; axis < 3; axis++ {
+		potential += utils.AbsInt(m.position[axis])
 	}
-}
-
-func (m *Moon) applySystemGravityX(system *[4]*Moon) {
-	for _, other := range system {
-		m.applyGravityX(other)
+	kinectic := int64(0)
+	for axis := 0; axis < 3; axis++ {
+		kinectic += utils.AbsInt(m.velocity[axis])
 	}
-}
-func (m *Moon) applySystemGravityY(system *[4]*Moon) {
-	for _, other := range system {
-		m.applyGravityY(other)
-	}
-}
-func (m *Moon) applySystemGravityZ(system *[4]*Moon) {
-	for _, other := range system {
-		m.applyGravityZ(other)
-	}
-}
-
-func abs(n int) int {
-	return int(math.Abs(float64(n)))
-}
-
-func (m *Moon) energy() int {
-	potential := abs(m.position.x) + abs(m.position.y) + abs(m.position.z)
-	kinetic := abs(m.velocity.x) + abs(m.velocity.y) + abs(m.velocity.z)
-	return kinetic * potential
+	return potential * kinectic
 }
 
 func part1() {
-	// <x=3, y=2, z=-6>
-	// <x=-13, y=18, z=10>
-	// <x=-8, y=-1, z=13>
-	// <x=5, y=10, z=4>
-	system := [...]*Moon{
-		&(Moon{&Vector{x: 3, y: 2, z: -6}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: -13, y: 18, z: 10}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: -8, y: -1, z: 13}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: 5, y: 10, z: 4}, &Velocity{0, 0, 0}}),
+	system := []*Moon{}
+	scanner := utils.GenerateLineScanner("./day12/input.txt")
+	for scanner.Scan() {
+		moon := NewMoon(scanner.Text())
+		system = append(system, moon)
 	}
 
-	for index := 0; index < 1000; index++ {
+	for i := 0; i < 1000; i++ {
 		for _, moon := range system {
-			moon.applySystemGravity(&system)
+			moon.applyGravity(system)
 		}
 		for _, moon := range system {
-			moon.applyVelocity()
+			moon.applySpeed()
 		}
 	}
-	totalEnergy := 0
+	energy := int64(0)
 	for _, moon := range system {
-		totalEnergy += moon.energy()
+		energy += moon.totalEnergy()
 	}
-	fmt.Println(totalEnergy)
+
+	fmt.Println("Part one output:", energy)
 }
 
 func part2() {
-	system := [...]*Moon{
-		&(Moon{&Vector{x: 3, y: 2, z: -6}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: -13, y: 18, z: 10}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: -8, y: -1, z: 13}, &Velocity{0, 0, 0}}),
-		&(Moon{&Vector{x: 5, y: 10, z: 4}, &Velocity{0, 0, 0}}),
+	system := []*Moon{}
+	scanner := utils.GenerateLineScanner("./day12/input.txt")
+	for scanner.Scan() {
+		moon := NewMoon(scanner.Text())
+		system = append(system, moon)
 	}
 
-	channel := make(chan int)
-	go func(system *[4]*Moon) {
-		initial := []int{}
-		for _, moon := range system {
-			initial = append(initial, moon.position.x)
-		}
-		fmt.Println("For X: initial is", initial)
-
-		for i := 1; ; i++ {
+	channel := make(chan int64)
+	for axis := 0; axis < 3; axis++ {
+		go func(axis int) {
+			currentpos := []int64{}
+			currentvel := []int64{}
 			for _, moon := range system {
-				moon.applySystemGravityX(system)
+				currentpos = append(currentpos, moon.position[axis])
+				currentvel = append(currentvel, moon.velocity[axis])
 			}
-			for _, moon := range system {
-				moon.applyVelocityX()
-			}
-
-			same := true
-			for idx, moon := range system {
-				if moon.position.x != initial[idx] {
-					same = false
-					break
+		loop:
+			for i := int64(1); ; i++ {
+				for _, moon := range system {
+					moon.applyAxisGravity(system, axis)
 				}
-			}
-			if same {
-				fmt.Println("Found cycle for X")
-				channel <- i
-				return
-			}
-		}
-	}(&system)
-	go func(system *[4]*Moon) {
-		initial := []int{}
-
-		for _, moon := range system {
-			initial = append(initial, moon.position.y)
-		}
-		fmt.Println("For Y: initial is", initial)
-
-		for i := 1; ; i++ {
-			for _, moon := range system {
-				moon.applySystemGravityY(system)
-			}
-			for _, moon := range system {
-				moon.applyVelocityY()
-			}
-			same := true
-			for idx, moon := range system {
-				if moon.position.y != initial[idx] {
-					same = false
-					break
+				for _, moon := range system {
+					moon.applyAxisSpeed(axis)
 				}
-			}
-			if same {
-				fmt.Println("Found cycle for Y")
-				channel <- i
-				return
-			}
-		}
-	}(&system)
-	go func(system *[4]*Moon) {
-		initial := []int{}
-		for _, moon := range system {
-			initial = append(initial, moon.position.z)
-		}
-		fmt.Println("For Z: initial is", initial)
-
-		for i := 1; ; i++ {
-			for _, moon := range system {
-				moon.applySystemGravityZ(system)
-			}
-			for _, moon := range system {
-				moon.applyVelocityZ()
-			}
-
-			same := true
-			for idx, moon := range system {
-				if moon.position.z != initial[idx] {
-					same = false
-					break
+				for idx, moon := range system {
+					if currentpos[idx] != moon.position[axis] {
+						continue loop
+					}
+					if currentvel[idx] != moon.velocity[axis] {
+						continue loop
+					}
 				}
-			}
-			if same {
-				fmt.Println("Found cycle for Z")
 				channel <- i
-				return
+				break loop
 			}
-		}
-	}(&system)
+		}(axis)
+	}
 
-	fmt.Println(<-channel)
-	fmt.Println(<-channel)
-	fmt.Println(<-channel)
-
+	lcm := utils.LCM(utils.LCM(<-channel, <-channel), <-channel)
+	fmt.Println("Part two output:", lcm)
 }
 
-func main() {
+// Run day 12
+func Run() {
+	fmt.Println("-- Day 12 --")
 	part1()
 	part2()
 }
