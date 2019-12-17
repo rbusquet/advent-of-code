@@ -5,7 +5,6 @@ Advent of code solutions
 
 ```
 -- Day 1 --
--- Day 1 --
 Part one output: 3339288
 Part two output: 5006064
 -- Day 2 --
@@ -56,4 +55,7 @@ Part two output:
 -- Day 12 --
 Part one output: 14780
 Part two output: 279751820342592
+-- Day 13 --
+Part one output:251
+Part two output:score: 12779
 ```

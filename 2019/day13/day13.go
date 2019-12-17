@@ -1,4 +1,4 @@
-package main
+package day13
 
 import (
 	"advent-of-code/2019/utils"
@@ -26,7 +26,7 @@ type Tile struct {
 }
 
 func part1() {
-	program := utils.ReadProgram("./input.txt")
+	program := utils.ReadProgram("./day13/input.txt")
 	input := make(chan int)
 	computer := utils.NewComputer(&program, input)
 	output := computer.GetOutput()
@@ -51,8 +51,8 @@ func part1() {
 	fmt.Println(countBlocks)
 }
 
-func main() {
-	program := utils.ReadProgram("./input.txt")
+func part2() {
+	program := utils.ReadProgram("./day13/input.txt")
 	program[0] = 2
 
 	input := make(chan int)
@@ -64,74 +64,65 @@ func main() {
 
 	quit := make(chan struct{})
 
-	maxX := 0
-	maxY := 0
 	pressed := 0
 	screen, err := tcell.NewScreen()
-	screen.Init()
 	if err != nil {
 		panic(err)
 	}
-	// fmt.Println("Accepted first input")
-	// input <- 0
-	tick := time.Tick(3)
+	screen.Init()
+	scoreVal := ""
 
+	var p Tile
+	createdB := false
 	go func() {
 		for {
 			select {
-			case <-tick:
-				{
-					select {
-					case input <- pressed:
-						pressed = 0
-					default:
-						continue
+			case input <- pressed:
+				screen.Show()
+				pressed = 0
+			case x := <-output:
+				y := <-output
+				if x == -1 {
+					v := strconv.Itoa(<-output)
+					scoreVal = v
+					for _, r := range v {
+						screen.SetContent(y, 0, r, nil, 0)
+						y++
+					}
+					break
+				}
+				id := TileType(<-output)
+				cell := ' '
+				sync := false
+				switch id {
+				case empty:
+					cell = ' '
+				case wall:
+					cell = 'X'
+				case block:
+					cell = tcell.RuneBlock
+				case paddle:
+					cell = tcell.RuneBlock
+					p = Tile{x, y}
+				case ball:
+					cell = '@'
+					sync = true
+					if !createdB {
+						createdB = true
+					} else {
+						// sprinkle some AI...
+						if x < p.x {
+							pressed = -1
+						} else if x >= p.x {
+							pressed = 1
+						}
 					}
 				}
-			case x := <-output:
-				{
-					y := <-output
-					if x == -1 {
-						v := strconv.Itoa(<-output)
-						for _, r := range v {
-							screen.SetContent(y, 0, r, nil, 0)
-							y++
-						}
-						break
-					}
-					if x > maxX {
-						maxX = x
-					}
-					if y > maxY {
-						maxY = y
-					}
-					id := TileType(<-output)
-					cell := ' '
-					sync := false
-					switch id {
-					case empty:
-						cell = ' '
-					case wall:
-						cell = 'X'
-					case block:
-						cell = 'X'
-					case paddle:
-						{
-							cell = '_'
-						}
 
-					case ball:
-						{
-							cell = 'o'
-							sync = true
-						}
-					}
-					screen.SetContent(x, y+1, cell, nil, 0)
-					if sync {
-						time.Sleep(time.Second)
-						screen.Sync()
-					}
-
+				screen.SetContent(x, y+1, cell, nil, 0)
+				if sync {
+					time.Sleep(time.Second / 1000)
+					screen.Show()
 				}
 			}
 		}
@@ -146,16 +137,6 @@ func main() {
 				case tcell.KeyEscape, tcell.KeyEnter:
 					close(quit)
 					return
-				case tcell.KeyCtrlL:
-					screen.Sync()
-				}
-				switch ev.Rune() {
-				case 'j':
-					pressed = -1
-				case 'k':
-					pressed = 0
-				case 'l':
-					pressed = 1
 				}
 			case *tcell.EventResize:
 				screen.Sync()
@@ -163,5 +144,15 @@ func main() {
 		}
 	}()
 	<-quit
+	fmt.Println("score:", scoreVal)
 	screen.Fini()
+}
+
+// Run day 13
+func Run() {
+	fmt.Println("-- Day 13 --")
+	fmt.Print("Part one output:")
+	part1()
+	fmt.Print("Part two output:")
+	part2()
 }
