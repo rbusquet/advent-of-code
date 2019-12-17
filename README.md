@@ -59,3 +59,6 @@ Part two output: 279751820342592
 Part one output:251
 Part two output:score: 12779
 ```
+
+Day 13 arcade "AI" play
+![image](./2019/arcade.gif)
