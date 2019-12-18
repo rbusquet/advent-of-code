@@ -12,6 +12,51 @@ type Parcel struct {
 	name     string
 }
 
+// State holds state from receipes, inventory
+type State struct {
+	amounts, units map[string]int
+	reactions      map[string][]Parcel
+}
+
+func (s *State) getCost(toCreate int, chem string) int {
+	if chem == "ORE" {
+		return toCreate
+	}
+	current := s.amounts[chem]
+	resultUnits := s.units[chem]
+	recipe := s.reactions[chem]
+
+	if current >= toCreate {
+		s.amounts[chem] = current - toCreate
+		return 0
+	}
+	s.amounts[chem] = 0
+	toCreate -= current
+	current = 0
+
+	multiplier := 1
+	if resultUnits < toCreate {
+		multiplier = toCreate / resultUnits
+		if toCreate%resultUnits > 0 {
+			multiplier++
+		}
+	}
+
+	produced := 0
+	totalOre := 0
+	for produced+current < toCreate {
+		for _, parcel := range recipe {
+			need := multiplier * parcel.quantity
+			parcelChem := parcel.name
+			totalOre += s.getCost(need, parcelChem)
+		}
+		produced += resultUnits * multiplier
+	}
+
+	s.amounts[chem] += produced - toCreate
+	return totalOre
+}
+
 func part1() {
 	reactions := make(map[string][]Parcel)
 	units := make(map[string]int)
@@ -38,34 +83,9 @@ func part1() {
 		}
 		reactions[name] = parcels
 	}
-	var calc func(int, string)
-	amounts := make(map[string]int)
-	oreNeeded := 0
-	calc = func(toCreate int, chem string) {
-		if chem == "ORE" {
-			oreNeeded += toCreate
-			return
-		}
-		if _, exists := amounts[chem]; !exists {
-			amounts[chem] = 0
-		}
-		current := amounts[chem]
-		resultUnits := units[chem]
-		recipe := reactions[chem]
 
-		produced := 0
-		for produced+current < toCreate {
-			for _, parcel := range recipe {
-				need := parcel.quantity
-				parcelChem := parcel.name
-				calc(need, parcelChem)
-			}
-			produced += resultUnits
-		}
-
-		amounts[chem] += produced - toCreate
-	}
-	calc(1, "FUEL")
+	state := State{make(map[string]int), units, reactions}
+	oreNeeded := state.getCost(1, "FUEL")
 	fmt.Println(oreNeeded)
 }
 
@@ -95,68 +115,33 @@ func part2() {
 		}
 		reactions[name] = parcels
 	}
-	var calc func(int, string)
-	amounts := make(map[string]int)
-	oreNeeded := 0
-	calc = func(toCreate int, chem string) {
-		if chem == "ORE" {
-			oreNeeded += toCreate
-			return
-		}
-		if _, exists := amounts[chem]; !exists {
-			amounts[chem] = 0
-		}
-		current := amounts[chem]
-		resultUnits := units[chem]
-		recipe := reactions[chem]
 
-		multiplier := 1
-		if resultUnits < toCreate {
-			multiplier = toCreate / resultUnits
-			if toCreate%resultUnits > 0 {
-				multiplier++
-			}
-		}
+	state := State{make(map[string]int), units, reactions}
 
-		produced := 0
-		for produced+current < toCreate {
-			for _, parcel := range recipe {
-				need := multiplier * parcel.quantity
-				parcelChem := parcel.name
-				calc(need, parcelChem)
-			}
-			produced += resultUnits * multiplier
-		}
-
-		amounts[chem] += produced - toCreate
-	}
 	totalFuel := 0
 	// try with high fuel amount
 	maxTotalFuel := 1000000000000
 	minTotalFuel := 0
+	oreNeeded := 0
 	for {
 		totalFuel = (maxTotalFuel + minTotalFuel) / 2
-		calc(totalFuel, "FUEL")
+		oreNeeded = state.getCost(totalFuel, "FUEL")
 		if oreNeeded > 1000000000000 {
 			maxTotalFuel = totalFuel
 		} else if oreNeeded < 1000000000000 {
 			minTotalFuel = totalFuel
 		}
-		oreNeeded = 0
-		amounts = make(map[string]int)
+		state = State{make(map[string]int), units, reactions}
 		if maxTotalFuel-minTotalFuel <= 1 {
 			totalFuel = maxTotalFuel
 			break
 		}
 	}
-	calc(totalFuel, "FUEL")
-	for oreNeeded > 1000000000000 {
-		oreNeeded = 0
-		amounts = make(map[string]int)
+	oreNeeded = state.getCost(totalFuel, "FUEL")
+	if oreNeeded > 1000000000000 {
 		totalFuel--
-		calc(totalFuel, "FUEL")
 	}
-	fmt.Println(totalFuel + 1) // I don't know why :(
+	fmt.Println(totalFuel)
 }
 
 // Run day 14
