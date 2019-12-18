@@ -56,8 +56,11 @@ Part two output:
 Part one output: 14780
 Part two output: 279751820342592
 -- Day 13 --
-Part one output:251
-Part two output:score: 12779
+Part one output: 251
+Part two output: 12779
+-- Day 14 --
+Part one output: 178154
+Part two output: 6226152
 ```
 
 Day 13 arcade "AI" play

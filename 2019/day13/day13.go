@@ -3,6 +3,7 @@ package day13
 import (
 	"advent-of-code/2019/utils"
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -51,7 +52,7 @@ func part1() {
 	fmt.Println(countBlocks)
 }
 
-func part2() {
+func part2(showScreen bool, speed int) {
 	program := utils.ReadProgram("./day13/input.txt")
 	program[0] = 2
 
@@ -69,7 +70,10 @@ func part2() {
 	if err != nil {
 		panic(err)
 	}
-	screen.Init()
+	if showScreen {
+		screen.Init()
+	}
+
 	scoreVal := ""
 
 	var p Tile
@@ -80,7 +84,11 @@ func part2() {
 			case input <- pressed:
 				screen.Show()
 				pressed = 0
-			case x := <-output:
+			case x, ok := <-output:
+				if !ok {
+					close(quit)
+					return
+				}
 				y := <-output
 				if x == -1 {
 					v := strconv.Itoa(<-output)
@@ -93,7 +101,7 @@ func part2() {
 				}
 				id := TileType(<-output)
 				cell := ' '
-				sync := false
+				// sync := false
 				switch id {
 				case empty:
 					cell = ' '
@@ -106,53 +114,66 @@ func part2() {
 					p = Tile{x, y}
 				case ball:
 					cell = '@'
-					sync = true
+					// sync = true
 					if !createdB {
 						createdB = true
 					} else {
 						// sprinkle some AI...
 						if x < p.x {
 							pressed = -1
-						} else if x >= p.x {
+						} else if x > p.x {
 							pressed = 1
 						}
+					}
+					if showScreen {
+						time.Sleep(time.Second / time.Duration(speed))
+						screen.Show()
 					}
 				}
 
 				screen.SetContent(x, y+1, cell, nil, 0)
-				if sync {
-					time.Sleep(time.Second / 1000)
-					screen.Show()
-				}
 			}
 		}
 	}()
 
-	go func() {
-		for {
-			ev := screen.PollEvent()
-			switch ev := ev.(type) {
-			case *tcell.EventKey:
-				switch ev.Key() {
-				case tcell.KeyEscape, tcell.KeyEnter:
-					close(quit)
-					return
+	if showScreen {
+		go func() {
+			for {
+				ev := screen.PollEvent()
+				switch ev := ev.(type) {
+				case *tcell.EventKey:
+					switch ev.Key() {
+					case tcell.KeyEscape, tcell.KeyEnter:
+						close(quit)
+						return
+					}
+				case *tcell.EventResize:
+					screen.Sync()
 				}
-			case *tcell.EventResize:
-				screen.Sync()
 			}
-		}
-	}()
+		}()
+	}
 	<-quit
-	fmt.Println("score:", scoreVal)
-	screen.Fini()
+	if showScreen {
+		screen.Fini()
+	}
+	fmt.Println(scoreVal)
 }
 
 // Run day 13
 func Run() {
+	showScreen := len(os.Args) > 2 && os.Args[1] == "--show-arcade"
+	speed := 0
+	if showScreen {
+		if s, err := strconv.Atoi(os.Args[2]); err != nil {
+			panic(err)
+		} else {
+			speed = s
+		}
+	}
 	fmt.Println("-- Day 13 --")
-	fmt.Print("Part one output:")
+	fmt.Print("Part one output: ")
 	part1()
-	fmt.Print("Part two output:")
-	part2()
+	fmt.Print("Part two output: ")
+	part2(showScreen, speed)
 }
