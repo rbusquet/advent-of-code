@@ -63,5 +63,6 @@ Part one output: 178154
 Part two output: 6226152
 ```
 
-Day 13 arcade "AI" play
+#### Day 13 arcade "AI" play
+
 ![image](./2019/arcade.gif)
