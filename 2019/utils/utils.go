@@ -105,3 +105,23 @@ func GCD(a, b int64) int64 {
 func LCM(a, b int64) int64 {
 	return AbsInt(a*b) / GCD(a, b)
 }
+
+// Position in a 2D plane
+type Position struct {
+	x, y int
+}
+
+// GetX returns the x value of p
+func (p Position) GetX() int {
+	return p.x
+}
+
+// GetY returns the y value of p
+func (p Position) GetY() int {
+	return p.y
+}
+
+// NewPosition returns a new position
+func NewPosition(x, y int) Position {
+	return Position{x, y}
+}
