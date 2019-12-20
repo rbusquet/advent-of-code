@@ -16,22 +16,40 @@ import (
 	"advent-of-code/2019/day7"
 	"advent-of-code/2019/day8"
 	"advent-of-code/2019/day9"
+	"os"
+	"strconv"
 )
 
 func main() {
-	day1.Run()
-	day2.Run()
-	day3.Run()
-	day4.Run()
-	day5.Run()
-	day6.Run()
-	day7.Run()
-	day8.Run()
-	day9.Run()
-	day10.Run()
-	day11.Run()
-	day12.Run()
-	day13.Run()
-	day14.Run()
-	day15.Run()
+	handlers := map[string]func(){
+		"1":  day1.Run,
+		"2":  day2.Run,
+		"3":  day3.Run,
+		"4":  day4.Run,
+		"5":  day5.Run,
+		"6":  day6.Run,
+		"7":  day7.Run,
+		"8":  day8.Run,
+		"9":  day9.Run,
+		"10": day10.Run,
+		"11": day11.Run,
+		"12": day12.Run,
+		"13": day13.Run,
+		"14": day14.Run,
+		"15": day15.Run,
+	}
+	day := ""
+	for idx, arg := range os.Args {
+		if arg == "--day" {
+			day = os.Args[idx+1]
+			break
+		}
+	}
+	if day != "" {
+		handlers[day]()
+		return
+	}
+	for i := 1; i <= 15; i++ {
+		handlers[strconv.Itoa(i)]()
+	}
 }

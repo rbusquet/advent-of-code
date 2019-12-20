@@ -19,7 +19,6 @@ type panel struct {
 
 type facing int
 
-//go:generate stringer -type=facing,color
 const (
 	up facing = iota
 	right
@@ -40,25 +39,25 @@ func run(initial color) map[utils.Position]*panel {
 	y := 0
 	direction := up
 
-	currentposition := utils.NewPosition(x, y)
-	colors[currentposition] = &(panel{currentposition, initial})
+	currenPosition := utils.NewPosition(x, y)
+	colors[currenPosition] = &(panel{currenPosition, initial})
 
 loop:
 	for {
-		currentposition = utils.NewPosition(x, y)
-		if _, exists := colors[currentposition]; !exists {
-			colors[currentposition] = &(panel{currentposition, black})
+		currenPosition = utils.NewPosition(x, y)
+		if _, exists := colors[currenPosition]; !exists {
+			colors[currenPosition] = &(panel{currenPosition, black})
 		}
 
-		currentpanel := colors[currentposition]
+		currentPanel := colors[currenPosition]
 
 		select {
-		case nextcolor, ok := <-output:
+		case nextColor, ok := <-output:
 			{
 				if !ok {
 					break loop
 				}
-				currentpanel.color = color(nextcolor)
+				currentPanel.color = color(nextColor)
 
 				turn := <-output
 				if turn == 0 {
@@ -86,7 +85,7 @@ loop:
 					y--
 				}
 			}
-		case input <- int(currentpanel.color):
+		case input <- int(currentPanel.color):
 		}
 	}
 	return colors
@@ -97,9 +96,9 @@ func paint(colors map[utils.Position]*panel) {
 	maxY := 0
 	for pos := range colors {
 		if maxX < pos.GetX() {
-			maxX = pos.GetY()
+			maxX = pos.GetX()
 		}
-		if maxY < pos.GetX() {
+		if maxY < pos.GetY() {
 			maxY = pos.GetY()
 		}
 	}
