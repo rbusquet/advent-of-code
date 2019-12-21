@@ -22,24 +22,43 @@ func GenerateLineScanner(fileName string) *bufio.Scanner {
 	}
 }
 
+func splitOnDigit(data []byte, atEOF bool) (advance int, token []byte, err error) {
+	if len(data) == 2 && data[1] == '\n' {
+		return 1, data[:1], bufio.ErrFinalToken
+	} else if len(data) == 1 {
+		return 1, data[:1], bufio.ErrFinalToken
+	}
+	return 1, data[:1], nil
+}
+
+func splitOnComma(data []byte, atEOF bool) (advance int, token []byte, err error) {
+	for i := 0; i < len(data); i++ {
+		if data[i] == ',' {
+			return i + 1, data[:i], nil
+		}
+	}
+	if !atEOF {
+		return 0, nil, nil
+	}
+	// There is one final token to be delivered, which may be the empty string.
+	// Returning bufio.ErrFinalToken here tells Scan there are no more tokens after this
+	// but does not trigger an error to be returned from Scan itself.
+	return 0, data, bufio.ErrFinalToken
+}
+
 // GenerateCommaSeparatedScanner comma separated
 func GenerateCommaSeparatedScanner(fileName string) *bufio.Scanner {
 	scanner := GenerateLineScanner(fileName)
-	onComma := func(data []byte, atEOF bool) (advance int, token []byte, err error) {
-		for i := 0; i < len(data); i++ {
-			if data[i] == ',' {
-				return i + 1, data[:i], nil
-			}
-		}
-		if !atEOF {
-			return 0, nil, nil
-		}
-		// There is one final token to be delivered, which may be the empty string.
-		// Returning bufio.ErrFinalToken here tells Scan there are no more tokens after this
-		// but does not trigger an error to be returned from Scan itself.
-		return 0, data, bufio.ErrFinalToken
-	}
-	scanner.Split(onComma)
+
+	scanner.Split(splitOnComma)
+	return scanner
+}
+
+// DigitSeparatedScanner each digit at a time
+func DigitSeparatedScanner(fileName string) *bufio.Scanner {
+	scanner := GenerateLineScanner(fileName)
+
+	scanner.Split(splitOnDigit)
 	return scanner
 }
 

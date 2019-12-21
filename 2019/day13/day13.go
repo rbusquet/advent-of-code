@@ -66,11 +66,13 @@ func part2(showScreen bool, speed int) {
 	quit := make(chan struct{})
 
 	pressed := 0
-	screen, err := tcell.NewScreen()
-	if err != nil {
-		panic(err)
-	}
+	var screen tcell.Screen
 	if showScreen {
+		s, err := tcell.NewScreen()
+		if err != nil {
+			panic(err)
+		}
+		screen = s
 		screen.Init()
 	}
 
@@ -82,20 +84,26 @@ func part2(showScreen bool, speed int) {
 		for {
 			select {
 			case input <- pressed:
-				screen.Show()
+				if showScreen {
+					screen.Show()
+				}
 				pressed = 0
 			case x, ok := <-output:
 				if !ok {
-					close(quit)
+					if showScreen {
+						close(quit)
+					}
 					return
 				}
 				y := <-output
 				if x == -1 {
 					v := strconv.Itoa(<-output)
 					scoreVal = v
-					for _, r := range v {
-						screen.SetContent(y, 0, r, nil, 0)
-						y++
+					if showScreen {
+						for _, r := range v {
+							screen.SetContent(y, 0, r, nil, 0)
+							y++
+						}
 					}
 					break
 				}
@@ -130,8 +138,9 @@ func part2(showScreen bool, speed int) {
 						screen.Show()
 					}
 				}
-
-				screen.SetContent(x, y+1, cell, nil, 0)
+				if showScreen {
+					screen.SetContent(x, y+1, cell, nil, 0)
+				}
 			}
 		}
 	}()
@@ -153,8 +162,9 @@ func part2(showScreen bool, speed int) {
 			}
 		}()
 	}
-	<-quit
+
 	if showScreen {
+		<-quit
 		screen.Fini()
 	}
 	fmt.Println(scoreVal)
