@@ -18,6 +18,15 @@ func NewComputer(program *[]int, input chan int) Computer {
 	return Computer{program: program, input: input, memory: &memory, output: output}
 }
 
+// RunProgram runs a program, preprocessing it before executing.
+func RunProgram(fileName string, input chan int, preprocess func([]int) []int) (out chan int) {
+	program := preprocess(ReadProgram(fileName))
+
+	computer := NewComputer(&program, input)
+	go computer.Execute()
+	return computer.GetOutput()
+}
+
 // Execute is a routine to execute a program until it halts
 func (c *Computer) Execute() {
 loop:

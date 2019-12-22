@@ -144,3 +144,17 @@ func (p Position) GetY() int {
 func NewPosition(x, y int) Position {
 	return Position{x, y}
 }
+
+// Surrounds are the points around p, excluding diagonals
+func (p Position) Surrounds() chan Position {
+	output := make(chan Position)
+
+	go func() {
+		output <- Position{p.x - 1, p.y}
+		output <- Position{p.x + 1, p.y}
+		output <- Position{p.x, p.y - 1}
+		output <- Position{p.x, p.y + 1}
+		close(output)
+	}()
+	return output
+}
