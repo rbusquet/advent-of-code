@@ -61,7 +61,8 @@ func part1() {
 	reactions := make(map[string][]Parcel)
 	units := make(map[string]int)
 
-	scanner := utils.GenerateLineScanner("./day14/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day14/input.txt")
+	defer (*file).Close()
 	for scanner.Scan() {
 		reaction := strings.Split(scanner.Text(), " => ")
 		var quantity int
@@ -93,7 +94,8 @@ func part2() {
 	reactions := make(map[string][]Parcel)
 	units := make(map[string]int)
 
-	scanner := utils.GenerateLineScanner("./day14/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day14/input.txt")
+	defer (*file).Close()
 	for scanner.Scan() {
 		reaction := strings.Split(scanner.Text(), " => ")
 		var quantity int

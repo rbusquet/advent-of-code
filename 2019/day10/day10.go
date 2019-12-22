@@ -37,8 +37,8 @@ func (a *Asteroid) angle(other Asteroid) float64 {
 // Run day 10
 func Run() {
 	fmt.Println("-- Day 10 --")
-	scanner := utils.GenerateLineScanner("./day10/input.txt")
-
+	file, scanner := utils.GenerateLineScanner("./day10/input.txt")
+	defer (*file).Close()
 	asteroids := []Asteroid{}
 	i := 0
 	for scanner.Scan() {

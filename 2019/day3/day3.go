@@ -78,7 +78,8 @@ func wireLocations(wire string) map[Point]int {
 // Run day 3
 func Run() {
 	fmt.Println("-- Day 3 --")
-	scanner := utils.GenerateLineScanner("./day3/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day3/input.txt")
+	defer (*file).Close()
 	scanner.Scan()
 	wireA := scanner.Text()
 	scanner.Scan()

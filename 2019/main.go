@@ -10,6 +10,8 @@ import (
 	"advent-of-code/2019/day15"
 	"advent-of-code/2019/day16"
 	"advent-of-code/2019/day17"
+	"advent-of-code/2019/day18"
+	"advent-of-code/2019/day19"
 	"advent-of-code/2019/day2"
 	"advent-of-code/2019/day3"
 	"advent-of-code/2019/day4"
@@ -41,6 +43,8 @@ func main() {
 		"15": day15.Run,
 		"16": day16.Run, // tooooo slow
 		"17": day17.Run,
+		"18": day18.Run,
+		"19": day19.Run,
 	}
 	day := ""
 	for idx, arg := range os.Args {
@@ -54,9 +58,6 @@ func main() {
 		return
 	}
 	for i := 1; i <= len(handlers); i++ {
-		if i == 16 {
-			continue
-		}
 		handlers[strconv.Itoa(i)]()
 	}
 }

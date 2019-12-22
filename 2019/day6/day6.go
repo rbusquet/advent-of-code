@@ -75,7 +75,8 @@ func (u *Universe) getDistance(from string, to string) int {
 // Run day 6
 func Run() {
 	fmt.Println("-- Day 5 --")
-	scanner := utils.GenerateLineScanner("./day6/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day6/input.txt")
+	defer (*file).Close()
 	planets := make(map[string]*Planet)
 	universe := Universe{planets}
 	for scanner.Scan() {

@@ -64,7 +64,8 @@ func (m *Moon) totalEnergy() int64 {
 
 func part1() {
 	system := []*Moon{}
-	scanner := utils.GenerateLineScanner("./day12/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day12/input.txt")
+	defer (*file).Close()
 	for scanner.Scan() {
 		moon := NewMoon(scanner.Text())
 		system = append(system, moon)
@@ -88,7 +89,8 @@ func part1() {
 
 func part2() {
 	system := []*Moon{}
-	scanner := utils.GenerateLineScanner("./day12/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day12/input.txt")
+	defer (*file).Close()
 	for scanner.Scan() {
 		moon := NewMoon(scanner.Text())
 		system = append(system, moon)

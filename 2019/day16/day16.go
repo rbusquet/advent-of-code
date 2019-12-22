@@ -36,7 +36,8 @@ func singleOutput(index int, input []int64) int64 {
 }
 
 func part1() {
-	scanner := utils.DigitSeparatedScanner("./day16/input.txt")
+	file, scanner := utils.DigitSeparatedScanner("./day16/input.txt")
+	defer (*file).Close()
 
 	input := []int64{}
 	for scanner.Scan() {

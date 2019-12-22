@@ -20,7 +20,8 @@ func calculateTotalFuel(mass int) int {
 // Run day 1
 func Run() {
 	fmt.Println("-- Day 1 --")
-	scanner := utils.GenerateLineScanner("./day1/input1.txt")
+	file, scanner := utils.GenerateLineScanner("./day1/input1.txt")
+	defer (*file).Close()
 	total := 0
 
 	totalWithFuel := 0
@@ -32,6 +33,7 @@ func Run() {
 			totalWithFuel = totalWithFuel + calculateTotalFuel(mass)
 		}
 	}
+
 	fmt.Println("Part one output:", total)
 	fmt.Println("Part two output:", totalWithFuel)
 }

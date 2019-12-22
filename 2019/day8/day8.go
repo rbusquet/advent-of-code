@@ -9,7 +9,8 @@ import (
 // Run day 8
 func Run() {
 	fmt.Println("-- Day 8 --")
-	scanner := utils.GenerateLineScanner("./day8/input.txt")
+	file, scanner := utils.GenerateLineScanner("./day8/input.txt")
+	defer (*file).Close()
 	scanner.Scan()
 	row := scanner.Text()
 

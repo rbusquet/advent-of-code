@@ -9,7 +9,7 @@ import (
 )
 
 // GenerateLineScanner generates
-func GenerateLineScanner(fileName string) *bufio.Scanner {
+func GenerateLineScanner(fileName string) (*os.File, *bufio.Scanner) {
 	if path, err := filepath.Abs(fileName); err != nil {
 		panic(err)
 	} else {
@@ -17,7 +17,7 @@ func GenerateLineScanner(fileName string) *bufio.Scanner {
 			panic(err)
 		} else {
 			scanner := bufio.NewScanner(file)
-			return scanner
+			return file, scanner
 		}
 	}
 }
@@ -47,19 +47,19 @@ func splitOnComma(data []byte, atEOF bool) (advance int, token []byte, err error
 }
 
 // GenerateCommaSeparatedScanner comma separated
-func GenerateCommaSeparatedScanner(fileName string) *bufio.Scanner {
-	scanner := GenerateLineScanner(fileName)
+func GenerateCommaSeparatedScanner(fileName string) (*os.File, *bufio.Scanner) {
+	file, scanner := GenerateLineScanner(fileName)
 
 	scanner.Split(splitOnComma)
-	return scanner
+	return file, scanner
 }
 
 // DigitSeparatedScanner each digit at a time
-func DigitSeparatedScanner(fileName string) *bufio.Scanner {
-	scanner := GenerateLineScanner(fileName)
+func DigitSeparatedScanner(fileName string) (*os.File, *bufio.Scanner) {
+	file, scanner := GenerateLineScanner(fileName)
 
 	scanner.Split(splitOnDigit)
-	return scanner
+	return file, scanner
 }
 
 // Permutations returns permutations
@@ -83,12 +83,13 @@ func Permutations(input []int, size int) [][]int {
 // ReadProgram reads an IntCode program from a file
 func ReadProgram(filename string) (program []int) {
 	memory := []int{}
-	scanner := GenerateCommaSeparatedScanner(filename)
+	file, scanner := GenerateCommaSeparatedScanner(filename)
 	for scanner.Scan() {
 		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err == nil {
 			memory = append(memory, val)
 		}
 	}
+	file.Close()
 	return memory
 }
 
