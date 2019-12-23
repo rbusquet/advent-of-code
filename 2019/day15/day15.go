@@ -135,7 +135,6 @@ loop:
 		<-output
 		pos = nextPosition(back, pos)
 	}
-	return maxPath
 }
 
 // Run day 15

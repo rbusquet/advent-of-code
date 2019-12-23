@@ -159,3 +159,15 @@ func (p Position) Surrounds() chan Position {
 	}()
 	return output
 }
+
+// Vector is an array of positions
+type Vector []Position
+
+func (a Vector) Len() int      { return len(a) }
+func (a Vector) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a Vector) Less(i, j int) bool {
+	if a[i].x == a[j].x {
+		return a[i].y < a[j].y
+	}
+	return a[i].x < a[j].x
+}

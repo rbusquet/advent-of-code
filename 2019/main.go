@@ -13,6 +13,7 @@ import (
 	"advent-of-code/2019/day18"
 	"advent-of-code/2019/day19"
 	"advent-of-code/2019/day2"
+	"advent-of-code/2019/day20"
 	"advent-of-code/2019/day3"
 	"advent-of-code/2019/day4"
 	"advent-of-code/2019/day5"
@@ -45,6 +46,7 @@ func main() {
 		"17": day17.Run,
 		"18": day18.Run,
 		"19": day19.Run,
+		"20": day20.Run,
 	}
 	day := ""
 	for idx, arg := range os.Args {
