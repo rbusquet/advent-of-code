@@ -2,11 +2,15 @@ package day20
 
 import (
 	"advent-of-code/2019/utils"
-	"container/heap"
 	"fmt"
-	"math"
 	"sort"
 )
+
+// Node is a node in the queue
+type Node struct {
+	position utils.Position
+	distance int
+}
 
 func isAlpha(s rune) bool {
 	return 'A' <= s && s <= 'Z'
@@ -81,47 +85,20 @@ func parsePortals(
 	return src, dest, portals
 }
 
-func initHeap(
-	src utils.Position,
-	grid map[utils.Position]rune,
-	vertexes utils.Vector,
-) (
-	utils.PriorityQueue,
-	map[utils.Position]*utils.Node,
-) {
-	pq := make(utils.PriorityQueue, 0)
-	vertexToNode := make(map[utils.Position]*utils.Node)
-	heap.Init(&pq)
-	for _, v := range vertexes {
-		if grid[v] != '.' {
-			continue
-		}
-		d := math.MaxInt64
-		if v == src {
-			d = 0
-		}
-		i := utils.NewNode(v, d)
-		heap.Push(&pq, &i)
-		vertexToNode[v] = &i
-	}
-	return pq, vertexToNode
-}
-
 func part1() {
 	grid, vertexes := buildGrid()
 	sort.Sort(vertexes)
 	src, dest, portals := parsePortals(grid, vertexes)
-	nodeSrc := utils.NewNode(src, 0)
-	queue := []*utils.Node{
-		&nodeSrc,
-	}
+	nodeSrc := Node{src, 0}
+	queue := []Node{nodeSrc}
+
 	visited := make(map[utils.Position]bool)
-	var node *utils.Node
+	var node Node
 	for len(queue) > 0 {
 		node, queue = queue[0], queue[1:]
-		value := node.GetValue().(utils.Position)
+		value := node.position
 		if value == dest {
-			fmt.Println(node.GetDistance())
+			fmt.Println(node.distance)
 			return
 		}
 		visited[value] = true
@@ -131,13 +108,13 @@ func part1() {
 				continue
 			}
 			if grid[neighbor] == '.' {
-				neighborNode := utils.NewNode(neighbor, node.GetDistance()+1)
-				queue = append(queue, &neighborNode)
+				neighborNode := Node{neighbor, node.distance + 1}
+				queue = append(queue, neighborNode)
 			}
 		}
 		if otherSide, isPortal := portals[value]; isPortal {
-			neighborNode := utils.NewNode(otherSide, node.GetDistance()+1)
-			queue = append(queue, &neighborNode)
+			neighborNode := Node{otherSide, node.distance + 1}
+			queue = append(queue, neighborNode)
 		}
 	}
 }
@@ -146,83 +123,48 @@ func part2() {
 	grid, vertexes := buildGrid()
 	sort.Sort(vertexes)
 	src, dest, portals := parsePortals(grid, vertexes)
-	pq, vertexToNode := initHeap(src, grid, vertexes)
 	visited := make(map[utils.Position]bool)
+	nodeSrc := Node{src, 0}
+	queue := []Node{nodeSrc}
 
-	maxLevel := 0
-	for len(pq) > 0 {
-		node := heap.Pop(&pq).(*utils.Node)
-		value := node.GetValue().(utils.Position)
+	var node Node
+	for len(queue) > 0 {
+		node, queue = queue[0], queue[1:]
+		value := node.position
+		if value == dest {
+			fmt.Println(node.distance)
+			return
+		}
 		visited[value] = true
 
 		for neighbor := range value.Surrounds() {
-			if neighbor == dest && value.GetZ() == 0 {
-				fmt.Println(node.GetDistance()+1, "hitting max level of recursion", maxLevel)
-				return
-			}
 			if visited[neighbor] {
 				continue
 			}
 			if grid[neighbor.Get2D()] == '.' {
-				neighborNode := vertexToNode[neighbor]
-				newDistance := node.GetDistance() + 1
-				if newDistance < neighborNode.GetDistance() {
-					neighborNode.SetDistance(newDistance)
-					heap.Fix(&pq, neighborNode.GetIndex())
-				}
+				newNode := Node{neighbor, node.distance + 1}
+				queue = append(queue, newNode)
 			}
 		}
 		if otherSide, isPortal := portals[value.Get2D()]; isPortal {
-			if !valid(value) {
-				continue
-			}
 			nextLevel := value.GetZ()
 			if isOuter(value.GetX(), value.GetY()) {
 				nextLevel--
 			} else {
 				nextLevel++
 			}
-			if nextLevel > maxLevel {
-				maxLevel = nextLevel
-				vertexToNode = pushToHeap(&pq, grid, vertexes, vertexToNode, nextLevel)
+			if nextLevel < 0 {
+				continue
 			}
 			otherSide = otherSide.Get3D(nextLevel)
-			neighborNode := vertexToNode[otherSide]
-			newDistance := node.GetDistance() + 1
-			if newDistance < neighborNode.GetDistance() {
-				neighborNode.SetDistance(newDistance)
-				heap.Fix(&pq, neighborNode.GetIndex())
+			if visited[otherSide] {
+				continue
 			}
+			visited[otherSide] = true
+			newNode := Node{otherSide, node.distance + 1}
+			queue = append(queue, newNode)
 		}
 	}
-	fmt.Println(vertexToNode[dest].GetDistance())
-}
-
-func pushToHeap(
-	pq *utils.PriorityQueue,
-	grid map[utils.Position]rune,
-	vertexes utils.Vector,
-	vertexToNode map[utils.Position]*utils.Node,
-	level int,
-) map[utils.Position]*utils.Node {
-	for _, v := range vertexes {
-		if grid[v] != '.' {
-			continue
-		}
-		d := math.MaxInt64
-		v = v.Get3D(level)
-		i := utils.NewNode(v, d)
-		heap.Push(pq, &i)
-		vertexToNode[v] = &i
-	}
-	return vertexToNode
-}
-
-func valid(pos utils.Position) bool {
-	if !isOuter(pos.GetX(), pos.GetY()) {
-		return true
-	}
-	return pos.GetZ() > 0
 }
 
 func isOuter(x, y int) bool {
