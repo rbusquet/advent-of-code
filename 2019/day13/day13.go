@@ -90,9 +90,7 @@ func part2(showScreen bool, speed int) {
 				pressed = 0
 			case x, ok := <-output:
 				if !ok {
-					if showScreen {
-						close(quit)
-					}
+					close(quit)
 					return
 				}
 				y := <-output
@@ -162,9 +160,8 @@ func part2(showScreen bool, speed int) {
 			}
 		}()
 	}
-
+	<-quit
 	if showScreen {
-		<-quit
 		screen.Fini()
 	}
 	fmt.Println(scoreVal)
@@ -172,13 +169,19 @@ func part2(showScreen bool, speed int) {
 
 // Run day 13
 func Run() {
-	showScreen := len(os.Args) > 2 && os.Args[1] == "--show-arcade"
-	speed := 0
-	if showScreen {
-		if s, err := strconv.Atoi(os.Args[2]); err != nil {
-			panic(err)
-		} else {
-			speed = s
+	showScreen := false
+	speed := 200
+	for idx, arg := range os.Args {
+		if arg == "--show-arcade" {
+			showScreen = true
+			if len(os.Args) > idx+1 {
+				if s, err := strconv.Atoi(os.Args[idx+1]); err != nil {
+					panic(err)
+				} else {
+					speed = s
+				}
+			}
+			break
 		}
 	}
 	fmt.Println("-- Day 13 --")

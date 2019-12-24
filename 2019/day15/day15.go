@@ -143,5 +143,5 @@ func Run() {
 	fmt.Print("Part one output: ")
 	queue := part1()
 	fmt.Println(len(queue))
-	fmt.Println("Part two output: ", part2(queue))
+	fmt.Println("Part two output:", part2(queue))
 }
