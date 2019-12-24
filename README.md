@@ -77,4 +77,5 @@ Part one output: 114
 Part two output: 10671712
 -- Day 20 --
 Part one output: 626
+Part two output: 6912 hitting max level of recursion 117
 ```

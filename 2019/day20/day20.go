@@ -12,7 +12,7 @@ func isAlpha(s rune) bool {
 	return 'A' <= s && s <= 'Z'
 }
 
-func buildGrid(filename string) (
+func buildGrid() (
 	map[utils.Position]rune,
 	utils.Vector,
 ) {
@@ -108,15 +108,22 @@ func initHeap(
 }
 
 func part1() {
-	grid, vertexes := buildGrid("./input.txt")
+	grid, vertexes := buildGrid()
 	sort.Sort(vertexes)
 	src, dest, portals := parsePortals(grid, vertexes)
-	pq, vertexToNode := initHeap(src, grid, vertexes)
+	nodeSrc := utils.NewNode(src, 0)
+	queue := []*utils.Node{
+		&nodeSrc,
+	}
 	visited := make(map[utils.Position]bool)
-
-	for len(pq) > 0 {
-		node := heap.Pop(&pq).(*utils.Node)
+	var node *utils.Node
+	for len(queue) > 0 {
+		node, queue = queue[0], queue[1:]
 		value := node.GetValue().(utils.Position)
+		if value == dest {
+			fmt.Println(node.GetDistance())
+			return
+		}
 		visited[value] = true
 
 		for neighbor := range value.Surrounds() {
@@ -124,6 +131,39 @@ func part1() {
 				continue
 			}
 			if grid[neighbor] == '.' {
+				neighborNode := utils.NewNode(neighbor, node.GetDistance()+1)
+				queue = append(queue, &neighborNode)
+			}
+		}
+		if otherSide, isPortal := portals[value]; isPortal {
+			neighborNode := utils.NewNode(otherSide, node.GetDistance()+1)
+			queue = append(queue, &neighborNode)
+		}
+	}
+}
+
+func part2() {
+	grid, vertexes := buildGrid()
+	sort.Sort(vertexes)
+	src, dest, portals := parsePortals(grid, vertexes)
+	pq, vertexToNode := initHeap(src, grid, vertexes)
+	visited := make(map[utils.Position]bool)
+
+	maxLevel := 0
+	for len(pq) > 0 {
+		node := heap.Pop(&pq).(*utils.Node)
+		value := node.GetValue().(utils.Position)
+		visited[value] = true
+
+		for neighbor := range value.Surrounds() {
+			if neighbor == dest && value.GetZ() == 0 {
+				fmt.Println(node.GetDistance()+1, "hitting max level of recursion", maxLevel)
+				return
+			}
+			if visited[neighbor] {
+				continue
+			}
+			if grid[neighbor.Get2D()] == '.' {
 				neighborNode := vertexToNode[neighbor]
 				newDistance := node.GetDistance() + 1
 				if newDistance < neighborNode.GetDistance() {
@@ -132,7 +172,21 @@ func part1() {
 				}
 			}
 		}
-		if otherSide, isPortal := portals[value]; isPortal {
+		if otherSide, isPortal := portals[value.Get2D()]; isPortal {
+			if !valid(value) {
+				continue
+			}
+			nextLevel := value.GetZ()
+			if isOuter(value.GetX(), value.GetY()) {
+				nextLevel--
+			} else {
+				nextLevel++
+			}
+			if nextLevel > maxLevel {
+				maxLevel = nextLevel
+				vertexToNode = pushToHeap(&pq, grid, vertexes, vertexToNode, nextLevel)
+			}
+			otherSide = otherSide.Get3D(nextLevel)
 			neighborNode := vertexToNode[otherSide]
 			newDistance := node.GetDistance() + 1
 			if newDistance < neighborNode.GetDistance() {
@@ -144,9 +198,42 @@ func part1() {
 	fmt.Println(vertexToNode[dest].GetDistance())
 }
 
+func pushToHeap(
+	pq *utils.PriorityQueue,
+	grid map[utils.Position]rune,
+	vertexes utils.Vector,
+	vertexToNode map[utils.Position]*utils.Node,
+	level int,
+) map[utils.Position]*utils.Node {
+	for _, v := range vertexes {
+		if grid[v] != '.' {
+			continue
+		}
+		d := math.MaxInt64
+		v = v.Get3D(level)
+		i := utils.NewNode(v, d)
+		heap.Push(pq, &i)
+		vertexToNode[v] = &i
+	}
+	return vertexToNode
+}
+
+func valid(pos utils.Position) bool {
+	if !isOuter(pos.GetX(), pos.GetY()) {
+		return true
+	}
+	return pos.GetZ() > 0
+}
+
+func isOuter(x, y int) bool {
+	return x < 4 || x > 123 || y < 3 || y > 117
+}
+
 // Run day 20
 func Run() {
 	fmt.Println("-- Day 20 --")
 	fmt.Print("Part one output: ")
 	part1()
+	fmt.Print("Part two output: ")
+	part2()
 }

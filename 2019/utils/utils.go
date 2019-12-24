@@ -128,7 +128,7 @@ func LCM(a, b int64) int64 {
 
 // Position in a 2D plane
 type Position struct {
-	x, y int
+	x, y, z int
 }
 
 // GetX returns the x value of p
@@ -143,7 +143,12 @@ func (p Position) GetY() int {
 
 // NewPosition returns a new position
 func NewPosition(x, y int) Position {
-	return Position{x, y}
+	return Position{x, y, 0}
+}
+
+// New3DPosition returns a new position
+func New3DPosition(x, y, z int) Position {
+	return Position{x, y, z}
 }
 
 // Surrounds are the points around p, excluding diagonals
@@ -151,10 +156,10 @@ func (p Position) Surrounds() chan Position {
 	output := make(chan Position)
 
 	go func() {
-		output <- Position{p.x - 1, p.y}
-		output <- Position{p.x + 1, p.y}
-		output <- Position{p.x, p.y - 1}
-		output <- Position{p.x, p.y + 1}
+		output <- Position{p.x - 1, p.y, p.z}
+		output <- Position{p.x + 1, p.y, p.z}
+		output <- Position{p.x, p.y - 1, p.z}
+		output <- Position{p.x, p.y + 1, p.z}
 		close(output)
 	}()
 	return output
@@ -170,4 +175,19 @@ func (a Vector) Less(i, j int) bool {
 		return a[i].y < a[j].y
 	}
 	return a[i].x < a[j].x
+}
+
+// Get2D returns the position with Z == 0
+func (p Position) Get2D() Position {
+	return Position{p.GetX(), p.GetY(), 0}
+}
+
+// Get3D returns the position with Z == z
+func (p Position) Get3D(z int) Position {
+	return Position{p.GetX(), p.GetY(), z}
+}
+
+// GetZ returns the z portion of this position
+func (p Position) GetZ() int {
+	return p.z
 }
