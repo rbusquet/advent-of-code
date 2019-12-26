@@ -34,7 +34,7 @@ func dealWithIncrement(deck []int, n int) []int {
 }
 
 func part1() {
-	file, scanner := utils.GenerateLineScanner("./input.txt")
+	file, scanner := utils.GenerateLineScanner("./day22/input.txt")
 	defer file.Close()
 
 	SIZE := 10007
