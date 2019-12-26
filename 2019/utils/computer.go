@@ -18,6 +18,11 @@ func NewComputer(program *[]int, input chan int) Computer {
 	return Computer{program: program, input: input, memory: &memory, output: output}
 }
 
+// NOOP returns its input
+func NOOP(x []int) []int {
+	return x
+}
+
 // RunProgram runs a program, preprocessing it before executing.
 func RunProgram(fileName string, input chan int, preprocess func([]int) []int) (out chan int) {
 	program := preprocess(ReadProgram(fileName))
