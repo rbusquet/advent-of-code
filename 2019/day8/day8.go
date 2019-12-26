@@ -1,9 +1,10 @@
 package day8
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"math"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Run day 8

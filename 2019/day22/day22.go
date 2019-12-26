@@ -1,9 +1,10 @@
 package day22
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func cut(deck []int, n int) []int {

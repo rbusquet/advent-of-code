@@ -1,8 +1,9 @@
 package day7
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Amplifier is each of the thrust amplifiers of the ship

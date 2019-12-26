@@ -1,9 +1,10 @@
 package day20
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"sort"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Node is a node in the queue

@@ -1,10 +1,11 @@
 package day12
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Moon holds position and velocity information of a moon

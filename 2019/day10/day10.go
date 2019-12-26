@@ -1,10 +1,11 @@
 package day10
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"math"
 	"sort"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Asteroid asts

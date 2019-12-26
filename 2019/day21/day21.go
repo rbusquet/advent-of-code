@@ -1,8 +1,9 @@
 package day21
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func part1() {

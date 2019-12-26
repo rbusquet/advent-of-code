@@ -1,9 +1,10 @@
 package day14
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Parcel is an ingredient of a reaction

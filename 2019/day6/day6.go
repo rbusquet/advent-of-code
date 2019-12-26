@@ -1,9 +1,10 @@
 package day6
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Planet represents each node in the orbits map

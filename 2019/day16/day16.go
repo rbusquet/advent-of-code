@@ -1,9 +1,10 @@
 package day16
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func singleOutput(index int, input []int64) int64 {

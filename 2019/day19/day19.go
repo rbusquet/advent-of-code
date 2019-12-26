@@ -1,8 +1,9 @@
 package day19
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func noop(x []int) []int {

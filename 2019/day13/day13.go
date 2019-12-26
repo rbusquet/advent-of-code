@@ -1,13 +1,13 @@
 package day13
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"os"
 	"strconv"
 	"time"
 
 	"github.com/gdamore/tcell"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // TileType is an int

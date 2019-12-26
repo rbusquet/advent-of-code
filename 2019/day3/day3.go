@@ -1,11 +1,12 @@
 package day3
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"math"
 	"strconv"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Point (x, y)

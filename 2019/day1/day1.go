@@ -1,9 +1,10 @@
 package day1
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func calculateFuel(mass int) int {

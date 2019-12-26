@@ -1,10 +1,11 @@
 package day2
 
 import (
-	"advent-of-code/2019/utils"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func runProgram(noun int, verb int, memory ...int) []int {
