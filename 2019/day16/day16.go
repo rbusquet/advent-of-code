@@ -7,8 +7,8 @@ import (
 	"github.com/rbusquet/advent-of-code/utils"
 )
 
-func singleOutput(index int, input []int64) int64 {
-	pattern := []int64{0, 1, 0, -1}
+func singleOutput(index int, input []int) int {
+	pattern := []int{0, 1, 0, -1}
 	multiplier := make(chan int)
 	quit := make(chan int)
 	go func() {
@@ -25,7 +25,7 @@ func singleOutput(index int, input []int64) int64 {
 	}()
 
 	<-multiplier // drop first one
-	sum := int64(0)
+	sum := 0
 
 	for _, x := range input {
 		m := <-multiplier
@@ -40,15 +40,15 @@ func part1() {
 	file, scanner := utils.DigitSeparatedScanner("./day16/input.txt")
 	defer (*file).Close()
 
-	input := []int64{}
+	input := []int{}
 	for scanner.Scan() {
 		x, _ := strconv.Atoi(scanner.Text())
-		input = append(input, int64(x))
+		input = append(input, int(x))
 	}
 	inputSize := len(input)
 
 	for phase := 0; phase < 100; phase++ {
-		output := []int64{}
+		output := []int{}
 		for index := 0; index < inputSize; index++ {
 			output = append(output, singleOutput(index, input))
 		}

@@ -10,17 +10,17 @@ import (
 
 // Moon holds position and velocity information of a moon
 type Moon struct {
-	position []int64
-	velocity []int64
+	position []int
+	velocity []int
 }
 
 // NewMoon returns a moon from a line in the format `<x=X, y=Y, z=Z>`
 func NewMoon(line string) *Moon {
-	moon := Moon{[]int64{}, []int64{0, 0, 0}}
+	moon := Moon{[]int{}, []int{0, 0, 0}}
 	line = strings.Trim(line, ">")
 	for _, bit := range strings.Split(line, ",") {
 		val, _ := strconv.Atoi(strings.Split(bit, "=")[1])
-		moon.position = append(moon.position, int64(val))
+		moon.position = append(moon.position, int(val))
 	}
 	return &moon
 }
@@ -51,12 +51,12 @@ func (m *Moon) applySpeed() {
 	}
 }
 
-func (m *Moon) totalEnergy() int64 {
-	potential := int64(0)
+func (m *Moon) totalEnergy() int {
+	potential := 0
 	for axis := 0; axis < 3; axis++ {
 		potential += utils.AbsInt(m.position[axis])
 	}
-	kinectic := int64(0)
+	kinectic := 0
 	for axis := 0; axis < 3; axis++ {
 		kinectic += utils.AbsInt(m.velocity[axis])
 	}
@@ -80,7 +80,7 @@ func part1() {
 			moon.applySpeed()
 		}
 	}
-	energy := int64(0)
+	energy := 0
 	for _, moon := range system {
 		energy += moon.totalEnergy()
 	}
@@ -97,17 +97,17 @@ func part2() {
 		system = append(system, moon)
 	}
 
-	channel := make(chan int64)
+	channel := make(chan int)
 	for axis := 0; axis < 3; axis++ {
 		go func(axis int) {
-			currentpos := []int64{}
-			currentvel := []int64{}
+			currentpos := []int{}
+			currentvel := []int{}
 			for _, moon := range system {
 				currentpos = append(currentpos, moon.position[axis])
 				currentvel = append(currentvel, moon.velocity[axis])
 			}
 		loop:
-			for i := int64(1); ; i++ {
+			for i := int(1); ; i++ {
 				for _, moon := range system {
 					moon.applyAxisGravity(system, axis)
 				}
