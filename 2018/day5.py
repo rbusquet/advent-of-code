@@ -1,6 +1,6 @@
 from string import ascii_lowercase
 
-print('--- DAY 5: part 1 ---')
+print("--- DAY 5: part 1 ---")
 
 
 def destroy(letter, next_letter):
@@ -10,11 +10,11 @@ def destroy(letter, next_letter):
 
 
 def break_array(array, index):
-    return array[:index], array[index], array[index + 1], array[index + 2:]
+    return array[:index], array[index], array[index + 1], array[index + 2 :]
 
 
-buffer = ''
-with open('input5.txt') as f:
+buffer = ""
+with open("input5.txt") as f:
     buffer = f.read(1)
     while True:
         letter = buffer[-1:]
@@ -28,11 +28,11 @@ with open('input5.txt') as f:
             buffer += next_letter
         # print(buffer[:50])
 
-print(f'Processed polymer has length={len(buffer)}')
+print(f"Processed polymer has length={len(buffer)}")
 
-print('--- DAY 5: part 2 ---')
+print("--- DAY 5: part 2 ---")
 for unit in ascii_lowercase:
-    with open('input5.txt') as f:
+    with open("input5.txt") as f:
         buffer = f.read(1)
         while buffer.lower() == unit:
             buffer = f.read(1)
@@ -50,4 +50,4 @@ for unit in ascii_lowercase:
                 buffer += next_letter
             # print(buffer[:50])
 
-    print(f'Removing units {unit} length of polymer is {len(buffer)}')
+    print(f"Removing units {unit} length of polymer is {len(buffer)}")

@@ -2,7 +2,7 @@ import re
 from typing import NamedTuple
 
 
-print('--- DAY 03: part 1 ---')
+print("--- DAY 03: part 1 ---")
 
 
 class Claim(NamedTuple):
@@ -15,8 +15,8 @@ class Claim(NamedTuple):
 
 claims = []
 
-regex = re.compile(r'#(\d+) @ (\d+),(\d+): (\d+)x(\d+)')
-with open('input3.txt') as f:
+regex = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
+with open("input3.txt") as f:
     for line in f.readlines():
         match = regex.match(line)
         claims.append(Claim(*[int(x) for x in match.groups()]))
@@ -35,14 +35,14 @@ for i in fabric:
         if j > 1:
             count += 1
 
-print(f'Total overlaps: {count}')
+print(f"Total overlaps: {count}")
 
 
-print('--- DAY 03: part 2 ---')
+print("--- DAY 03: part 2 ---")
 for claim in claims:
     test = []
     for w in range(claim.w):
         for t in range(claim.t):
             test.append(fabric[claim.y + t][claim.x + w])
     if all(t == 1 for t in test):
-        print(f'Found valid claim: {claim.id_}')
+        print(f"Found valid claim: {claim.id_}")

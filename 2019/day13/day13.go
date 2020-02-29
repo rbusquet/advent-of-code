@@ -119,7 +119,7 @@ func part2(showScreen bool, speed int) {
 					cell = tcell.RuneBlock
 					p = Tile{x, y}
 				case ball:
-					cell = '@'
+					cell = 'x'
 					// sync = true
 					if !createdB {
 						createdB = true
@@ -150,7 +150,7 @@ func part2(showScreen bool, speed int) {
 				switch ev := ev.(type) {
 				case *tcell.EventKey:
 					switch ev.Key() {
-					case tcell.KeyEscape, tcell.KeyEnter:
+					case tcell.KeyEscape, tcell.KeyEnter, tcell.KeyCtrlC:
 						close(quit)
 						return
 					}

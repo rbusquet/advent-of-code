@@ -1,4 +1,3 @@
-
 from collections import defaultdict
 
 
@@ -9,10 +8,10 @@ MARBLES = 72170 * 100
 class Marble:
     def __init__(self, id: int):
         self.id = id
-        self.previous: 'Marble' = self
-        self.next: 'Marble' = self
+        self.previous: "Marble" = self
+        self.next: "Marble" = self
 
-    def replace(self, marble_id: int) -> 'Marble':
+    def replace(self, marble_id: int) -> "Marble":
         other = Marble(marble_id)
         other.previous = self.previous
         other.next = self
@@ -20,13 +19,13 @@ class Marble:
         self.previous = other
         return other
 
-    def get_next(self, n: int) -> 'Marble':
+    def get_next(self, n: int) -> "Marble":
         ret = self
         for i in range(n):
             ret = ret.next
         return ret
 
-    def get_before(self, n: int) -> 'Marble':
+    def get_before(self, n: int) -> "Marble":
         ret = self
         for i in range(n):
             ret = ret.previous

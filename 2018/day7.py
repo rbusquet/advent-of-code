@@ -6,12 +6,10 @@ from string import ascii_uppercase
 from pprint import pprint
 
 
-regex = re.compile(
-    r'Step ([A-Z]) must be finished before step ([A-Z]) can begin\.'
-)
+regex = re.compile(r"Step ([A-Z]) must be finished before step ([A-Z]) can begin\.")
 
 instructions = []
-with open('input7.txt') as f:
+with open("input7.txt") as f:
     for line in f:
         matches = regex.match(line).groups()
         instructions.append(matches)
@@ -33,18 +31,15 @@ while steps:
             steps.pop(i)
             break
 
-pprint(''.join(ordering))
+pprint("".join(ordering))
 
 
-print('--- DAY 07: part 2 ---')
+print("--- DAY 07: part 2 ---")
 
 steps = list(ascii_uppercase)
 BASE_SECONDS = 60
 TOTAL_WORKES = 5
-time_to_complete = {
-    step: BASE_SECONDS + i + 1
-    for i, step in enumerate(steps)
-}
+time_to_complete = {step: BASE_SECONDS + i + 1 for i, step in enumerate(steps)}
 complete = []
 
 workers = set()
@@ -66,7 +61,11 @@ while steps:
     workers -= complete
 
     being_worked = {worker[0] for worker in workers}
-    available_steps = [step for step in steps if step not in being_worked and not process_requirements(step)]
+    available_steps = [
+        step
+        for step in steps
+        if step not in being_worked and not process_requirements(step)
+    ]
 
     if available_steps:
         print(available_steps)
@@ -76,9 +75,7 @@ while steps:
         if not available_steps:
             break
         available_step = available_steps.pop(0)
-        workers.add(
-            (available_step, total_seconds + time_to_complete[available_step])
-        )
+        workers.add((available_step, total_seconds + time_to_complete[available_step]))
     if steps:
         total_seconds += 1
 

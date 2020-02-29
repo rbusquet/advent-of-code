@@ -19,12 +19,7 @@ matrix = defaultdict(int)
 for y in range(1, 301):
     for x in range(1, 301):
         p = power(x, y)
-        matrix[y, x] = (
-            p
-            + matrix[y - 1, x]
-            + matrix[y, x - 1]
-            - matrix[y - 1, x - 1]
-        )
+        matrix[y, x] = p + matrix[y - 1, x] + matrix[y, x - 1] - matrix[y - 1, x - 1]
 
 
 best = sum(x for x in matrix.values() if x < 0)
@@ -39,7 +34,7 @@ for size in range(1, 301):
                 matrix[y, x],
                 matrix[y - size, x],
                 matrix[y, x - size],
-                matrix[y - size, x - size]
+                matrix[y - size, x - size],
             )
             size_area = A - B - C + D
             if size_area > best:
@@ -47,7 +42,7 @@ for size in range(1, 301):
                 best_x = x
                 best_size = size
                 best_y = y
-                print(f'Found area={best} at {x}x{y} with size {size}')
+                print(f"Found area={best} at {x}x{y} with size {size}")
 
 
 print(best_x - best_size + 2)

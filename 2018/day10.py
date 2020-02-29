@@ -3,16 +3,14 @@ import re
 from collections import defaultdict
 from typing import List
 
-regex = re.compile(r'position=<([\s-]*\d+), ([\s-]*\d+)> velocity=<([\s-]*\d+),([\s-]*\d+)>')
+regex = re.compile(
+    r"position=<([\s-]*\d+), ([\s-]*\d+)> velocity=<([\s-]*\d+),([\s-]*\d+)>"
+)
 
 
 class Vector:
     def __init__(
-        self,
-        px: int,
-        py: int,
-        vx: int,
-        vy: int,
+        self, px: int, py: int, vx: int, vy: int,
     ):
         self._px = px
         self._py = py
@@ -31,7 +29,7 @@ class Vector:
 vectors: List[Vector] = []
 min_x = min_y = 0
 
-with open('input10.txt') as f:
+with open("input10.txt") as f:
     for line in f.readlines():
         px, py, vx, vy = map(int, regex.match(line).groups())
         vectors.append(Vector(px, py, vx, vy))
@@ -41,7 +39,7 @@ with open('input10.txt') as f:
 STEPS = 5
 total_seconds = 0
 while True:
-    matrix = defaultdict(lambda: '.')
+    matrix = defaultdict(lambda: ".")
     for vector in vectors:
         vector.move(steps=STEPS)
     total_seconds += STEPS
@@ -53,20 +51,20 @@ while True:
     # normalize vectors
     for vector in vectors:
         vector.move(-min_x, -min_y)
-        matrix[vector.current_position] = '#'
+        matrix[vector.current_position] = "#"
 
     max_x = max(matrix)[0]
     max_y = max(matrix, key=lambda n: n[1])[1]
     if max_x > 200:
-        print(f'{max_x} is still large to print')
+        print(f"{max_x} is still large to print")
         continue
     STEPS = 1
-    print(f'Sky at {total_seconds}')
+    print(f"Sky at {total_seconds}")
     for x in range(-5, max_y + 5):
         row = []
         for y in range(-5, max_x + 5):
             row.append(matrix[y, x])
-        print(''.join(row))
+        print("".join(row))
     # input()
 
     if total_seconds == 10144:

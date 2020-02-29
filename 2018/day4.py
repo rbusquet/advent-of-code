@@ -4,7 +4,7 @@ from collections import Counter, defaultdict
 from typing import NamedTuple
 
 
-print('--- DAY 04: part 1 ---')
+print("--- DAY 04: part 1 ---")
 
 
 class Entry(NamedTuple):
@@ -13,18 +13,16 @@ class Entry(NamedTuple):
 
 
 entries = []
-entry_regex = re.compile(r'\[([:\d\s-]+)\] (.*)')
-with open('input4.txt') as f:
+entry_regex = re.compile(r"\[([:\d\s-]+)\] (.*)")
+with open("input4.txt") as f:
     for line in f.readlines():
         date_time, info = entry_regex.match(line).groups()
-        parsed_datetime = datetime.datetime.strptime(
-            date_time, '%Y-%m-%d %H:%M'
-        )
+        parsed_datetime = datetime.datetime.strptime(date_time, "%Y-%m-%d %H:%M")
         entries.append(Entry(parsed_datetime, info))
 
 entries = sorted(entries, key=lambda e: e.date_time)
 
-guard_regex = re.compile(r'Guard #(\d+).*')
+guard_regex = re.compile(r"Guard #(\d+).*")
 guards = defaultdict(list)
 for entry in entries:
     guard_match = guard_regex.match(entry.data)
@@ -48,10 +46,7 @@ def most_sleep(guard):
     return total_sleep
 
 
-choosen_guard = max(
-    guards.items(),
-    key=most_sleep
-)
+choosen_guard = max(guards.items(), key=most_sleep)
 
 choosen_guard_nights = choosen_guard[1]
 
@@ -68,21 +63,21 @@ for night in choosen_guard_nights:
 counter = Counter(minutes_sleeping)
 choosen_minute = counter.most_common(1)[0][0]
 
-print(f'Chosen guard ID * chosen minute = {int(choosen_guard[0]) * choosen_minute}')
+print(f"Chosen guard ID * chosen minute = {int(choosen_guard[0]) * choosen_minute}")
 
 
-print('--- DAY 04: part 2 ---')
+print("--- DAY 04: part 2 ---")
 
 all_counters = []
 for guard_id, nights in guards.items():
     minutes_sleeping = []
-    print('for guard', guard_id)
+    print("for guard", guard_id)
     for night in nights:
         for index in range(0, len(night), 2):
             sleeps_at = night[index]
             wakes_up = night[index + 1]
             sleeping = list(range(sleeps_at, wakes_up))
-            print(f'slept during {sleeping}')
+            print(f"slept during {sleeping}")
             minutes_sleeping.extend(sleeping)
 
     counter = Counter(minutes_sleeping)
@@ -92,4 +87,4 @@ print(all_counters)
 
 x = max(all_counters, key=lambda x: x[0][1])
 
-print(f'Chosen guard ID * chosen minute = {x[0][0] * int(x[1])}')
+print(f"Chosen guard ID * chosen minute = {x[0][0] * int(x[1])}")

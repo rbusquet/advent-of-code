@@ -1,8 +1,6 @@
 class Node:
     def __init__(
-        self,
-        children_count: int,
-        metadata_count: int,
+        self, children_count: int, metadata_count: int,
     ):
         self.children_count = children_count
         self.metadata_count = metadata_count
@@ -11,14 +9,14 @@ class Node:
 
 
 def next_input():
-    with open('input8.txt') as f:
-        number = ''
+    with open("input8.txt") as f:
+        number = ""
         while True:
             read = f.read(1)
 
-            if not read or read == ' ':
+            if not read or read == " ":
                 yield int(number)
-                number = ''
+                number = ""
             else:
                 number += read
             if not read:
@@ -66,7 +64,7 @@ for node in nodes:
     for m in node.metadata:
         total += m
 
-print(f'Metadata sum: {total}')
+print(f"Metadata sum: {total}")
 
 
 def value(node: Node):
@@ -83,4 +81,4 @@ def value(node: Node):
         return total
 
 
-print(f'Value of root node: {value(nodes[0])}')
+print(f"Value of root node: {value(nodes[0])}")
