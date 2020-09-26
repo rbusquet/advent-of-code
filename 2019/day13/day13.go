@@ -79,6 +79,7 @@ func part2(showScreen bool, speed int) {
 	scoreVal := ""
 
 	var p Tile
+	var StyleDefault tcell.Style
 	createdB := false
 	go func() {
 		for {
@@ -99,7 +100,7 @@ func part2(showScreen bool, speed int) {
 					scoreVal = v
 					if showScreen {
 						for _, r := range v {
-							screen.SetContent(y, 0, r, nil, 0)
+							screen.SetContent(y, 0, r, nil, StyleDefault)
 							y++
 						}
 					}
@@ -137,7 +138,7 @@ func part2(showScreen bool, speed int) {
 					}
 				}
 				if showScreen {
-					screen.SetContent(x, y+1, cell, nil, 0)
+					screen.SetContent(x, y+1, cell, nil, StyleDefault)
 				}
 			}
 		}

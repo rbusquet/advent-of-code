@@ -2,20 +2,34 @@ package utils
 
 // Computer can run programs using IntCode defined in adventofcode.com/2019
 type Computer struct {
-	program      *[]int
-	memory       *map[int]int
-	input        chan int
-	output       chan int
-	pointer      int
-	instruction  int
-	relativeBase int
+	program        *[]int
+	memory         *map[int]int
+	input          chan int
+	output         chan int
+	pointer        int
+	instruction    int
+	relativeBase   int
+	instructionSet map[int]func(*Computer)
 }
 
 // NewComputer instantiates a new computer object
 func NewComputer(program *[]int, input chan int) Computer {
 	memory := make(map[int]int)
 	output := make(chan int)
-	return Computer{program: program, input: input, memory: &memory, output: output}
+
+	instructionSet := map[int]func(*Computer){
+		1: add,
+		2: multiply,
+		3: readInput,
+		4: writeOutput,
+		5: jumpIfTrue,
+		6: jumpIfFalse,
+		7: lessThan,
+		8: equals,
+		9: setRelativeBase,
+	}
+
+	return Computer{program: program, input: input, memory: &memory, output: output, instructionSet: instructionSet}
 }
 
 // NOOP returns its input
@@ -34,62 +48,44 @@ func RunProgram(fileName string, input chan int, preprocess func([]int) []int) (
 
 // Execute is a routine to execute a program until it halts
 func (c *Computer) Execute() {
-loop:
 	for {
 		c.instruction = c.read(1)
 		opcode := c.instruction % 100
-		switch opcode {
-		case 99:
-			break loop
-		case 1:
-			c.add()
-		case 2:
-			c.multiply()
-		case 3:
-			c.readInput()
-		case 4:
-			c.writeOutput()
-		case 5:
-			c.jumpIfTrue()
-		case 6:
-			c.jumpIfFalse()
-		case 7:
-			c.lessThan()
-		case 8:
-			c.equals()
-		case 9:
-			c.setRelativeBase()
+		if opcode == 99 {
+			break
 		}
+		fun := c.instructionSet[opcode]
+		fun(c)
 	}
 	close(c.output)
 	return
 }
 
-func (c *Computer) add() {
+func add(c *Computer) {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x+y, c.instruction/10000%10)
 }
 
-func (c *Computer) multiply() {
+func multiply(c *Computer) {
 	x := c.read((c.instruction / 100) % 10)
 	y := c.read((c.instruction / 1000) % 10)
 
 	c.write(x*y, c.instruction/10000%10)
 }
 
-func (c *Computer) readInput() {
+func readInput(c *Computer) {
 	res := <-c.input
 	c.write(res, c.instruction/100%10)
 }
 
-func (c *Computer) writeOutput() {
+func writeOutput(c *Computer) {
 	out := c.read(c.instruction / 100 % 10)
 	c.output <- out
 }
 
-func (c *Computer) jumpIfTrue() {
+func jumpIfTrue(c *Computer) {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
 	if test != 0 {
@@ -97,7 +93,7 @@ func (c *Computer) jumpIfTrue() {
 	}
 }
 
-func (c *Computer) jumpIfFalse() {
+func jumpIfFalse(c *Computer) {
 	test := c.read(c.instruction / 100 % 10)
 	newPos := c.read(c.instruction / 1000 % 10)
 	if test == 0 {
@@ -105,7 +101,7 @@ func (c *Computer) jumpIfFalse() {
 	}
 }
 
-func (c *Computer) lessThan() {
+func lessThan(c *Computer) {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
 	if x < y {
@@ -115,7 +111,7 @@ func (c *Computer) lessThan() {
 	}
 }
 
-func (c *Computer) equals() {
+func equals(c *Computer) {
 	x := c.read(c.instruction / 100 % 10)
 	y := c.read(c.instruction / 1000 % 10)
 	if x == y {
@@ -179,7 +175,7 @@ func (c *Computer) GetOutput() chan int {
 	return c.output
 }
 
-func (c *Computer) setRelativeBase() {
+func setRelativeBase(c *Computer) {
 	x := c.read(c.instruction / 100 % 10)
 	c.relativeBase += x
 }
