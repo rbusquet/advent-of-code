@@ -1,6 +1,20 @@
 # advent-of-code
 Advent of code solutions
 
+## 2020 output
+
+````
+-- Day 1 --
+with_combinations ran in 175000ns
+955584
+with_combinations ran in 10381000ns
+287503934
+best_performance_part_1 ran in 14000ns
+955584
+best_performance_part_2 ran in 152000ns
+287503934
+```
+
 ## 2019 output
 
 ```
