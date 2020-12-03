@@ -10,7 +10,11 @@ regex = re.compile(
 
 class Vector:
     def __init__(
-        self, px: int, py: int, vx: int, vy: int,
+        self,
+        px: int,
+        py: int,
+        vx: int,
+        vy: int,
     ):
         self._px = px
         self._py = py

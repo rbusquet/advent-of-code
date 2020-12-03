@@ -1,6 +1,8 @@
 class Node:
     def __init__(
-        self, children_count: int, metadata_count: int,
+        self,
+        children_count: int,
+        metadata_count: int,
     ):
         self.children_count = children_count
         self.metadata_count = metadata_count
