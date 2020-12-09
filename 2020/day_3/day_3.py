@@ -1,5 +1,5 @@
-from itertools import count
 from functools import reduce
+from itertools import count
 from operator import mul
 
 

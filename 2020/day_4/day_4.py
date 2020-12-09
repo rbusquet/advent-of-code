@@ -1,11 +1,11 @@
 import csv
 import re
-from dataclasses import dataclass, fields, asdict, field
+from dataclasses import asdict, dataclass, field, fields
 
+size_re = re.compile(r"(\d+)(cm|in)")
+hair_re = re.compile(r"^#[a-f0-9]{6}$")
+pid_re = re.compile(r"^[0-9]{9}$")
 
-size_re = re.compile(r'(\d+)(cm|in)')
-hair_re = re.compile(r'^#[a-f0-9]{6}$')
-pid_re = re.compile(r'^[0-9]{9}$')
 
 @dataclass
 class Passport:
@@ -16,14 +16,14 @@ class Passport:
     hcl: str
     ecl: str
     pid: str
-    cid: str = ''
+    cid: str = ""
 
     def validate(self):
         assert 1920 <= int(self.byr) <= 2002
         assert 2010 <= int(self.iyr) <= 2020
         assert 2020 <= int(self.eyr) <= 2030
         h, unit = size_re.match(self.hgt).groups()
-        if unit == 'cm':
+        if unit == "cm":
             assert 150 <= int(h) <= 193
         else:
             assert 59 <= int(h) <= 76
@@ -33,7 +33,7 @@ class Passport:
 
 
 def read_file():
-    with open('./input.txt') as f:
+    with open("./input.txt") as f:
         yield from f.readlines()
 
 
@@ -50,13 +50,14 @@ def part_1():
             finally:
                 p = {}
             continue
-        values = line.strip().split(' ')
+        values = line.strip().split(" ")
         for value in values:
             k, v = value.split(":")
             p[k] = v
     # last line
     passports.append(Passport(**p))
     return passports
+
 
 first_pass_valid = part_1()
 print(len(first_pass_valid))
@@ -71,5 +72,3 @@ for passport in first_pass_valid:
         continue
 
 print(valid)
-
-

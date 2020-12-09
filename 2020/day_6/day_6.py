@@ -1,8 +1,9 @@
 from collections import Counter
 from typing import List, Tuple
 
+
 def read_file():
-    with open('./input.txt') as f:
+    with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
@@ -34,6 +35,3 @@ for group, count in groups:
             break
 
 print(total_count)
-
-
-

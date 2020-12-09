@@ -1,6 +1,6 @@
 import re
-from typing import List
 from collections import Counter
+from typing import List
 
 
 def read_file():

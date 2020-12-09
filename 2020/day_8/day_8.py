@@ -1,13 +1,14 @@
-from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
-from typing import Dict, ClassVar
+from dataclasses import dataclass, field
+from typing import ClassVar, Dict
+
 
 def read_file():
-    with open('./input.txt') as f:
+    with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-program = [instruction.split(' ') for instruction in read_file()]
+program = [instruction.split(" ") for instruction in read_file()]
 
 
 class Instruction(ABC):
@@ -17,13 +18,13 @@ class Instruction(ABC):
 
 
 class Acc(Instruction):
-    def run(self, computer: 'Computer', increment: int):
+    def run(self, computer: "Computer", increment: int):
         computer.acc += increment
         computer.pointer += 1
 
 
 class Jmp(Instruction):
-    def run(self, computer: 'Computer', increment: int):
+    def run(self, computer: "Computer", increment: int):
         computer.pointer += increment
 
 
@@ -53,10 +54,9 @@ class Computer:
         cls.instructions[name] = instruction
 
 
-
-Computer.register_instruction('acc', Acc())
-Computer.register_instruction('jmp', Jmp())
-Computer.register_instruction('nop', Noop())
+Computer.register_instruction("acc", Acc())
+Computer.register_instruction("jmp", Jmp())
+Computer.register_instruction("nop", Noop())
 
 computer = Computer(program=program)
 
@@ -67,10 +67,7 @@ print(computer.acc)
 
 changed_addresses = set()
 
-flip = {
-    'jmp': 'nop',
-    'nop': 'jmp'
-}
+flip = {"jmp": "nop", "nop": "jmp"}
 print(visited)
 print(computer.pointer)
 while True:
@@ -79,7 +76,7 @@ while True:
     for address in range(len(program)):
         if address in changed_addresses:
             continue
-        if program[address][0] != 'acc':
+        if program[address][0] != "acc":
             changed_address = address
             changed_instruction = program[address]
             program[address] = (flip[program[address][0]], program[address][1])

@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-
 PLAYERS = 470
 MARBLES = 72170 * 100
 

@@ -3,7 +3,6 @@ import re
 from collections import Counter, defaultdict
 from typing import NamedTuple
 
-
 print("--- DAY 04: part 1 ---")
 
 

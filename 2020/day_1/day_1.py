@@ -1,7 +1,7 @@
 import time
+from functools import reduce
 from itertools import combinations
 from operator import mul
-from functools import reduce
 
 
 def time_it(fn):

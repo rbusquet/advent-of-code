@@ -1,7 +1,6 @@
 import re
 from typing import NamedTuple
 
-
 print("--- DAY 03: part 1 ---")
 
 

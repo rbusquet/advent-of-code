@@ -1,6 +1,5 @@
 from collections import Counter
 
-
 print("--- DAY 02: part 1 ---")
 data = []
 with open("input2.txt") as f:

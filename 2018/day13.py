@@ -2,7 +2,6 @@ from collections import Counter
 from copy import deepcopy
 from functools import total_ordering
 
-
 MAP = []
 with open("input13.txt") as f:
     MAP = [list(x.strip("\n")) for x in f]

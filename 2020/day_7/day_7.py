@@ -1,14 +1,16 @@
-from typing import List
 import re
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
+from typing import List
+
 
 @dataclass(frozen=True)
 class Bag:
     color: str
 
+
 def read_file():
-    with open('./input.txt') as f:
+    with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
@@ -16,15 +18,15 @@ to_containers = defaultdict(set)
 to_contents = defaultdict(dict)
 
 for rule in read_file():
-    bag_info, contents = rule.split(' contain ')
-    if 'no other bags' in contents:
+    bag_info, contents = rule.split(" contain ")
+    if "no other bags" in contents:
         continue
-    style, color, _ = bag_info.split(' ')
-    container = Bag(f'{style} {color}')
-    for content in contents.split(', '):
+    style, color, _ = bag_info.split(" ")
+    container = Bag(f"{style} {color}")
+    for content in contents.split(", "):
         # number, style, color, "bags."
-        count, style, color, _ = content.split(' ')
-        bag = Bag(f'{style} {color}')
+        count, style, color, _ = content.split(" ")
+        bag = Bag(f"{style} {color}")
         containers = to_containers[bag]
         containers.add(container)
 
@@ -33,7 +35,7 @@ for rule in read_file():
 
 visited = set()
 
-initial = Bag('shiny gold')
+initial = Bag("shiny gold")
 stack = deque([initial])
 while stack:
     current = stack.pop()

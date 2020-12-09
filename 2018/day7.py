@@ -1,10 +1,7 @@
 import re
-
 from collections import defaultdict
-
-from string import ascii_uppercase
 from pprint import pprint
-
+from string import ascii_uppercase
 
 regex = re.compile(r"Step ([A-Z]) must be finished before step ([A-Z]) can begin\.")
 

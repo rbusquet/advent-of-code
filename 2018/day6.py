@@ -1,7 +1,6 @@
 from collections import defaultdict
 from string import ascii_uppercase, digits, punctuation
 
-
 mapping = ascii_uppercase + punctuation + digits
 
 

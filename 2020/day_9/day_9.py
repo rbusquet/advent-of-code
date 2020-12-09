@@ -1,7 +1,7 @@
-
 def read_file():
-    with open('./input.txt') as f:
+    with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
+
 
 preamble = []
 
