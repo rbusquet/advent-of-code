@@ -23,6 +23,7 @@ entries = sorted(entries, key=lambda e: e.date_time)
 
 guard_regex = re.compile(r"Guard #(\d+).*")
 guards = defaultdict(list)
+night_timeline = []
 for entry in entries:
     guard_match = guard_regex.match(entry.data)
     if guard_match:

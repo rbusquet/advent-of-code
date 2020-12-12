@@ -1,6 +1,3 @@
-from unittest import TestCase, main
-
-
 def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:
     left = 0
     right = 2 ** count
@@ -48,16 +45,6 @@ def part_1():
 
 
 def part_2_visualization():
-    aircraft = [["." for _ in range(8)] for _ in range(128)]
-    for code in read_file():
-        row = partition(code[:7], 7, "F", "B")
-        col = partition(code[-3:], 3, "L", "R")
-        aircraft[row][col] = "#"
-    for i, x in enumerate(aircraft):
-        print("{:0>3} -> {}".format(i, x))
-
-
-def part_2_for_real_now():
     """
     Will print something like this with my input
 
@@ -71,6 +58,16 @@ def part_2_for_real_now():
 
     meaning the free seat is in row 88, col 1.
     """
+    aircraft = [["." for _ in range(8)] for _ in range(128)]
+    for code in read_file():
+        row = partition(code[:7], 7, "F", "B")
+        col = partition(code[-3:], 3, "L", "R")
+        aircraft[row][col] = "#"
+    for i, x in enumerate(aircraft):
+        print("{:0>3} -> {}".format(i, x))
+
+
+def part_2_for_real_now():
     ids = set()
     for code in read_file():
         row = partition(code[:7], 7, "F", "B")

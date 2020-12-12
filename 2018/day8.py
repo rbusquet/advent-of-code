@@ -39,7 +39,7 @@ while True:
 
             if len(current_parent.children) == current_parent.children_count:
                 queue.pop()
-                for m in range(current_parent.metadata_count):
+                for _ in range(current_parent.metadata_count):
                     current_parent.metadata.append(next(items))
                 continue
         children_count, metadata_count = next(items), next(items)
@@ -54,7 +54,7 @@ while True:
             queue.append(node)
             continue
         else:
-            for m in range(metadata_count):
+            for _ in range(metadata_count):
                 node.metadata.append(next(items))
 
     except StopIteration:

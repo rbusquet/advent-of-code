@@ -1,6 +1,5 @@
-import csv
 import re
-from dataclasses import asdict, dataclass, field, fields
+from dataclasses import dataclass
 
 size_re = re.compile(r"(\d+)(cm|in)")
 hair_re = re.compile(r"^#[a-f0-9]{6}$")
@@ -39,13 +38,12 @@ def read_file():
 
 def part_1():
     passports = []
-    FIELDS = fields(Passport)
     p = {}
-    for i, line in enumerate(read_file()):
+    for line in read_file():
         if not line.strip():
             try:
                 passports.append(Passport(**p))
-            except:
+            except TypeError:
                 continue
             finally:
                 p = {}
@@ -67,7 +65,7 @@ for passport in first_pass_valid:
     try:
         passport.validate()
         valid += 1
-    except Exception as e:
+    except Exception:
         print(passport)
         continue
 

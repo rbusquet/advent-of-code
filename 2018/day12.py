@@ -1,4 +1,3 @@
-from collections import Counter
 from pprint import pprint
 
 INITIAL_STATE = ""

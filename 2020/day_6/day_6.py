@@ -28,7 +28,7 @@ print("--- part 2 ---")
 
 total_count = 0
 for group, count in groups:
-    for ans, ans_count in group.most_common():
+    for _, ans_count in group.most_common():
         if ans_count == count:
             total_count += 1
         else:

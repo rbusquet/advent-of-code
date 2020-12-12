@@ -1,5 +1,5 @@
-from collections import defaultdict, deque, Counter
-from functools import lru_cache
+from collections import defaultdict
+
 
 def read_file():
     with open("./input.txt") as f:
@@ -44,7 +44,3 @@ for adapter in sorted(adapters):
 
 print("--- part 2 ---")
 print(paths[max_voltage])
-
-
-
-

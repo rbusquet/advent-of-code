@@ -1,7 +1,4 @@
-from collections import defaultdict
-from pprint import pprint
 from itertools import count, product
-from copy import deepcopy
 
 
 def read_file():

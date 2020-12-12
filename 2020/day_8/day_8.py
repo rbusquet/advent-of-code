@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import ClassVar, Dict
 
 
@@ -85,7 +85,7 @@ while True:
     computer = Computer(program=program)
     try:
         visited_this_time = computer.detect_loop()
-    except:
+    except IndexError:
         print(computer.acc)
         print(computer.pointer)
         break

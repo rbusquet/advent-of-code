@@ -20,13 +20,13 @@ class Marble:
 
     def get_next(self, n: int) -> "Marble":
         ret = self
-        for i in range(n):
+        for _ in range(n):
             ret = ret.next
         return ret
 
     def get_before(self, n: int) -> "Marble":
         ret = self
-        for i in range(n):
+        for _ in range(n):
             ret = ret.previous
         return ret
 
