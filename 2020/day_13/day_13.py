@@ -5,7 +5,7 @@ def read_file():
 
 f = read_file()
 earliest = int(next(f))
-service = [*map(int, filter(lambda i: i != 'x', next(f).split(',')))]
+service = [*map(int, filter(lambda i: i != "x", next(f).split(",")))]
 
 times = {}
 for bus in service:
@@ -19,9 +19,9 @@ print(bus * (timestamp - earliest))
 
 f = read_file()
 next(f)
-service = enumerate(next(f).split(','))
+service = enumerate(next(f).split(","))
 
-valid = [*filter(lambda x: x[1] != 'x', service)]
+valid = [*filter(lambda x: x[1] != "x", service)]
 print(valid)
 
 ## this is cheating
