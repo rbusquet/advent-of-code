@@ -55,6 +55,9 @@ valid_tickets = []
 for ticket in file:
     ticket = [*map(int, ticket.split(","))]
     ticket_error_rate = 0
+    # before, I would check if the rate is 0, it's a valid ticket
+    # but there are tickets where the only error was a field with value 0,
+    # making the error rate 0 :facepalm:
     is_valid_ticket = True
     for value in ticket:
         is_value_valid = False
