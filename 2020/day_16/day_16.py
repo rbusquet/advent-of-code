@@ -55,6 +55,7 @@ valid_tickets = []
 for ticket in file:
     ticket = [*map(int, ticket.split(","))]
     ticket_error_rate = 0
+    is_valid_ticket = True
     for value in ticket:
         is_value_valid = False
         for r in fields:
@@ -62,42 +63,35 @@ for ticket in file:
                 is_value_valid = True
                 break
         if not is_value_valid:
+            is_valid_ticket = False
             ticket_error_rate += value
-    if ticket_error_rate == 0:
+    if is_valid_ticket:
         valid_tickets.append(ticket)
     error_rate += ticket_error_rate
 
 
 print(error_rate)
 
+indexed_fields = {}
 
-checked_fields = set()
-checked_indexes = set()
-fields_to_index = {}
-
-while len(fields_to_index) < len(my_ticket):
+while len(indexed_fields) < len(my_ticket):
     indexes_by_field = defaultdict(list)
     for index in range(len(my_ticket)):
-        if index in checked_indexes:
+        if index in indexed_fields:
             continue
         for field in fields:
-            if field.field in checked_fields:
-                continue
             if all(field.within_range(ticket[index]) for ticket in valid_tickets):
                 indexes_by_field[field.field].append(index)
 
     for field, indexes in indexes_by_field.items():
         if len(indexes) == 1:
-            checked_fields.add(field)
-            checked_indexes.add(indexes[0])
-            fields_to_index[field] = indexes[0]
-    print(indexes_by_field)
+            indexed_fields[indexes[0]] = field
+            break
 
 
 departure = []
-for field, index in fields_to_index.items():
+for index, field in indexed_fields.items():
     if 'departure' in field:
         departure.append(my_ticket[index])
-print(departure)
 
 print(reduce(mul, departure))
