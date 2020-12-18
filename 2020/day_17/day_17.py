@@ -13,7 +13,7 @@ initial = """
 """.strip()
 
 
-def neighborhood(*position):
+def neighborhood(*position: int):
     for diff in product([-1, 0, 1], repeat=len(position)):
         neighbor = tuple(pos + diff[i] for i, pos in enumerate(position))
         yield neighbor
