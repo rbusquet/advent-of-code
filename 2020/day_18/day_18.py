@@ -51,10 +51,10 @@ total = 0
 
 for line in read_file():
     total += eval_expression(line)
+print("--- part 1---")
 print(total)
 
 sum_exp = re.compile(r"(\d+) \+ (\d+)")
-single_parens = re.compile(r"\((\d+)\)")
 
 def eval_part_2(line: str):
     while '(' in line:
@@ -81,12 +81,15 @@ def eval_part_2(line: str):
 
     return eval_expression(line)
 
-print("final result", eval_part_2('1 + 2 * 3 + 4 * 5 + 6'))
-print("final result", eval_part_2('1 + (2 * 3) + (4 * (5 + 6))'))
-print("final result", eval_part_2('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2'))
+assert eval_part_2('1 + (2 * 3) + (4 * (5 + 6))') == 51
+assert eval_part_2('2 * 3 + (4 * 5)') == 46
+assert eval_part_2('5 + (8 * 3 + 9 + 3 * 4 * 3)') == 1445
+assert eval_part_2('5 * 9 * (7 * 3 * 3 + 9 * 3 + (8 + 6 * 4))') == 669060
+assert eval_part_2('((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2') == 23340
 
 total = 0
 for line in read_file():
     total += eval_part_2(line)
 
+print("--- part 2 ---")
 print(total)
