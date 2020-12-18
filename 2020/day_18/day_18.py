@@ -1,4 +1,3 @@
-import pdb
 from string import digits
 import re
 from operator import add, mul
@@ -55,6 +54,7 @@ print("--- part 1---")
 print(total)
 
 sum_exp = re.compile(r"(\d+) \+ (\d+)")
+mul_exp = re.compile(r"(\d+) \* (\d+)")
 
 def eval_part_2(line: str):
     while '(' in line:
@@ -79,7 +79,12 @@ def eval_part_2(line: str):
         c = int(a) + int(b)
         line = line.replace(match.group(), f"{c}", 1)
 
-    return eval_expression(line)
+    while match := mul_exp.search(line):
+        a, b = match.groups()
+        c = int(a) * int(b)
+        line = line.replace(match.group(), f"{c}", 1)
+
+    return int(line)
 
 assert eval_part_2('1 + (2 * 3) + (4 * (5 + 6))') == 51
 assert eval_part_2('2 * 3 + (4 * 5)') == 46
