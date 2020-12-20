@@ -5,6 +5,7 @@ from functools import reduce
 from operator import mul
 from typing import List, Tuple, Dict
 
+
 def read_file():
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
@@ -17,6 +18,7 @@ class Rule:
 
     def within_range(self, value: int) -> bool:
         return self.start <= value <= self.end
+
 
 @dataclass
 class Field:
@@ -44,11 +46,11 @@ for line in file:
     fields.append(Field(rules, field))
 
 
-assert next(file) == 'your ticket:'
+assert next(file) == "your ticket:"
 my_ticket = [*map(int, next(file).split(","))]
 
 next(file)
-assert next(file) == 'nearby tickets:'
+assert next(file) == "nearby tickets:"
 
 error_rate = 0
 valid_tickets = []
@@ -94,7 +96,7 @@ while len(indexed_fields) < len(my_ticket):
 
 departure = []
 for index, field in indexed_fields.items():
-    if 'departure' in field:
+    if "departure" in field:
         departure.append(my_ticket[index])
 
 print(reduce(mul, departure))
