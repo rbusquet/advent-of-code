@@ -1,19 +1,36 @@
 from progress.bar import ShadyBar
 
 cups = list(map(int, "712643589"))
+
+# Linked is a maping from cup label to next cup label in the circle
+# keys:  [7, 1, 2, 6, 4, 3, 5, 8]
+#         |  |  |  |  |  |  |  |
+# items: [1, 2, 6, 4, 3, 5, 8, 9]
 linked = {cup: cups[i + 1] for i, cup in enumerate(cups) if i < 8}
 
-rest_linked = {i: i+1 for i in range(10, 1_000_000)}
-linked = {**linked, **rest_linked}
-linked[9] = 10
-linked[1_000_000] = 7
+
+# rest linked looks like this
+# keys:  [10, 11, 12, ..., 999_999]
+#          |   |   |  ...        |
+# items: [11, 12, 13, ..., 1_000_000 ]
+rest_linked = {i: i + 1 for i in range(10, 1_000_000)}
+
+# merge "linked lists" together
+linked.update(rest_linked)
+
+# stitch everything together
+# keys:  [9, ..., 10_000_000]
+#         |        |
+# items: [10, ..., 7]
+linked[cups[-1]] = 10
+linked[1_000_000] = cups[0]
 
 print(len(linked))
 
 moves = 0
 head = 1_000_000
 with ShadyBar(max=10_000_000) as bar:
-    bar.suffix = 'ETA: %(eta)ds'
+    bar.suffix = "ETA: %(eta)ds"
     while moves < 10_000_000:
 
         current_cup = linked[head]
@@ -50,4 +67,4 @@ with ShadyBar(max=10_000_000) as bar:
 
 p1 = linked[1]
 p2 = linked[p1]
-print(p1, '*', p2, '=', p1 * p2)
+print(p1, "*", p2, "=", p1 * p2)
