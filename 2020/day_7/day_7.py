@@ -1,10 +1,4 @@
 from collections import defaultdict, deque
-from dataclasses import dataclass
-
-
-@dataclass(frozen=True)
-class Bag:
-    color: str
 
 
 def read_file():
@@ -20,11 +14,11 @@ for rule in read_file():
     if "no other bags" in contents:
         continue
     style, color, _ = bag_info.split(" ")
-    container = Bag(f"{style} {color}")
+    container = f"{style} {color}"
     for content in contents.split(", "):
         # number, style, color, "bags."
         count, style, color, _ = content.split(" ")
-        bag = Bag(f"{style} {color}")
+        bag = f"{style} {color}"
         containers = to_containers[bag]
         containers.add(container)
 
@@ -33,7 +27,7 @@ for rule in read_file():
 
 visited = set()
 
-initial = Bag("shiny gold")
+initial = "shiny gold"
 stack = deque([initial])
 while stack:
     current = stack.pop()

@@ -1,12 +1,8 @@
 from progress.bar import ChargingBar
 from os import environ
 
-
-def read_file():
-    with open("./input.txt") as f:
-        yield from map(lambda c: c.strip(), f.readlines())
-
 NARRATE = environ.get("NARRATE")
+
 
 def print_wrapper(string):
     if NARRATE:
@@ -129,7 +125,7 @@ def recursive_combat(player_1, player_2, level=1, bar: ChargingBar = None):
                 copy_deck(player_2, card_2),
                 level=level + 1,
             )
-            print_wrapper(f"...anyway, back to game 1.")
+            print_wrapper("...anyway, back to game 1.")
             if winner == 1:
                 print_wrapper(f"Player 1 wins round {round} of game {level}!")
                 player_1 = (*player_1, card_1, card_2)

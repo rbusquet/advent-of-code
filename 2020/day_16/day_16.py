@@ -1,9 +1,8 @@
 from collections import defaultdict
 import re
-from dataclasses import dataclass
 from functools import reduce
 from operator import mul
-from typing import List, Tuple, Dict
+from typing import List, Tuple, NamedTuple
 
 
 def read_file():
@@ -11,8 +10,7 @@ def read_file():
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-@dataclass
-class Rule:
+class Rule(NamedTuple):
     start: str
     end: str
 
@@ -20,8 +18,7 @@ class Rule:
         return self.start <= value <= self.end
 
 
-@dataclass
-class Field:
+class Field(NamedTuple):
     rules: Tuple[Rule]
     field: str
 

@@ -1,13 +1,12 @@
 import re
-from dataclasses import dataclass
+from typing import NamedTuple
 
 size_re = re.compile(r"(\d+)(cm|in)")
 hair_re = re.compile(r"^#[a-f0-9]{6}$")
 pid_re = re.compile(r"^[0-9]{9}$")
 
 
-@dataclass
-class Passport:
+class Passport(NamedTuple):
     byr: str
     iyr: str
     eyr: str
@@ -66,7 +65,6 @@ for passport in first_pass_valid:
         passport.validate()
         valid += 1
     except Exception:
-        print(passport)
         continue
 
 print(valid)
