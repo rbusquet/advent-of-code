@@ -25,4 +25,7 @@ encryption_key_card = transform_subject(card_loop_size, door_public_key)
 encryption_key_door = transform_subject(door_loop_size, card_public_key)
 
 assert encryption_key_card == encryption_key_door
+
+# TIL:
+assert encryption_key_card == pow(door_public_key, card_loop_size, 20201227)
 print(encryption_key_card)
