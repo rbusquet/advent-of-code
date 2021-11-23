@@ -1,62 +1,70 @@
 import re
 from dataclasses import dataclass
 from math import cos, radians, sin
-from typing import Tuple
+from typing import Iterable, Tuple
 
 
-def read_file():
+def read_file() -> Iterable[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
 @dataclass
 class Ferry:
-    position: Tuple[int, int]
-    velocity: Tuple[int, int]
+    position: Tuple[float | int, float | int]
+    velocity: Tuple[float | int, float | int]
 
-    def north(self, count):
-        self.position[1] += count
+    def north(self, count: int) -> None:
+        x, y = self.position
+        self.position = (x, y + count)
 
-    def south(self, count):
-        self.position[1] -= count
+    def south(self, count: int) -> None:
+        x, y = self.position
+        self.position = (x, y - count)
 
-    def east(self, count):
-        self.position[0] += count
+    def east(self, count: int) -> None:
+        x, y = self.position
+        self.position = (x + count, y)
 
-    def west(self, count):
-        self.position[0] -= count
+    def west(self, count: int) -> None:
+        x, y = self.position
+        self.position = (x - count, y)
 
-    def north_waypoint(self, count):
-        self.velocity[1] += count
+    def north_waypoint(self, count: int) -> None:
+        vx, vy = self.velocity
+        self.velocity = (vx, vy + count)
 
-    def south_waypoint(self, count):
-        self.velocity[1] -= count
+    def south_waypoint(self, count: int) -> None:
+        vx, vy = self.velocity
+        self.velocity = (vx, vy - count)
 
-    def east_waypoint(self, count):
-        self.velocity[0] += count
+    def east_waypoint(self, count: int) -> None:
+        vx, vy = self.velocity
+        self.velocity = (vx + count, vy)
 
-    def west_waypoint(self, count):
-        self.velocity[0] -= count
+    def west_waypoint(self, count: int) -> None:
+        vx, vy = self.velocity
+        self.velocity = (vx - count, vy)
 
-    def left(self, count):
+    def left(self, count: int) -> None:
         rads = radians(count)
         x, y = self.velocity
         xx = x * cos(rads) - y * sin(rads)
         yy = x * sin(rads) + y * cos(rads)
-        self.velocity = [xx, yy]
+        self.velocity = (xx, yy)
 
-    def right(self, count):
+    def right(self, count: int) -> None:
         rads = radians(count)
         x, y = self.velocity
         xx = x * cos(rads) + y * sin(rads)
         yy = -x * sin(rads) + y * cos(rads)
-        self.velocity = [xx, yy]
+        self.velocity = (xx, yy)
 
-    def forward(self, count):
-        self.position[0] += self.velocity[0] * count
-        self.position[1] += self.velocity[1] * count
+    def forward(self, count: int) -> None:
+        x, y = self.position
+        self.position = (x + self.velocity[0] * count, y + self.velocity[1] * count)
 
-    def move(self, direction, count):
+    def move(self, direction, count: int) -> None:
         return {
             "N": self.north,
             "S": self.south,
@@ -67,7 +75,7 @@ class Ferry:
             "F": self.forward,
         }[direction](count)
 
-    def move_to_waypoint(self, direction, count):
+    def move_to_waypoint(self, direction, count: int) -> None:
         return {
             "N": self.north_waypoint,
             "S": self.south_waypoint,
@@ -83,18 +91,20 @@ class Ferry:
 
 
 expression = re.compile(r"(\w)(\d+)")
-ferry = Ferry([0, 0], [1, 0])
+ferry = Ferry((0, 0), (1, 0))
 for instruction in read_file():
-    direction, count = expression.match(instruction).groups()
-    ferry.move(direction, int(count))
+    if match := expression.match(instruction):
+        direction, count = match.groups()
+        ferry.move(direction, int(count))
 print("--- part 1 ---")
 print(ferry.distance())
 
-ferry = Ferry([0, 0], [10, 1])
+ferry = Ferry((0, 0), (10, 1))
 
 for instruction in read_file():
-    direction, count = expression.match(instruction).groups()
-    ferry.move_to_waypoint(direction, int(count))
+    if match := expression.match(instruction):
+        direction, count = match.groups()
+        ferry.move_to_waypoint(direction, int(count))
 
 print("--- part 2 ---")
 print(ferry.distance())

@@ -1,14 +1,15 @@
 from functools import reduce
 from itertools import count
 from operator import mul
+from typing import Iterator
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from f.readlines()
 
 
-def count_trees(right, down):
+def count_trees(right: int, down: int) -> int:
     counter = count(step=right)
     total_trees = 0
     for i, line in enumerate(read_file()):

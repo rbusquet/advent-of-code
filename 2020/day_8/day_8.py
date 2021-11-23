@@ -1,35 +1,39 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import ClassVar, Dict
+from typing import ClassVar, Dict, Iterator
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-program = [instruction.split(" ") for instruction in read_file()]
+program = [(x[0], x[1]) for instruction in read_file() if (x := instruction.split(" "))]
 
 
 class Instruction(ABC):
     @abstractmethod
-    def run(self, computer, *args):
+    def run(self, computer: Computer, *args: int) -> None:
         pass
 
 
 class Acc(Instruction):
-    def run(self, computer: "Computer", increment: int):
+    def run(self, computer: Computer, *args: int) -> None:
+        increment = args[0]
         computer.acc += increment
         computer.pointer += 1
 
 
 class Jmp(Instruction):
-    def run(self, computer: "Computer", increment: int):
+    def run(self, computer: Computer, *args: int) -> None:
+        increment = args[0]
         computer.pointer += increment
 
 
 class Noop(Instruction):
-    def run(self, *args):
+    def run(self, computer: Computer, *args: int) -> None:
         computer.pointer += 1
 
 
@@ -40,7 +44,7 @@ class Computer:
     pointer: int = 0
     instructions: ClassVar[Dict[str, Instruction]] = {}
 
-    def detect_loop(self) -> int:
+    def detect_loop(self) -> list[int]:
         visited_addresses = []
         while self.pointer not in visited_addresses:
             visited_addresses.append(self.pointer)
@@ -93,5 +97,6 @@ while True:
     if computer.pointer > len(program):
         print(computer.acc)
         break
-    changed_addresses.add(changed_address)
-    program[changed_address] = changed_instruction
+    if changed_address and changed_instruction:
+        changed_addresses.add(changed_address)
+        program[changed_address] = changed_instruction

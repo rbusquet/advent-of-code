@@ -1,9 +1,12 @@
-def read_file():
+from typing import Iterator
+
+
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-preamble = []
+preamble: list[int] = []
 
 invalid = None
 
@@ -27,6 +30,8 @@ for number in message:
 
 print("--- part 1 ---")
 print(invalid)
+
+assert invalid
 
 print("--- part 2 ---")
 index = 0

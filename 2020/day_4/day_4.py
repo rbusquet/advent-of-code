@@ -1,5 +1,5 @@
 import re
-from typing import NamedTuple
+from typing import Generator, Iterator, NamedTuple
 
 size_re = re.compile(r"(\d+)(cm|in)")
 hair_re = re.compile(r"^#[a-f0-9]{6}$")
@@ -16,28 +16,29 @@ class Passport(NamedTuple):
     pid: str
     cid: str = ""
 
-    def validate(self):
+    def validate(self) -> None:
         assert 1920 <= int(self.byr) <= 2002
         assert 2010 <= int(self.iyr) <= 2020
         assert 2020 <= int(self.eyr) <= 2030
-        h, unit = size_re.match(self.hgt).groups()
-        if unit == "cm":
-            assert 150 <= int(h) <= 193
-        else:
-            assert 59 <= int(h) <= 76
+        if match := size_re.match(self.hgt):
+            h, unit = match.groups()
+            if unit == "cm":
+                assert 150 <= int(h) <= 193
+            else:
+                assert 59 <= int(h) <= 76
         assert hair_re.match(self.hcl)
         assert self.ecl in ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
         assert pid_re.match(self.pid)
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from f.readlines()
 
 
-def part_1():
+def part_1() -> list[Passport]:
     passports = []
-    p = {}
+    p: dict[str, str] = {}
     for line in read_file():
         if not line.strip():
             try:

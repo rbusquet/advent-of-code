@@ -2,10 +2,15 @@ import time
 from functools import reduce
 from itertools import combinations
 from operator import mul
+from typing import Callable, ParamSpec, TypeVar, Optional
 
 
-def time_it(fn):
-    def timed(*args, **kwargs):
+P = ParamSpec("P")
+T = TypeVar("T")
+
+
+def time_it(fn: Callable[P, T]) -> Callable[P, T]:  # type: ignore
+    def timed(*args: P.args, **kwargs: P.kwargs) -> T:  # type: ignore
         before = time.process_time_ns()
         result = fn(*args, **kwargs)
         after = time.process_time_ns()
@@ -16,27 +21,29 @@ def time_it(fn):
     return timed
 
 
-def read_file():
+def read_file() -> list[str]:
     with open("./input.txt") as f:
         return f.readlines()
 
 
 @time_it
-def with_combinations(lst, n):
+def with_combinations(lst: list[int], n: int) -> Optional[int]:
     for test in combinations(lst, n):
         if sum(test) == 2020:
             return reduce(mul, test)
+    return None
 
 
 @time_it
-def best_performance_part_1(lst):
+def best_performance_part_1(lst: list[int]) -> Optional[int]:
     for number in lst:
         if 2020 - number in lst:
             return number * (2020 - number)
+    return None
 
 
 @time_it
-def best_performance_part_2(lst):
+def best_performance_part_2(lst: list[int]) -> int:
     n = len(lst)
     for i in range(n):
         left = i + 1

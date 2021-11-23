@@ -8,7 +8,7 @@ def read_file():
 
 adapters = set(map(int, read_file()))
 
-diffs = defaultdict(int)
+diffs = defaultdict[int, int](int)
 
 current_joltage = 0
 while adapters:
@@ -34,7 +34,7 @@ adapters.add(max_voltage)
 current_joltage = 0
 
 # paths[n] is the total paths from 0 to n
-paths = defaultdict(int)
+paths = defaultdict[int, int](int)
 paths[0] = 1
 for adapter in sorted(adapters):
     for diff in range(1, 4):

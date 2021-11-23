@@ -1,13 +1,14 @@
 from collections import defaultdict, deque
+from typing import Iterator
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-to_containers = defaultdict(set)
-to_contents = defaultdict(dict)
+to_containers = defaultdict[str, set[str]](set)
+to_contents = defaultdict[str, dict[str, int]](dict)
 
 for rule in read_file():
     bag_info, contents = rule.split(" contain ")
@@ -27,26 +28,33 @@ for rule in read_file():
 
 visited = set()
 
-initial = "shiny gold"
-stack = deque([initial])
-while stack:
-    current = stack.pop()
-    for container in to_containers[current]:
-        visited.add(container)
-        stack.append(container)
 
-print("--- part 1 ---")
-print(len(visited))
+def part_1(initial: str) -> None:
+    stack = deque([initial])
+    while stack:
+        current = stack.pop()
+        for container in to_containers[current]:
+            visited.add(container)
+            stack.append(container)
 
-stack = deque([(1, initial)])
+    print("--- part 1 ---")
+    print(len(visited))
 
-total = 0
-while stack:
-    multiplier, bag = stack.pop()
-    for content, count in to_contents[bag].items():
-        actual_count = multiplier * count
-        total += actual_count
-        stack.append((actual_count, content))
 
-print("--- part 2 ---")
-print(total)
+def part_2(initial: str) -> None:
+    stack = deque([(1, initial)])
+
+    total = 0
+    while stack:
+        multiplier, bag = stack.pop()
+        for content, count in to_contents[bag].items():
+            actual_count = multiplier * count
+            total += actual_count
+            stack.append((actual_count, content))
+
+    print("--- part 2 ---")
+    print(total)
+
+
+part_1("shiny gold")
+part_2("shiny gold")

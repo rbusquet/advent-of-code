@@ -3,12 +3,12 @@ from collections import Counter
 from typing import List
 
 
-def read_file():
+def read_file() -> list[str]:
     with open("./input.txt") as f:
         return f.readlines()
 
 
-def part_1(passwords: List[str]):
+def part_1(passwords: list[str]) -> int:
     valid = 0
 
     expression = re.compile(r"(\d+)-(\d+) (.): (.*)")
@@ -18,10 +18,10 @@ def part_1(passwords: List[str]):
             count = Counter(password)[letter]
             if count >= int(min_) and count <= int(max_):
                 valid += 1
-    print(valid)
+    return valid
 
 
-def part_2(passwords: List[str]):
+def part_2(passwords: List[str]) -> int:
     valid = 0
 
     expression = re.compile(r"(\d+)-(\d+) (.): (.*)")
@@ -31,10 +31,10 @@ def part_2(passwords: List[str]):
             letters = {password[int(pos_1) - 1], password[int(pos_2) - 1]}
             if len(letters) == 2 and letter in letters:
                 valid += 1
-    print(valid)
+    return valid
 
 
 if __name__ == "__main__":
     passwords = read_file()
-    part_1(passwords)
-    part_2(passwords)
+    print(part_1(passwords))
+    print(part_2(passwords))

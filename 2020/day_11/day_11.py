@@ -1,12 +1,14 @@
 from itertools import product
+from typing import Iterable
 
 
-def read_file():
+def read_file() -> Iterable[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-layout = {}
+Layout = dict[tuple[int, int], str]
+layout: Layout = {}
 
 max_i = 0
 max_j = 0
@@ -19,7 +21,7 @@ for i, row in enumerate(read_file()):
 last_count = 0
 
 
-def check_adj(i, j, layout):
+def check_adj(i: int, j: int, layout: Layout):
     base = [-1, 0, 1]
     for x, y in product(base, base):
         if (x, y) == (0, 0):
@@ -54,10 +56,10 @@ def count_occupied(i, j, layout):
 
 
 while True:
-    new_layout = {}
+    new_layout: Layout = {}
     occupied_count = 0
-    for seat, state in layout.items():
-        i, j = seat
+    for key, state in layout.items():
+        i, j = key
         new_layout[i, j] = state
         if state == "L":
             has_adj = check_adj(i, j, layout)

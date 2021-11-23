@@ -1,3 +1,6 @@
+from typing import Iterator
+
+
 def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:
     left = 0
     right = 2 ** count
@@ -12,17 +15,17 @@ def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:
     return min(left, right)
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-def to_int(code, zero, one):
+def to_int(code: str, zero: str, one: str) -> int:
     code = code.replace(zero, "0").replace(one, "1")
     return int(code, base=2)
 
 
-def part_1_thanks_alex():
+def part_1_thanks_alex() -> int:
     max_id = 0
     for code in read_file():
         row = to_int(code[:7], "F", "B")
@@ -33,7 +36,7 @@ def part_1_thanks_alex():
     return max_id
 
 
-def part_1():
+def part_1() -> int:
     max_id = 0
     for code in read_file():
         row = partition(code[:7], 7, "F", "B")
@@ -44,7 +47,7 @@ def part_1():
     return max_id
 
 
-def part_2_visualization():
+def part_2_visualization() -> None:
     """
     Will print something like this with my input
 
@@ -67,7 +70,7 @@ def part_2_visualization():
         print("{:0>3} -> {}".format(i, x))
 
 
-def part_2_for_real_now():
+def part_2_for_real_now() -> int:
     ids = set()
     for code in read_file():
         row = partition(code[:7], 7, "F", "B")
