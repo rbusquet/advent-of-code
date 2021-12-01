@@ -1,0 +1,13 @@
+
+[tool.poetry]
+name = "advent-of-code"
+version = "0.1"
+description = "solutions for advent of code"
+authors = [
+    "Ricardo Busquet"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+more-itertools = "^8.12.0"
+pre-commit = "^2.16.0"
