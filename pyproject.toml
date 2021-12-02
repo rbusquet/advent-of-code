@@ -14,3 +14,6 @@ progress = "^1.6"
 
 [tool.isort]
 profile = "black"
+
+[tool.black]
+target-version = ['py310']
