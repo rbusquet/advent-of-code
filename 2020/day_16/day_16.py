@@ -1,8 +1,8 @@
-from collections import defaultdict
 import re
+from collections import defaultdict
 from functools import reduce
 from operator import mul
-from typing import List, Tuple, NamedTuple
+from typing import List, NamedTuple, Tuple
 
 
 def read_file():

@@ -1,5 +1,5 @@
-from itertools import product
 from collections import defaultdict
+from itertools import product
 
 initial = """
 ####.#..
@@ -46,9 +46,8 @@ def full_cycle(initial, dimensions):
                     space[n] = "#"
                 else:
                     space[n] = "."
-            elif space[n] == ".":
-                if count == 3:
-                    space[n] = "#"
+            elif space[n] == "." and count == 3:
+                space[n] = "#"
 
     return sum(state == "#" for state in space.values())
 

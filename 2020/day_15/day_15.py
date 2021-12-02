@@ -2,12 +2,10 @@ from progress.bar import PixelBar
 
 
 def memory_game(initial, stop):
-    seen = dict()
-    index = 0
-    for value in initial:
+    seen = {}
+
+    for index, value in enumerate(initial):
         seen[value] = index
-        index += 1
-        # print(f"last spoken: {value}")
 
     last_spoken = initial[-1]
     # print(f"last spoken: {last_spoken}")

@@ -1,6 +1,6 @@
-from string import digits
 import re
 from operator import add, mul
+from string import digits
 
 
 def read_file():

@@ -1,5 +1,6 @@
-from progress.bar import ChargingBar
 from os import environ
+
+from progress.bar import ChargingBar
 
 NARRATE = environ.get("NARRATE")
 

@@ -1,7 +1,7 @@
+import re
 from collections import defaultdict
 from functools import reduce
 from operator import and_
-import re
 
 
 def read_file():
@@ -28,7 +28,7 @@ for line in read_file():
 
 dangerous = set()
 
-for allergen, foods in allergen_to_recipes.items():
+for foods in allergen_to_recipes.values():
     appears_in_all = reduce(and_, foods)
     dangerous |= appears_in_all
 

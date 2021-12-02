@@ -1,5 +1,5 @@
 import re
-from typing import Generator, Iterator, NamedTuple
+from typing import Iterator, NamedTuple
 
 size_re = re.compile(r"(\d+)(cm|in)")
 hair_re = re.compile(r"^#[a-f0-9]{6}$")

@@ -1,13 +1,14 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+
+@dataclass
 class Node:
-    def __init__(
-        self,
-        children_count: int,
-        metadata_count: int,
-    ):
-        self.children_count = children_count
-        self.metadata_count = metadata_count
-        self.children = []
-        self.metadata = []
+    children_count: int
+    metadata_count: int
+    children: list[Node] = field(init=False, default_factory=list)
+    metadata: list[int] = field(init=False, default_factory=list)
 
 
 def next_input():
@@ -34,14 +35,14 @@ current_parent: Node = None
 while True:
     try:
         current_parent = queue[-1] if queue else None
-        if current_parent:
-            # current_parent.children.append(node)
-
-            if len(current_parent.children) == current_parent.children_count:
-                queue.pop()
-                for _ in range(current_parent.metadata_count):
-                    current_parent.metadata.append(next(items))
-                continue
+        if (
+            current_parent
+            and len(current_parent.children) == current_parent.children_count
+        ):
+            queue.pop()
+            for _ in range(current_parent.metadata_count):
+                current_parent.metadata.append(next(items))
+            continue
         children_count, metadata_count = next(items), next(items)
 
         node = Node(children_count, metadata_count)

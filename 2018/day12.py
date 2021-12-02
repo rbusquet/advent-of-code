@@ -1,7 +1,7 @@
 from pprint import pprint
 
 INITIAL_STATE = ""
-RULES = {}
+RULES: dict[str, str] = {}
 
 with open("input12.txt") as f:
     first_line = next(f)
@@ -9,7 +9,8 @@ with open("input12.txt") as f:
     print(RULES)
     next(f)
     for line in f:
-        RULES.update([line.strip().split(" => ")])
+        key, value = line.strip().split(" => ")
+        RULES[key] = value
     pprint(RULES)
 
 
@@ -44,7 +45,7 @@ for generation in range(50000000000):
         result = RULES.get(l2 + l1 + current_generation[pot] + r1 + r2, ".")
         if result == "#":
             generation_sum += index
-        index += 1
+        index += 1  # noqa: SIM113
         next_generation += result
 
     diff = generation_sum - last_generation_sum

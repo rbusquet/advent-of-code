@@ -2,8 +2,7 @@ import time
 from functools import reduce
 from itertools import combinations
 from operator import mul
-from typing import Callable, ParamSpec, TypeVar, Optional
-
+from typing import Callable, Optional, ParamSpec, TypeVar
 
 P = ParamSpec("P")
 T = TypeVar("T")

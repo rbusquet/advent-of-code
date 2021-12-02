@@ -1,6 +1,7 @@
 card_public_key = 1526110
 door_public_key = 20175123
 
+
 def infer_loop_size(key: int, subject: int) -> int:
     loop_size = 0
     value = 1
@@ -10,12 +11,14 @@ def infer_loop_size(key: int, subject: int) -> int:
         value %= 20201227
     return loop_size
 
+
 def transform_subject(loop_size: int, subject: int) -> int:
     value = 1
     for _ in range(loop_size):
         value *= subject
         value %= 20201227
     return value
+
 
 card_loop_size = infer_loop_size(card_public_key, 7)
 door_loop_size = infer_loop_size(door_public_key, 7)
