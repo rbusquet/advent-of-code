@@ -30,5 +30,6 @@ def part_2():
         return horizontal * depth
 
 
-print(part_1())  # 1604850
-print(part_2())
+if __name__ == "__main__":
+    print(part_1())  # 1604850
+    print(part_2())
