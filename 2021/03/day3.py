@@ -1,5 +1,6 @@
+from collections import Counter
 from pathlib import Path
-from typing import Counter, Iterable, Iterator, TextIO
+from typing import Iterable, Iterator, TextIO
 
 
 def parse(file: TextIO) -> Iterator[str]:
