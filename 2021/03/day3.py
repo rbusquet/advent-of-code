@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Counter, Iterator, TextIO
+from typing import Counter, Iterable, Iterator, TextIO
 
 
 def parse(file: TextIO) -> Iterator[str]:
@@ -7,7 +7,7 @@ def parse(file: TextIO) -> Iterator[str]:
         yield line.strip()
 
 
-def list_of_bits_to_int(x: list[str]) -> int:
+def list_of_bits_to_int(x: Iterable[str]) -> int:
     word = "".join(x)
     return int(word, 2)
 
@@ -19,15 +19,15 @@ LENGTH = 12
 INPUT = "input.txt"
 
 
-def count(report: list[tuple[str, ...]], position: int) -> Counter[str]:
+def count(report: Iterable[str], position: int) -> Counter[str]:
     return Counter([value[position] for value in report])
 
 
-def part_1():
+def part_1() -> int:
 
     with open(Path(__file__).parent / INPUT) as file:
         report = list(parse(file))
-    counters = []
+    counters: list[Counter[str]] = []
     for position in range(LENGTH):
         counters.append(count(report, position))
 
@@ -36,7 +36,7 @@ def part_1():
     return list_of_bits_to_int(gamma) * list_of_bits_to_int(epsilon)
 
 
-def part_2():
+def part_2() -> int:
     with open(Path(__file__).parent / INPUT) as file:
         report = list(parse(file))
 
@@ -61,6 +61,7 @@ def part_2():
             co2_report = [
                 value for value in co2_report if value[position] != most_common
             ]
+
     return list_of_bits_to_int(oxygen_report[0]) * list_of_bits_to_int(co2_report[0])
 
 
