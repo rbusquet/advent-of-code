@@ -1,10 +1,10 @@
 from pathlib import Path
-from typing import Counter, TextIO
+from typing import Counter, Iterator, TextIO
 
 
-def parse(file: TextIO):
+def parse(file: TextIO) -> Iterator[str]:
     for line in file:
-        yield tuple(line.strip())
+        yield line.strip()
 
 
 def list_of_bits_to_int(x: list[str]) -> int:
@@ -21,7 +21,7 @@ INPUT = "input.txt"
 
 def part_1():
 
-    with open(Path(__file__).parent / INPUT) as file:  # noqa: F841
+    with open(Path(__file__).parent / INPUT) as file:
         counters = [Counter[str]() for _ in range(LENGTH)]
         for value in parse(file):
             for i, bit in enumerate(value):
@@ -37,7 +37,7 @@ def count(report: list[tuple[str, ...]], position: int) -> Counter[str]:
 
 
 def part_2():
-    with open(Path(__file__).parent / INPUT) as file:  # noqa: F841
+    with open(Path(__file__).parent / INPUT) as file:
         report = list(parse(file))
 
     oxygen_report = co2_report = report
