@@ -19,21 +19,21 @@ LENGTH = 12
 INPUT = "input.txt"
 
 
+def count(report: list[tuple[str, ...]], position: int) -> Counter[str]:
+    return Counter([value[position] for value in report])
+
+
 def part_1():
 
     with open(Path(__file__).parent / INPUT) as file:
-        counters = [Counter[str]() for _ in range(LENGTH)]
-        for value in parse(file):
-            for i, bit in enumerate(value):
-                counters[i][bit] += 1
+        report = list(parse(file))
+    counters = []
+    for position in range(LENGTH):
+        counters.append(count(report, position))
 
-        gamma = [counter.most_common()[0][0] for counter in counters]
-        epsilon = [counter.most_common(2)[1][0] for counter in counters]
-        return list_of_bits_to_int(gamma) * list_of_bits_to_int(epsilon)
-
-
-def count(report: list[tuple[str, ...]], position: int) -> Counter[str]:
-    return Counter([value[position] for value in report])
+    gamma = [counter.most_common()[0][0] for counter in counters]
+    epsilon = [counter.most_common(2)[1][0] for counter in counters]
+    return list_of_bits_to_int(gamma) * list_of_bits_to_int(epsilon)
 
 
 def part_2():
