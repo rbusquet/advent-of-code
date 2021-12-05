@@ -1,9 +1,21 @@
 import re
 from collections import Counter
+from functools import wraps
 from pathlib import Path
-from typing import NamedTuple, TextIO
+from typing import Any, Callable, Iterator, NamedTuple, TextIO, TypeVar
 
 expression = re.compile(r"(\d+),(\d+) -> (\d+),(\d+)")
+
+
+T = TypeVar("T", float, int)
+
+
+def assert_int(fn: Callable[..., T]) -> Callable[..., int]:
+    @wraps(fn)
+    def wrapper(*args: Any) -> int:
+        return int(fn(*args))
+
+    return wrapper
 
 
 class VentLine(NamedTuple):
@@ -12,22 +24,22 @@ class VentLine(NamedTuple):
     x2: int
     y2: int
 
-    def vertical(self):
+    def vertical(self) -> bool:
         return self.x1 == self.x2
 
-    def horizontal(self):
+    def horizontal(self) -> bool:
         return self.y1 == self.y2
 
-    @property
-    def slope(self):
+    @assert_int
+    def slope(self) -> float:
         return (self.y2 - self.y1) / (self.x2 - self.x1)
 
-    @property
-    def y_intercept(self):
+    @assert_int
+    def y_intercept(self) -> float:
         # y1 = slope * x1 + b => b = y1 - x1 * slope
-        return self.y1 - self.slope * self.x1
+        return self.y1 - self.slope() * self.x1
 
-    def all_points(self):
+    def all_points(self) -> Iterator[tuple[int, int]]:
         x1, x2 = sorted([self.x1, self.x2])
         y1, y2 = sorted([self.y1, self.y2])
 
@@ -39,10 +51,10 @@ class VentLine(NamedTuple):
                 yield x, y1
         else:
             for x in range(x1, x2 + 1):
-                yield x, self.slope * x + self.y_intercept
+                yield x, self.slope() * x + self.y_intercept()
 
 
-def get_coverage(file: TextIO, non_diagonal: bool = True) -> tuple[int, int]:
+def get_coverage(file: TextIO, non_diagonal: bool = True) -> Iterator[tuple[int, int]]:
     for line in file:
         if match := expression.match(line):
             vent_line = VentLine(*map(int, match.groups()))
@@ -50,28 +62,19 @@ def get_coverage(file: TextIO, non_diagonal: bool = True) -> tuple[int, int]:
                 yield from vent_line.all_points()
 
 
-def print_coverage(coverage: Counter[tuple[int, int]]):
-    for i in range(20):
-        for j in range(20):
-            print(coverage.get((i, j)) or ".", end="")
-        print()
-
-
-def part_1():
+def part_1() -> int:
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
         coverage = Counter(get_coverage(file))
 
-        # print_coverage(coverage)
         # remove 1s
         coverage -= Counter(coverage.keys())
         return len(coverage)
 
 
-def part_2():
+def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
         coverage = Counter(get_coverage(file, non_diagonal=False))
 
-        # print_coverage(coverage)
         # remove 1s
         coverage -= Counter(coverage.keys())
         return len(coverage)

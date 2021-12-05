@@ -16,5 +16,6 @@
         ],
         "editor.wordBasedSuggestions": false,
         "editor.formatOnSave": true
-    }
+    },
+    "python.defaultInterpreterPath": "./venv/bin/python"
 }
