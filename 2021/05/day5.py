@@ -1,21 +1,9 @@
 import re
 from collections import Counter
-from functools import wraps
 from pathlib import Path
-from typing import Any, Callable, Iterator, NamedTuple, TextIO, TypeVar
+from typing import Iterator, NamedTuple, TextIO
 
 expression = re.compile(r"(\d+),(\d+) -> (\d+),(\d+)")
-
-
-T = TypeVar("T", float, int)
-
-
-def assert_int(fn: Callable[..., T]) -> Callable[..., int]:
-    @wraps(fn)
-    def wrapper(*args: Any) -> int:
-        return int(fn(*args))
-
-    return wrapper
 
 
 class VentLine(NamedTuple):
@@ -30,12 +18,10 @@ class VentLine(NamedTuple):
     def horizontal(self) -> bool:
         return self.y1 == self.y2
 
-    @assert_int
-    def slope(self) -> float:
-        return (self.y2 - self.y1) / (self.x2 - self.x1)
+    def slope(self) -> int:
+        return int((self.y2 - self.y1) / (self.x2 - self.x1))
 
-    @assert_int
-    def y_intercept(self) -> float:
+    def y_intercept(self) -> int:
         # y1 = slope * x1 + b => b = y1 - x1 * slope
         return self.y1 - self.slope() * self.x1
 
