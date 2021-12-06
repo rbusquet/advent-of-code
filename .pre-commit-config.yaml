@@ -7,7 +7,6 @@ repos:
       - id: trailing-whitespace
       - id: end-of-file-fixer
         exclude: '.*\.txt'
-      - id: check-yaml
       - id: check-added-large-files
   - repo: https://github.com/ambv/black
     rev: 21.11b1
@@ -21,6 +20,10 @@ repos:
           - flake8-bugbear
           - flake8-comprehensions
           - flake8-simplify
+          - flake8-requirements
+          - flake8-debugger
+          - flake8-use-fstring
+          - flake8-annotations-complexity
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:

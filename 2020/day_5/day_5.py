@@ -67,7 +67,7 @@ def part_2_visualization() -> None:
         col = partition(code[-3:], 3, "L", "R")
         aircraft[row][col] = "#"
     for i, x in enumerate(aircraft):
-        print("{:0>3} -> {}".format(i, x))
+        print(f"{i:0>3} -> {x}")
 
 
 def part_2_for_real_now() -> int:

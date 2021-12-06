@@ -8,7 +8,7 @@ def read_file():
 
 
 def apply_mask(mask: str, value: int) -> int:
-    binary = "{0:036b}".format(value)
+    binary = f"{value:036b}"
     result = ""
     for i, digit in enumerate(binary):
         result += digit if mask[i] == "X" else mask[i]
@@ -33,7 +33,7 @@ print(sum(memory.values()))
 
 
 def memory_address_decoder(mask: str, value: int):
-    binary = "{0:036b}".format(value)
+    binary = f"{value:036b}"
     result = []
     x_indexes = []
     # save a temporary "mask" in result with the 0 and 1

@@ -7,7 +7,8 @@ def read_file() -> Iterator[str]:
         yield from map(lambda c: c.strip(), f.readlines())
 
 
-groups: List[Tuple[Counter[str], int]] = []
+Group = Tuple[Counter[str], int]
+groups: List[Group] = []
 
 current_group = Counter[str]()
 group_size = 0
