@@ -2,20 +2,20 @@ import time
 from functools import reduce
 from itertools import combinations
 from operator import mul
-from typing import Callable, Optional, ParamSpec, TypeVar
+from typing import Callable, ParamSpec, TypeVar, cast
 
 P = ParamSpec("P")
 T = TypeVar("T")
 
 
-def time_it(fn: Callable[P, T]) -> Callable[P, T]:  # type: ignore
-    def timed(*args: P.args, **kwargs: P.kwargs) -> T:  # type: ignore
+def time_it(fn: Callable[P, T]) -> Callable[P, T]:  # type: ignore[misc]
+    def timed(*args: P.args, **kwargs: P.kwargs) -> T:  # type: ignore[name-defined]
         before = time.process_time_ns()
         result = fn(*args, **kwargs)
         after = time.process_time_ns()
         diff = after - before
         print(f"{fn.__name__} ran in {diff}ns")
-        return result
+        return cast(T, result)
 
     return timed
 
@@ -26,7 +26,7 @@ def read_file() -> list[str]:
 
 
 @time_it
-def with_combinations(lst: list[int], n: int) -> Optional[int]:
+def with_combinations(lst: list[int], n: int) -> int | None:
     for test in combinations(lst, n):
         if sum(test) == 2020:
             return reduce(mul, test)
@@ -34,7 +34,7 @@ def with_combinations(lst: list[int], n: int) -> Optional[int]:
 
 
 @time_it
-def best_performance_part_1(lst: list[int]) -> Optional[int]:
+def best_performance_part_1(lst: list[int]) -> int | None:
     for number in lst:
         if 2020 - number in lst:
             return number * (2020 - number)

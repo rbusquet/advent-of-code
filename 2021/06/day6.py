@@ -1,22 +1,27 @@
+from __future__ import annotations
+
 import time
 from collections import Counter, defaultdict
 from functools import wraps
 from heapq import heapify, heappop, heappush
 from pathlib import Path
+from typing import Any, Callable, TypeVar, cast
 
 DAYS = 80
 
+F = TypeVar("F", bound=Callable[..., Any])
 
-def timeit(fn):
+
+def timeit(fn: F) -> F:
     @wraps(fn)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args, **kwargs):  # type: ignore[no-untyped-def]
         t0 = time.perf_counter_ns()
         ret = fn(*args, **kwargs)
         t1 = time.perf_counter_ns()
         print(f"{fn.__name__} ran in {t1 - t0}ns")
         return ret
 
-    return wrapper
+    return cast(F, wrapper)
 
 
 @timeit
@@ -118,7 +123,7 @@ def grow_fastest(initial: list[int], max_days: int) -> int:
 def part_1() -> int:
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
         fishes = list(map(int, file.readline().split(",")))
-    return grow_slow(fishes, 80)
+    return grow_slow(fishes, max_days=80)
 
 
 def part_2() -> int:

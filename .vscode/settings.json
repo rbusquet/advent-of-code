@@ -5,6 +5,7 @@
         "--follow-imports=silent",
         "--ignore-missing-imports",
         "--show-column-numbers",
+        "--show-error-codes",
         "--no-pretty",
         "--strict"
     ],
