@@ -1,6 +1,7 @@
 import logging
 from collections import deque
 from pathlib import Path
+from statistics import median
 
 CHUNK_DELIMTERS = {
     "(": ")",
@@ -54,7 +55,7 @@ def part_1_and_2() -> tuple[int, int]:
                 logger.debug(f"{lineno}: Incomplete line. Score is {score}.")
                 incomplete_scores.append(score)
 
-    incomplete_score = sorted(incomplete_scores)[len(incomplete_scores) // 2]
+    incomplete_score = int(median(sorted(incomplete_scores)))
     return corrupt_score, incomplete_score
 
 
