@@ -9,6 +9,7 @@
         "--no-pretty",
         "--strict"
     ],
+    "python.testing.pytestEnabled": false,
     "python.linting.enabled": true,
     "python.formatting.provider": "black",
     "[python]": {
