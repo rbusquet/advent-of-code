@@ -1,6 +1,5 @@
-from functools import total_ordering
+from dataclasses import dataclass, field
 
-MAP = []
 with open("input13.txt") as f:
     MAP = [list(x.strip("\n")) for x in f]
 
@@ -9,7 +8,6 @@ with open("input13.txt") as f:
 
 TURNS = r"\/"
 CARTS = "^>v<"
-STRAIGHT = "-|"
 INTERSECTIONS = r"+"
 
 LEFT = 0
@@ -19,46 +17,32 @@ RIGHT = 2
 carts = []
 
 
-@total_ordering
+@dataclass(order=True)
 class Cart:
-    def __init__(self, x, y, direction):
-        self.x = x
-        self.y = y
-        self.direction = direction
-        self.turn = 0
-        self.crashed = False
+    x: int
+    y: int
+    direction: str = field(compare=False)
+    turn: int = field(compare=False, default=0)
+    crashed: bool = False
 
-    def left(self):
+    def left(self) -> None:
         next_index = CARTS.index(self.direction) - 1
         self.direction = CARTS[next_index]
 
-    def right(self):
+    def right(self) -> None:
         next_index = CARTS.index(self.direction) + 1
         next_index = next_index % 4
         self.direction = CARTS[next_index]
 
-    def tick(self):
+    def tick(self) -> None:
         current_position = MAP[self.y][self.x]
 
         if current_position in INTERSECTIONS:
-            if self.turn == LEFT:
-                self.left()
-                self.turn = STRAIGHT
-            elif self.turn == STRAIGHT:
-                self.turn = RIGHT
-            elif self.turn == RIGHT:
-                self.right()
-                self.turn = LEFT
+            self.intersection()
         elif current_position == "\\":
-            if self.direction in "><":
-                self.right()
-            elif self.direction in "^v":
-                self.left()
+            self.backslash()
         elif current_position == "/":
-            if self.direction in "><":
-                self.left()
-            elif self.direction in "^v":
-                self.right()
+            self.slash()
 
         if self.direction == "^":
             self.y -= 1
@@ -69,13 +53,32 @@ class Cart:
         else:
             self.x -= 1
 
-    def position(self):
+    def slash(self) -> None:
+        if self.direction in "><":
+            self.left()
+        elif self.direction in "^v":
+            self.right()
+
+    def backslash(self) -> None:
+        if self.direction in "><":
+            self.right()
+        elif self.direction in "^v":
+            self.left()
+
+    def intersection(self) -> None:
+        if self.turn == LEFT:
+            self.left()
+            self.turn = STRAIGHT
+        elif self.turn == STRAIGHT:
+            self.turn = RIGHT
+        elif self.turn == RIGHT:
+            self.right()
+            self.turn = LEFT
+
+    def position(self) -> tuple[int, int]:
         return self.x, self.y
 
-    def __lt__(self, other):
-        return self.position() < other.position()
-
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Cart {self.direction} at {self.x}x{self.y}"
 
 

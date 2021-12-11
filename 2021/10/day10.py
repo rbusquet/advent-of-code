@@ -38,7 +38,7 @@ def part_1_and_2() -> tuple[int, int]:
                     if ch != expected_delimeter:
                         line_score += CORRUPT_POINTS[ch]
                         logger.debug(
-                            f"{lineno}:{i} Expected {expected_delimeter}, but found {ch} instead."
+                            f"{lineno}:{i} Expected {expected_delimeter}, but found {ch} instead."  # noqa: B950
                         )
                         break
                     else:
