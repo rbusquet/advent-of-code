@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import time
-from curses import A_DIM, wrapper
+from curses import A_BOLD, wrapper
 from itertools import count, product
 from pathlib import Path
 from typing import TYPE_CHECKING, Iterator
@@ -35,9 +35,10 @@ def main(stdscr: Window) -> None:  # noqa: C901
         for i in range(10):
             for j in range(10):
                 if universe[i, j] > 9:
-                    stdscr.addstr(i + 2, j * 2, str(min(9, universe[i, j])))
-                else:
-                    stdscr.addstr(i + 2, j * 2, ".", A_DIM)
+                    stdscr.addstr(i + 2, j * 2, "🀫", A_BOLD)
+                elif universe[i, j] > 5:
+                    stdscr.addstr(i + 2, j * 2, "🀆")
+        stdscr.move(0, 20)
 
         # zero flashed
         for point in universe:
