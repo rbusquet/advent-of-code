@@ -23,6 +23,22 @@ class Paper(list[Dot]):
             case Instruction("y", y):
                 return self._fold_up(y)
 
+    def render(self) -> str:
+        max_y = max(dot[1] for dot in self)
+        max_x = max(dot[0] for dot in self)
+
+        mapped = {dot: dot for dot in self}
+        io = StringIO()
+        for i in range(max_y + 1):
+            for j in range(max_x + 1):
+                if mapped.get((j, i)):
+                    print("🀫", end="", file=io)
+                else:
+                    print(" ", end="", file=io)
+            print(file=io)
+        io.seek(0)
+        return io.read()
+
     def _fold_up(self, line: int) -> Paper:
         to_remove = list[Dot]()
         for dot in self:
@@ -48,22 +64,6 @@ class Paper(list[Dot]):
         for dot in to_remove:
             self.remove(dot)
         return self
-
-    def render(self) -> str:
-        max_y = max(dot[1] for dot in self)
-        max_x = max(dot[0] for dot in self)
-
-        mapped = {dot: dot for dot in self}
-        io = StringIO()
-        for i in range(max_y + 1):
-            for j in range(max_x + 1):
-                if mapped.get((j, i)):
-                    print("🀫", end="", file=io)
-                else:
-                    print(" ", end="", file=io)
-            print(file=io)
-        io.seek(0)
-        return io.read()
 
 
 def parse_file() -> tuple[Paper, list[Instruction]]:
