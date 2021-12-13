@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+import curses
 import time
-from curses import A_BOLD, wrapper
 from itertools import count, product
 from pathlib import Path
 from typing import TYPE_CHECKING, Iterator
@@ -21,23 +21,38 @@ def neighborhood(point: Point) -> Iterator[Point]:
 
 
 def main(stdscr: Window) -> None:  # noqa: C901
-
     universe = dict[Point, int]()
+
+    curses.use_default_colors()
+    stdscr.border()
+    stdscr.nodelay(True)
+    for i in range(10):
+        curses.init_pair(i, curses.COLORS - 25 + i * 2, -1)
+
     with open(Path(__file__).parent / "input.txt") as file:
         for i, line in enumerate(file):
             for j, brightness in enumerate(line.strip()):
                 universe[i, j] = int(brightness)
     flashes = 0
+    multiplier = 0.1
     for step in count():
+        match stdscr.getch():
+            case 113:
+                return
         stdscr.clear()
         stdscr.addstr(0, 0, f"Flashes: {flashes}")
         stdscr.addstr(1, 0, f"Steps: {step}")
+        stdscr.addstr(13, 0, 'Press "q" to quit', curses.A_RIGHT)
+        for i in range(10):
+            stdscr.addstr(12, i, "🀫", curses.color_pair(i))
         for i in range(10):
             for j in range(10):
+                if universe[i, j] == 0:
+                    continue
                 if universe[i, j] > 9:
-                    stdscr.addstr(i + 2, j * 2, "🀫", A_BOLD)
-                elif universe[i, j] > 5:
-                    stdscr.addstr(i + 2, j * 2, "🀆")
+                    stdscr.addstr(i + 2, j * 2, "🀫", curses.color_pair(0))
+                else:
+                    stdscr.addstr(i + 2, j * 2, "🀆", curses.color_pair(universe[i, j]))
         stdscr.move(0, 20)
 
         # zero flashed
@@ -45,6 +60,7 @@ def main(stdscr: Window) -> None:  # noqa: C901
             if universe[point] > 9:
                 flashes += 1
                 universe[point] = 0
+
         for point in universe:
             universe[point] += 1
 
@@ -66,7 +82,7 @@ def main(stdscr: Window) -> None:  # noqa: C901
                     universe[n] += 1
 
         stdscr.refresh()
-        time.sleep(0.1)
+        time.sleep(multiplier)
 
 
-wrapper(main)
+curses.wrapper(main)
