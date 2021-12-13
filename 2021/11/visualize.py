@@ -34,7 +34,7 @@ def main(stdscr: Window) -> None:  # noqa: C901
             for j, brightness in enumerate(line.strip()):
                 universe[i, j] = int(brightness)
     flashes = 0
-    multiplier = 0.1
+    multiplier = 0.05
     for step in count():
         match stdscr.getch():
             case 113:
@@ -44,15 +44,15 @@ def main(stdscr: Window) -> None:  # noqa: C901
         stdscr.addstr(1, 0, f"Steps: {step}")
         stdscr.addstr(13, 0, 'Press "q" to quit', curses.A_RIGHT)
         for i in range(10):
-            stdscr.addstr(12, i, "🀫", curses.color_pair(i))
+            stdscr.addstr(12, i, "██", curses.color_pair(i))
         for i in range(10):
             for j in range(10):
                 if universe[i, j] == 0:
                     continue
                 if universe[i, j] > 9:
-                    stdscr.addstr(i + 2, j * 2, "🀫", curses.color_pair(0))
+                    stdscr.addstr(i + 2, j * 2, "██", curses.color_pair(0))
                 else:
-                    stdscr.addstr(i + 2, j * 2, "🀆", curses.color_pair(universe[i, j]))
+                    stdscr.addstr(i + 2, j * 2, "██", curses.color_pair(universe[i, j]))
         stdscr.move(0, 20)
 
         # zero flashed
