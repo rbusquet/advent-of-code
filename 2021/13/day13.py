@@ -22,6 +22,7 @@ class Paper(list[Dot]):
                 return self._fold_left(x)
             case Instruction("y", y):
                 return self._fold_up(y)
+        return self
 
     def render(self) -> str:
         max_y = max(dot[1] for dot in self)
@@ -31,7 +32,7 @@ class Paper(list[Dot]):
         io = StringIO()
         for i in range(max_y + 1):
             for j in range(max_x + 1):
-                if mapped.get((j, i)):
+                if mapped.get(Dot(j, i)):
                     print("🀫", end="", file=io)
                 else:
                     print(" ", end="", file=io)
