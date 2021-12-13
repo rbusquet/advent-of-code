@@ -33,9 +33,9 @@ class Paper(list[Dot]):
         for i in range(max_y + 1):
             for j in range(max_x + 1):
                 if mapped.get(Dot(j, i)):
-                    print("🀫", end="", file=io)
+                    print("█", end="", file=io)
                 else:
-                    print(" ", end="", file=io)
+                    print("░", end="", file=io)
             print(file=io)
         io.seek(0)
         return io.read()
