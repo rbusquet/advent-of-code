@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import curses
+import sys
 import time
 from itertools import count, product
 from pathlib import Path
@@ -34,7 +35,11 @@ def main(stdscr: Window) -> None:  # noqa: C901
             for j, brightness in enumerate(line.strip()):
                 universe[i, j] = int(brightness)
     flashes = 0
-    multiplier = 0.05
+    match sys.argv:
+        case [_, m]:
+            multiplier = float(f"0.{m}")
+        case _:
+            multiplier = 0.1
     for step in count():
         match stdscr.getch():
             case 113:
