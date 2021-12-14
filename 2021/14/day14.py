@@ -40,6 +40,10 @@ def generate_polymer_slow(rules: Rules, template: str, steps: int = 10) -> int:
 def generate_polymer(rules: Rules, template: str, steps: int = 40) -> int:
     """
     Solves part 2.
+
+    Consider a rule AB -> C. If a polymer has 10 pairs AB, 10 new AC and CB
+    pairs are created, and the 10 AB pairs are "broken".
+    The resulting 10 C elements are added to the polymer.
     """
     counts = Counter(template)
     pairs = Counter(pairwise(template))
