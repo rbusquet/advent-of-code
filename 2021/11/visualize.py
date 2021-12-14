@@ -25,10 +25,12 @@ def main(stdscr: Window) -> None:  # noqa: C901
     universe = dict[Point, int]()
 
     curses.use_default_colors()
-    stdscr.border()
+    curses.curs_set(0)
+
     stdscr.nodelay(True)
-    for i in range(10):
-        curses.init_pair(i, curses.COLORS - 25 + i * 2, -1)
+
+    for i in range(1, 12):
+        curses.init_pair(i, curses.COLORS - 2 * 13 + 2 * i, -1)
 
     with open(Path(__file__).parent / "input.txt") as file:
         for i, line in enumerate(file):
@@ -44,21 +46,22 @@ def main(stdscr: Window) -> None:  # noqa: C901
         match stdscr.getch():
             case 113:
                 return
-        stdscr.clear()
+
         stdscr.addstr(0, 0, f"Flashes: {flashes}")
         stdscr.addstr(1, 0, f"Steps: {step}")
         stdscr.addstr(13, 0, 'Press "q" to quit', curses.A_RIGHT)
-        for i in range(10):
-            stdscr.addstr(12, i, "██", curses.color_pair(i))
+        for i in range(11):
+            stdscr.addstr(12, i, "██", curses.color_pair(i + 1))
         for i in range(10):
             for j in range(10):
                 if universe[i, j] == 0:
                     continue
                 if universe[i, j] > 9:
-                    stdscr.addstr(i + 2, j * 2, "██", curses.color_pair(0))
+                    stdscr.addstr(i + 2, j * 2, "██", curses.color_pair(11))
                 else:
-                    stdscr.addstr(i + 2, j * 2, "██", curses.color_pair(universe[i, j]))
-        stdscr.move(0, 20)
+                    stdscr.addstr(
+                        i + 2, j * 2, "██", curses.color_pair(universe[i, j] + 1)
+                    )
 
         # zero flashed
         for point in universe:
@@ -86,7 +89,6 @@ def main(stdscr: Window) -> None:  # noqa: C901
                         continue
                     universe[n] += 1
 
-        stdscr.refresh()
         time.sleep(multiplier)
 
 
