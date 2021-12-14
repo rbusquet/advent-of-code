@@ -1,5 +1,4 @@
 from collections import Counter
-from heapq import nlargest, nsmallest
 from itertools import pairwise
 from operator import itemgetter
 from pathlib import Path
@@ -31,8 +30,7 @@ def generate_polymer_slow(rules: Rules, template: str, steps: int = 10) -> int:
         template = "".join(next_template)
 
     counter = Counter(template)
-    most_common = nlargest(1, counter.items(), key=itemgetter(1))[0]
-    least_common = nsmallest(1, counter.items(), key=itemgetter(1))[0]
+    least_common, *_, most_common = sorted(counter.items(), key=itemgetter(1))
 
     return most_common[1] - least_common[1]
 
