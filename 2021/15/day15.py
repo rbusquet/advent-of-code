@@ -8,7 +8,6 @@ S = (1, 0)
 E = (0, 1)
 W = (0, -1)
 
-Map = dict[tuple[int, int], int]
 Point = tuple[int, int]
 
 
