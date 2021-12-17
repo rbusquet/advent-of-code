@@ -1,5 +1,6 @@
 [flake8]
 max-line-length=88
 ignore=E501,E203,W503
-select=C,E,F,W,B,B9,T
+select=C,E,F,W,B,B9,T,SIM,C4,FS,FS003,TAE
 max-complexity=12
+max-annotations-complexity=3

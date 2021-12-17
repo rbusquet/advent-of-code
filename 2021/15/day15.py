@@ -116,8 +116,6 @@ def part_2() -> int:  # noqa: C901
                     risk = risk_map[i - tile_i, j] + 1
                 elif (i, j - tile_j) in risk_map:
                     risk = risk_map[i, j - tile_j] + 1
-                else:
-                    raise Exception("oh no")
                 if risk > 9:
                     risk = 1
                 risk_map[i, j] = risk
