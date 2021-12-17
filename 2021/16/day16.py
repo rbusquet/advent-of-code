@@ -3,6 +3,7 @@ from __future__ import annotations
 import functools
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Iterator
 from unittest import TestCase, main
 
 
@@ -30,7 +31,7 @@ class Packet:
             case 4:
                 parts = process_literal(6, self.full_value)
                 return int("".join(parts), 2)
-            case 0:  # sum
+            case 0:
                 return sum(self.evaluate_all())
             case 1:
                 return functools.reduce(lambda a, b: a * b, self.evaluate_all(), 1)
@@ -47,8 +48,10 @@ class Packet:
             case 7:
                 first, second = self.evaluate_all()
                 return first == second
+            case _:
+                raise Exception("Unknown type")
 
-    def evaluate_all(self):
+    def evaluate_all(self) -> Iterator[int]:
         for p in self.sub_packets:
             yield p.evaluate()
 
@@ -91,7 +94,7 @@ def parse_packet(pointer: int, packet: str, all_packets: list[Packet]) -> Packet
     return result
 
 
-def evaluate(packet: str, all_packets: list[Packet]) -> Packet:
+def evaluate(packet: str, all_packets: list[Packet]) -> int:
     bits = ""
     for char in packet:
         bits += f"{int(char, base=16):04b}"
@@ -109,13 +112,13 @@ def part_1() -> int:
     return versions
 
 
-def part_2() -> None:
+def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
         return evaluate(file.readline(), [])
 
 
 class TestEvaluate(TestCase):
-    def test_everything(self):
+    def test_everything(self) -> None:
         self.assertEqual(evaluate("C200B40A82", []), 3)
         self.assertEqual(evaluate("04005AC33890", []), 54)
         self.assertEqual(evaluate("880086C3E88112", []), 7)
