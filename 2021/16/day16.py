@@ -29,34 +29,41 @@ class Packet:
     def aggregated_version(self) -> int:
         return self.version() + sum(p.aggregated_version() for p in self.sub_packets)
 
-    def evaluate(self) -> int:
+    def evaluate(self, level=0) -> int:
         match int(self.full_value[3:6], 2):
             case 4:
                 parts = process_literal(6, self.full_value)
-                return int("".join(parts), 2)
+                value = int("".join(parts), 2)
+                return value
             case 0:
-                return sum(self.evaluate_all())
+                value = sum(self.evaluate_all(level + 1))
+                return value
             case 1:
-                return functools.reduce(lambda a, b: a * b, self.evaluate_all(), 1)
+                value = functools.reduce(
+                    lambda a, b: a * b, self.evaluate_all(level + 1), 1
+                )
+                return value
             case 2:
-                return min(self.evaluate_all())
+                value = min(self.evaluate_all(level + 1))
+                return value
             case 3:
-                return max(self.evaluate_all())
+                value = max(self.evaluate_all(level + 1))
+                return value
             case 5:
-                first, second = self.evaluate_all()
+                first, second = self.evaluate_all(level + 1)
                 return first > second
             case 6:
-                first, second = self.evaluate_all()
+                first, second = self.evaluate_all(level + 1)
                 return first < second
             case 7:
-                first, second = self.evaluate_all()
+                first, second = self.evaluate_all(level + 1)
                 return first == second
             case _:
                 raise Exception("Unknown type")
 
-    def evaluate_all(self) -> Iterator[int]:
+    def evaluate_all(self, level: int) -> Iterator[int]:
         for p in self.sub_packets:
-            yield p.evaluate()
+            yield p.evaluate(level)
 
 
 def parse_packet(pointer: int, packet: str) -> Packet:
@@ -125,6 +132,4 @@ class TestHexToPacket(TestCase):
 
 
 if __name__ == "__main__":
-    print(part_1())
-    print(part_2())
     main()
