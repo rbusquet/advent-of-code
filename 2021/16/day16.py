@@ -29,41 +29,31 @@ class Packet:
     def aggregated_version(self) -> int:
         return self.version() + sum(p.aggregated_version() for p in self.sub_packets)
 
-    def evaluate(self, level=0) -> int:
+    def evaluate(self) -> int:
+        # fmt: off
         match int(self.full_value[3:6], 2):
+            case 0: return sum(self.evaluate_all())
+            case 1: return functools.reduce(lambda a, b: a * b, self.evaluate_all(), 1)
+            case 2: return min(self.evaluate_all())
+            case 3: return max(self.evaluate_all())
             case 4:
                 parts = process_literal(6, self.full_value)
-                value = int("".join(parts), 2)
-                return value
-            case 0:
-                value = sum(self.evaluate_all(level + 1))
-                return value
-            case 1:
-                value = functools.reduce(
-                    lambda a, b: a * b, self.evaluate_all(level + 1), 1
-                )
-                return value
-            case 2:
-                value = min(self.evaluate_all(level + 1))
-                return value
-            case 3:
-                value = max(self.evaluate_all(level + 1))
-                return value
+                return int("".join(parts), 2)
             case 5:
-                first, second = self.evaluate_all(level + 1)
+                first, second = self.evaluate_all()
                 return first > second
             case 6:
-                first, second = self.evaluate_all(level + 1)
+                first, second = self.evaluate_all()
                 return first < second
             case 7:
-                first, second = self.evaluate_all(level + 1)
+                first, second = self.evaluate_all()
                 return first == second
-            case _:
-                raise Exception("Unknown type")
+            case _: raise Exception("Unknown type")
+        # fmt: on
 
-    def evaluate_all(self, level: int) -> Iterator[int]:
+    def evaluate_all(self) -> Iterator[int]:
         for p in self.sub_packets:
-            yield p.evaluate(level)
+            yield p.evaluate()
 
 
 def parse_packet(pointer: int, packet: str) -> Packet:
