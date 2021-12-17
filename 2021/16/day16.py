@@ -114,7 +114,7 @@ def part_2() -> None:
         return evaluate(file.readline(), [])
 
 
-class TestPartTwo(TestCase):
+class TestEvaluate(TestCase):
     def test_everything(self):
         self.assertEqual(evaluate("C200B40A82", []), 3)
         self.assertEqual(evaluate("04005AC33890", []), 54)
