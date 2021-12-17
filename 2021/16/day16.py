@@ -100,12 +100,12 @@ def hex_to_packet(packet: str) -> Packet:
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         return hex_to_packet(file.readline()).aggregated_version()
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         return hex_to_packet(file.readline()).evaluate()
 
 
