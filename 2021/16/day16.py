@@ -26,6 +26,9 @@ class Packet:
     def version(self) -> int:
         return int(self.full_value[:3], 2)
 
+    def aggregated_version(self) -> int:
+        return self.version() + sum(p.aggregated_version() for p in self.sub_packets)
+
     def evaluate(self) -> int:
         match int(self.full_value[3:6], 2):
             case 4:
@@ -56,7 +59,7 @@ class Packet:
             yield p.evaluate()
 
 
-def parse_packet(pointer: int, packet: str, all_packets: list[Packet]) -> Packet:
+def parse_packet(pointer: int, packet: str) -> Packet:
     if pointer >= len(packet):
         raise Exception()
     initial = pointer
@@ -76,7 +79,7 @@ def parse_packet(pointer: int, packet: str, all_packets: list[Packet]) -> Packet
             pointer += 15
             end_pointer = pointer + length_in_bits
             while pointer < end_pointer:
-                next_packet = parse_packet(pointer, packet, all_packets)
+                next_packet = parse_packet(pointer, packet)
                 pointer += len(next_packet.full_value)
                 sub_packets.append(next_packet)
         else:
@@ -85,48 +88,40 @@ def parse_packet(pointer: int, packet: str, all_packets: list[Packet]) -> Packet
 
             end_count = len(sub_packets) + number_of_packets
             while len(sub_packets) < end_count:
-                next_packet = parse_packet(pointer, packet, all_packets)
+                next_packet = parse_packet(pointer, packet)
                 pointer += len(next_packet.full_value)
                 sub_packets.append(next_packet)
 
-    result = Packet(packet[initial:pointer], sub_packets)
-    all_packets.append(result)
-    return result
+    return Packet(packet[initial:pointer], sub_packets)
 
 
-def evaluate(packet: str, all_packets: list[Packet]) -> int:
+def hex_to_packet(packet: str) -> Packet:
     bits = ""
     for char in packet:
         bits += f"{int(char, base=16):04b}"
-    return parse_packet(0, bits, all_packets).evaluate()
+    return parse_packet(0, bits)
 
 
 def part_1() -> int:
-    all_packets = list[Packet]()
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        evaluate(file.readline(), all_packets)
-
-    versions = 0
-    for p in all_packets:
-        versions += p.version()
-    return versions
+        return hex_to_packet(file.readline()).aggregated_version()
 
 
 def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        return evaluate(file.readline(), [])
+        return hex_to_packet(file.readline()).evaluate()
 
 
-class TestEvaluate(TestCase):
-    def test_everything(self) -> None:
-        self.assertEqual(evaluate("C200B40A82", []), 3)
-        self.assertEqual(evaluate("04005AC33890", []), 54)
-        self.assertEqual(evaluate("880086C3E88112", []), 7)
-        self.assertEqual(evaluate("CE00C43D881120", []), 9)
-        self.assertEqual(evaluate("D8005AC2A8F0", []), 1)
-        self.assertEqual(evaluate("F600BC2D8F", []), 0)
-        self.assertEqual(evaluate("9C005AC2F8F0", []), 0)
-        self.assertEqual(evaluate("9C0141080250320F1802104A08", []), 1)
+class TestHexToPacket(TestCase):
+    def test(self) -> None:
+        self.assertEqual(hex_to_packet("C200B40A82").evaluate(), 3)
+        self.assertEqual(hex_to_packet("04005AC33890").evaluate(), 54)
+        self.assertEqual(hex_to_packet("880086C3E88112").evaluate(), 7)
+        self.assertEqual(hex_to_packet("CE00C43D881120").evaluate(), 9)
+        self.assertEqual(hex_to_packet("D8005AC2A8F0").evaluate(), 1)
+        self.assertEqual(hex_to_packet("F600BC2D8F").evaluate(), 0)
+        self.assertEqual(hex_to_packet("9C005AC2F8F0").evaluate(), 0)
+        self.assertEqual(hex_to_packet("9C0141080250320F1802104A08").evaluate(), 1)
 
 
 if __name__ == "__main__":
