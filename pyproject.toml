@@ -4,3 +4,6 @@ profile = "black"
 
 [tool.black]
 target-version = ['py310']
+
+[tool.mypy]
+plugins = 'numpy.typing.mypy_plugin'
