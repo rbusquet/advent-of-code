@@ -1,16 +1,15 @@
-from pathlib import Path
+from __future__ import annotations
+from typing import Union
+import more_itertools.more
+
+Number = tuple[Union["Number", int], Union["Number", int]]  # type: ignore[misc]
 
 
-def part_1():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
+def addition(left: Number, right: Number) -> Number:
+    return reduce((left, right))
 
 
-def part_2():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
-
-
-if __name__ == "__main__":
-    print(part_1())
-    print(part_2())
+def reduce(number: Number, level: int = 0) -> Number | int:
+    if level == 4:
+        match
+    left, right = number
