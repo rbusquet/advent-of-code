@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Literal, Sequence, cast
 from collections import defaultdict
 from progress.spinner import LineSpinner
+from PIL import Image, ImageDraw
 
 
 Pixel = tuple[int, int]
@@ -85,14 +86,56 @@ def part_2() -> int:
                 image[i, j] = cast(Value, char)
 
     background = cast(Value, ".")
+    gif = list[Image.Image]()
     with LineSpinner() as spinner:
-        for _ in range(50):
+        for i in range(50):
             # print(background)
             image, background = enhance(image, background, algorithm)
+            image = trim(image)
+            gif.append(save_image(image, i))
             spinner.next()
+    gif[0].save(
+        Path(__file__).parent / "temp_result.webp",
+        save_all=True,
+        optimize=False,
+        append_images=gif[1:],
+        loop=0,
+        duration=200,
+    )
 
     assert background == "."
+
     return len([value for value in image.values() if value == "#"])
+
+
+def trim(image: dict[Pixel, Value]) -> dict[Pixel, Value]:
+    min_x = min(p[0] for p in image if image[p] == "#")
+    min_y = min(p[1] for p in image if image[p] == "#")
+    max_x = max(p[0] for p in image if image[p] == "#")
+    max_y = max(p[1] for p in image if image[p] == "#")
+
+    result = dict[Pixel, Value]()
+
+    for xx in range(min_x, max_x + 1):
+        for yy in range(min_y, max_y + 1):
+            result[xx, yy] = image[xx, yy]
+    return result
+
+
+def save_image(image: dict[Pixel, Value], count: int) -> Image.Image:
+    min_x = min(p[0] for p in image)
+    min_y = min(p[1] for p in image)
+    max_x = max(p[0] for p in image)
+    max_y = max(p[1] for p in image)
+    hh, ww = max_x - min_x, max_y - min_y
+    im = Image.new("RGB", (hh, ww))
+    draw = ImageDraw.Draw(im)
+
+    colors = {".": "black", "#": "white"}
+    for (x, y), value in image.items():
+        draw.point((x - min_x, y - min_y), fill=colors[value])
+    im = im.resize((500, 500), resample=Image.NEAREST)
+    return im
 
 
 if __name__ == "__main__":
