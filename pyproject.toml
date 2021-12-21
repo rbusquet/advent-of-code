@@ -1,6 +1,7 @@
 
 [tool.isort]
 profile = "black"
+extra_standard_library = "more_itertools"
 
 [tool.black]
 target-version = ['py310']
