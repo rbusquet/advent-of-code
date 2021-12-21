@@ -1,7 +1,6 @@
+from itertools import combinations
 from pathlib import Path
 
-from itertools import combinations
-from pprint import pprint
 import more_itertools
 
 Vector = tuple[int, int, int]
@@ -30,7 +29,7 @@ def distance(a: Vector, b: Vector) -> float:
     return ((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2) ** 0.5
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # noqa: C901
     scanners = parse_scanners()
     print(f"{len(scanners)=}")
 

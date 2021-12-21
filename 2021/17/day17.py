@@ -1,10 +1,10 @@
 # wip
 
-from pathlib import Path
-import re
 import math
-from itertools import count, zip_longest
+import re
 from collections import defaultdict
+from itertools import count
+from pathlib import Path
 
 
 def parse_input() -> tuple[int, int, int, int]:
@@ -24,7 +24,7 @@ def quadratic(a: float, b: float, c: float) -> int:
     return math.floor(max(a1, a2))
 
 
-def part_2() -> int:
+def part_2() -> int:  # noqa: C901
     min_x, max_x, min_y, max_y = parse_input()
 
     # min_vx = quadratic(0.5, -0.5, -min_x)

@@ -1,11 +1,12 @@
 from __future__ import annotations
-import re
-from more_itertools import last
-import math
-from pathlib import Path
-import functools
-from itertools import combinations
 
+import functools
+import math
+import re
+from itertools import combinations
+from pathlib import Path
+
+from more_itertools import last
 
 re_single_number = re.compile(r"\d+")
 re_regular_number = re.compile(r"\[(\d+),(\d+)\]")
