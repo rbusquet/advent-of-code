@@ -36,12 +36,15 @@ def manhattan_distance(a: Vector, b: Vector) -> float:
     return abs(x1 - x2) + abs(y1 - y2) + abs(z1 - z2)
 
 
-def generate_rotations(v: Vector) -> Iterator[Vector]:
-    def roll(v: Vector) -> Vector:
-        return (v[0], v[2], -v[1])
+def roll(v: Vector) -> Vector:
+    return v[0], v[2], -v[1]
 
-    def turn(v: Vector) -> Vector:
-        return (-v[1], v[0], v[2])
+
+def turn(v: Vector) -> Vector:
+    return -v[1], v[0], v[2]
+
+
+def generate_rotations(v: Vector) -> Iterator[Vector]:
 
     for _ in range(2):
         for _ in range(3):  # Yield RTTT 3 times
