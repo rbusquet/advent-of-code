@@ -12,7 +12,7 @@ Scanners = dict[int, list[Vector]]
 def parse_scanners() -> Scanners:
     scanners: Scanners = Scanners()
 
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         for line in file:
             data = line.split()
             if len(data) == 4:

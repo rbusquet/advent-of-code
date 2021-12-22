@@ -1,3 +1,4 @@
+# flake8: noqa
 from __future__ import annotations
 
 import curses
@@ -21,7 +22,7 @@ def neighborhood(point: Point) -> Iterator[Point]:
         yield x + i, y + j
 
 
-def main(stdscr: Window) -> None:  # noqa: C901
+def main(stdscr: Window) -> None:
     universe = dict[Point, int]()
 
     curses.use_default_colors()

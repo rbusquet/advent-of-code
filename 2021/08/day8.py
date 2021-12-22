@@ -41,7 +41,7 @@ HARD_DECODER = {5: [2, 3, 5], 6: [0, 6, 9]}
 
 
 def part_2() -> int:  # noqa: C901
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         final = 0
 
         for line in file:

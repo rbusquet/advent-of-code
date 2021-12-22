@@ -60,7 +60,7 @@ def enhance(
 
 def part_1() -> int:
     image = dict[Pixel, Value]()
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         algorithm = cast(Sequence[Value], file.readline())
         file.readline()
 
@@ -76,7 +76,7 @@ def part_1() -> int:
 
 def part_2() -> int:
     image = dict[Pixel, Value]()
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         algorithm = cast(Sequence[Value], file.readline())
         file.readline()
 

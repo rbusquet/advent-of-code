@@ -4,9 +4,8 @@ import functools
 import math
 import re
 from itertools import combinations
-from pathlib import Path
-
 from more_itertools import last
+from pathlib import Path
 
 re_single_number = re.compile(r"\d+")
 re_regular_number = re.compile(r"\[(\d+),(\d+)\]")

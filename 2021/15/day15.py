@@ -64,7 +64,7 @@ def part_1() -> int:
     paths = dict[Point, Optional[Point]]()
 
     queue = Queue[Point]()
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         for i, line in enumerate(file):
             for j, value in enumerate(line.strip()):
                 risk_map[i, j] = int(value)
@@ -87,14 +87,14 @@ def part_1() -> int:
     return int(distances[max(risk_map)])
 
 
-def part_2() -> int:  # noqa: C901
+def part_2() -> int:
     risk_map = dict[Point, int]()
     distances = dict[Point, float]()
     distances[0, 0] = 0
     paths = dict[Point, Optional[Point]]()
 
     queue = Queue[Point]()
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         for i, line in enumerate(file):
             for j, value in enumerate(line.strip()):
                 risk_map[i, j] = int(value)
@@ -124,8 +124,17 @@ def part_2() -> int:  # noqa: C901
                 queue.add_task((i, j), distances[i, j])
 
     distances[0, 0] = 0.0
-    while u := queue.pop_task():
+    find_paths(risk_map, distances, paths, queue)
+    return int(distances[max(risk_map)])
 
+
+def find_paths(
+    risk_map: dict[Point, int],
+    distances: dict[Point, float],
+    paths: dict[Point, Optional[Point]],
+    queue: Queue[Point],
+) -> None:
+    while u := queue.pop_task():
         for n in neighborhood(*u):
             if n not in risk_map:
                 continue
@@ -134,7 +143,6 @@ def part_2() -> int:  # noqa: C901
                 distances[n] = alt
                 paths[n] = u
                 queue.add_task(n, alt)
-    return int(distances[max(risk_map)])
 
 
 if __name__ == "__main__":
