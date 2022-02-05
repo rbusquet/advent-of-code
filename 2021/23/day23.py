@@ -1,14 +1,17 @@
+# flake8: noqa
 from pathlib import Path
 
 
-def part_1():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
+def parse_diagram() -> str:
+    pass
 
 
-def part_2():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
+def part_1() -> int:
+    pass
+
+
+def part_2() -> int:
+    return 0
 
 
 if __name__ == "__main__":
