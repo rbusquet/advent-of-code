@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 // Run day 8
@@ -61,8 +61,8 @@ func Run() {
 	}
 
 	mapper := map[string]string{
-		"0": " ",
-		"1": "X",
+		"0": "  ",
+		"1": "██",
 	}
 	fmt.Println("Part two output:")
 	for index, x := range final {

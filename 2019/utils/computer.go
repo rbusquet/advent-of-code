@@ -58,7 +58,6 @@ func (c *Computer) Execute() {
 		fun(c)
 	}
 	close(c.output)
-	return
 }
 
 func add(c *Computer) {

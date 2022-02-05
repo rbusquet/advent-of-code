@@ -3,7 +3,7 @@ package day9
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 func run(input int) {

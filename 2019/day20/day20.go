@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 // Node is a node in the queue

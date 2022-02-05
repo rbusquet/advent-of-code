@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 // Moon holds position and velocity information of a moon

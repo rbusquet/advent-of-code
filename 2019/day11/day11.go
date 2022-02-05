@@ -3,7 +3,7 @@ package day11
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 type color int
@@ -108,12 +108,12 @@ func paint(colors map[utils.Position]*panel) {
 		for y := 0; y <= maxY+1; y++ {
 			if panel, exists := colors[utils.NewPosition(x, y)]; exists {
 				if panel.color == black {
-					fmt.Print(" ")
+					fmt.Print("  ")
 				} else {
-					fmt.Print("X")
+					fmt.Print("██")
 				}
 			} else {
-				fmt.Print(" ")
+				fmt.Print("  ")
 			}
 		}
 	}

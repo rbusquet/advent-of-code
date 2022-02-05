@@ -5,7 +5,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 // Asteroid asts

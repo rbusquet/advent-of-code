@@ -6,8 +6,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/gdamore/tcell"
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
+
+	"github.com/gdamore/tcell/v2"
 )
 
 // TileType is an int
@@ -94,6 +95,7 @@ func part2(showScreen bool, speed int) {
 					close(quit)
 					return
 				}
+				x += 1
 				y := <-output
 				if x == -1 {
 					v := strconv.Itoa(<-output)
@@ -120,7 +122,7 @@ func part2(showScreen bool, speed int) {
 					cell = tcell.RuneBlock
 					p = Tile{x, y}
 				case ball:
-					cell = 'x'
+					cell = '◉'
 					// sync = true
 					if !createdB {
 						createdB = true

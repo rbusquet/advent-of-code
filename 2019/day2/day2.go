@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/utils"
+	"github.com/rbusquet/advent-of-code/2019/utils"
 )
 
 func runProgram(noun int, verb int, memory ...int) []int {
@@ -34,7 +34,7 @@ func runProgram(noun int, verb int, memory ...int) []int {
 // Run day 2
 func Run() {
 	fmt.Println("-- Day 2 --")
-	file, scanner := utils.GenerateCommaSeparatedScanner("./day2/input2.txt")
+	file, scanner := utils.GenerateCommaSeparatedScanner("./day2/input.txt")
 	defer (*file).Close()
 	memory := []int{}
 

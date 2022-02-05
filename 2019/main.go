@@ -11,7 +11,6 @@ import (
 	"github.com/rbusquet/advent-of-code/2019/day13"
 	"github.com/rbusquet/advent-of-code/2019/day14"
 	"github.com/rbusquet/advent-of-code/2019/day15"
-	"github.com/rbusquet/advent-of-code/2019/day16"
 	"github.com/rbusquet/advent-of-code/2019/day17"
 	"github.com/rbusquet/advent-of-code/2019/day18"
 	"github.com/rbusquet/advent-of-code/2019/day19"
@@ -45,7 +44,7 @@ func main() {
 		"13": day13.Run,
 		"14": day14.Run,
 		"15": day15.Run,
-		"16": day16.Run, // tooooo slow
+		// "16": day16.Run, // tooooo slow
 		"17": day17.Run,
 		"18": day18.Run,
 		"19": day19.Run,
