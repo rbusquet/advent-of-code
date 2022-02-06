@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Node is a node in the queue
@@ -21,7 +21,7 @@ func buildGrid() (
 	map[utils.Position]rune,
 	utils.Vector,
 ) {
-	file, scanner := utils.GenerateLineScanner("./day20/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day20/input.txt")
 	defer file.Close()
 	y := 0
 

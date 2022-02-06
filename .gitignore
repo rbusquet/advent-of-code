@@ -109,3 +109,5 @@ venv.bak/
 poetry.lock
 
 !requirements.txt
+
+vendor/

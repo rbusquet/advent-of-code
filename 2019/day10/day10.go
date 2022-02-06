@@ -5,7 +5,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Asteroid asts
@@ -38,7 +38,7 @@ func (a *Asteroid) angle(other Asteroid) float64 {
 // Run day 10
 func Run() {
 	fmt.Println("-- Day 10 --")
-	file, scanner := utils.GenerateLineScanner("./day10/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day10/input.txt")
 	defer (*file).Close()
 	asteroids := []Asteroid{}
 	i := 0

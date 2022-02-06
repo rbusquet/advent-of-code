@@ -63,7 +63,10 @@ func main() {
 		handlers[day]()
 		return
 	}
-	for i := 1; i <= len(handlers); i++ {
+	for i := 1; i <= 22; i++ {
+		if i == 16 {
+			continue
+		}
 		handlers[strconv.Itoa(i)]()
 	}
 }

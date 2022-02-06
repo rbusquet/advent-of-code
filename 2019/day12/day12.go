@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Moon holds position and velocity information of a moon
@@ -65,7 +65,7 @@ func (m *Moon) totalEnergy() int {
 
 func part1() {
 	system := []*Moon{}
-	file, scanner := utils.GenerateLineScanner("./day12/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day12/input.txt")
 	defer (*file).Close()
 	for scanner.Scan() {
 		moon := NewMoon(scanner.Text())
@@ -90,7 +90,7 @@ func part1() {
 
 func part2() {
 	system := []*Moon{}
-	file, scanner := utils.GenerateLineScanner("./day12/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day12/input.txt")
 	defer (*file).Close()
 	for scanner.Scan() {
 		moon := NewMoon(scanner.Text())

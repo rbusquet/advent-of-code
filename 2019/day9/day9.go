@@ -3,15 +3,16 @@ package day9
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func run(input int) {
-	memory := utils.ReadProgram("./day9/input.txt")
+	memory := utils.ReadProgram("./2019/day9/input.txt")
 
 	entry := make(chan int)
 
-	computer := utils.NewComputer(&memory, entry)
+	computer := computer.NewComputer(&memory, entry)
 	go computer.Execute()
 	entry <- input
 

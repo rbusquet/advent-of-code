@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Run day 8
 func Run() {
 	fmt.Println("-- Day 8 --")
-	file, scanner := utils.GenerateLineScanner("./day8/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day8/input.txt")
 	defer (*file).Close()
 	scanner.Scan()
 	row := scanner.Text()

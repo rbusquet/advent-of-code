@@ -3,7 +3,8 @@ package day11
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 type color int
@@ -28,10 +29,10 @@ const (
 )
 
 func run(initial color) map[utils.Position]*panel {
-	program := utils.ReadProgram("./day11/input.txt")
+	program := utils.ReadProgram("./2019/day11/input.txt")
 
 	input := make(chan int)
-	computer := utils.NewComputer(&program, input)
+	computer := computer.NewComputer(&program, input)
 	go computer.Execute()
 	output := computer.GetOutput()
 	colors := make(map[utils.Position]*panel)

@@ -3,13 +3,14 @@ package day15
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func part1() []int {
-	program := utils.ReadProgram("./day15/input.txt")
+	program := utils.ReadProgram("./2019/day15/input.txt")
 	input := make(chan int)
-	computer := utils.NewComputer(&program, input)
+	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()
 	go computer.Execute()
 
@@ -73,9 +74,9 @@ func nextPosition(direction int, pos utils.Position) utils.Position {
 }
 
 func part2(initialPath []int) int {
-	program := utils.ReadProgram("./day15/input.txt")
+	program := utils.ReadProgram("./2019/day15/input.txt")
 	input := make(chan int)
-	computer := utils.NewComputer(&program, input)
+	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()
 	go computer.Execute()
 

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Point (x, y)
@@ -79,7 +79,7 @@ func wireLocations(wire string) map[Point]int {
 // Run day 3
 func Run() {
 	fmt.Println("-- Day 3 --")
-	file, scanner := utils.GenerateLineScanner("./day3/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day3/input.txt")
 	defer (*file).Close()
 	scanner.Scan()
 	wireA := scanner.Text()

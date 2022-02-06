@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func calculateFuel(mass int) int {
@@ -21,7 +21,7 @@ func calculateTotalFuel(mass int) int {
 // Run day 1
 func Run() {
 	fmt.Println("-- Day 1 --")
-	file, scanner := utils.GenerateLineScanner("./day1/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day1/input.txt")
 	defer (*file).Close()
 	total := 0
 

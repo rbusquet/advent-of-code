@@ -3,7 +3,8 @@ package day19
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func noop(x []int) []int {
@@ -12,7 +13,7 @@ func noop(x []int) []int {
 
 func drone(x, y int) int {
 	input := make(chan int)
-	output := utils.RunProgram("./day19/input.txt", input, noop)
+	output := computer.RunProgram("./2019/day19/input.txt", input, noop)
 	input <- x
 	input <- y
 	return <-output

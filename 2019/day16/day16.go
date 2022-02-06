@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func singleOutput(index int, input []int) int {
@@ -37,7 +37,7 @@ func singleOutput(index int, input []int) int {
 }
 
 func part1() {
-	file, scanner := utils.DigitSeparatedScanner("./day16/input.txt")
+	file, scanner := utils.DigitSeparatedScanner("./2019/day16/input.txt")
 	defer (*file).Close()
 
 	input := []int{}

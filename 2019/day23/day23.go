@@ -3,27 +3,28 @@ package main
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func main() {
 	inputs := make([]chan int, 50)
-	computers := make([]*utils.Computer, 50)
+	computers := make([]*computer.Computer, 50)
 
 	for i := 0; i < len(computers); i++ {
 		program := utils.ReadProgram("./program.txt")
 		input := make(chan int)
-		computer := utils.NewComputer(&program, input)
+		computer := computer.NewComputer(&program, input)
 		go computer.Execute()
 		inputs[i] = input
 		computers[i] = &computer
 	}
 
 	for i, input := range inputs {
-		computer := computers[i]
+		currentComputer := computers[i]
 		// process output
 		fmt.Printf("Starting computer %d\n", i)
-		go func(idx int, input chan int, c *utils.Computer) {
+		go func(idx int, input chan int, c *computer.Computer) {
 			input <- idx
 			output := c.GetOutput()
 
@@ -36,7 +37,7 @@ func main() {
 				}
 			}
 
-		}(i, input, computer)
+		}(i, input, currentComputer)
 	}
 
 }

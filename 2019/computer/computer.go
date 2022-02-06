@@ -1,4 +1,8 @@
-package utils
+package computer
+
+import (
+	"github.com/rbusquet/advent-of-code/utils"
+)
 
 // Computer can run programs using IntCode defined in adventofcode.com/2019
 type Computer struct {
@@ -39,7 +43,7 @@ func NOOP(x []int) []int {
 
 // RunProgram runs a program, preprocessing it before executing.
 func RunProgram(fileName string, input chan int, preprocess func([]int) []int) (out chan int) {
-	program := preprocess(ReadProgram(fileName))
+	program := preprocess(utils.ReadProgram(fileName))
 
 	computer := NewComputer(&program, input)
 	go computer.Execute()

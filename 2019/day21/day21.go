@@ -3,12 +3,12 @@ package day21
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
 )
 
 func part1() {
 	input := make(chan int)
-	output := utils.RunProgram("./day21/input.txt", input, utils.NOOP)
+	output := computer.RunProgram("./2019/day21/input.txt", input, computer.NOOP)
 	program := []string{
 		"NOT A J",
 		"NOT C T",
@@ -39,7 +39,7 @@ func part1() {
 
 func part2() {
 	input := make(chan int)
-	output := utils.RunProgram("./day21/input.txt", input, utils.NOOP)
+	output := computer.RunProgram("./2019/day21/input.txt", input, computer.NOOP)
 	program := []string{
 		"NOT C T", // T = !C,                 J = false
 		"NOT B J", // T = !C,                 J = !B

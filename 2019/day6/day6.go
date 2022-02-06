@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Planet represents each node in the orbits map
@@ -76,7 +76,7 @@ func (u *Universe) getDistance(from string, to string) int {
 // Run day 6
 func Run() {
 	fmt.Println("-- Day 5 --")
-	file, scanner := utils.GenerateLineScanner("./day6/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day6/input.txt")
 	defer (*file).Close()
 	planets := make(map[string]*Planet)
 	universe := Universe{planets}

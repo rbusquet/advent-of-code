@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Parcel is an ingredient of a reaction
@@ -62,7 +62,7 @@ func part1() {
 	reactions := make(map[string][]Parcel)
 	units := make(map[string]int)
 
-	file, scanner := utils.GenerateLineScanner("./day14/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day14/input.txt")
 	defer (*file).Close()
 	for scanner.Scan() {
 		reaction := strings.Split(scanner.Text(), " => ")
@@ -95,7 +95,7 @@ func part2() {
 	reactions := make(map[string][]Parcel)
 	units := make(map[string]int)
 
-	file, scanner := utils.GenerateLineScanner("./day14/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day14/input.txt")
 	defer (*file).Close()
 	for scanner.Scan() {
 		reaction := strings.Split(scanner.Text(), " => ")

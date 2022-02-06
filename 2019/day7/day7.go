@@ -3,19 +3,20 @@ package day7
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 // Amplifier is each of the thrust amplifiers of the ship
 type Amplifier struct {
-	computer *utils.Computer
+	computer *computer.Computer
 	input    chan int
 }
 
 // NewAmplifier returns Amplifier
 func NewAmplifier(program []int, input chan int) Amplifier {
 	cp := append([]int{}, program...)
-	computer := utils.NewComputer(&cp, input)
+	computer := computer.NewComputer(&cp, input)
 	return Amplifier{&computer, input}
 }
 
@@ -49,7 +50,7 @@ func Run() {
 }
 
 func runConfig(config []int) int {
-	memory := utils.ReadProgram("./day7/input.txt")
+	memory := utils.ReadProgram("./2019/day7/input.txt")
 	input := 0
 	in := make(chan int)
 	for _, phase := range config {
@@ -63,7 +64,7 @@ func runConfig(config []int) int {
 }
 
 func runLoop(config []int) int {
-	memory := utils.ReadProgram("./day7/input.txt")
+	memory := utils.ReadProgram("./2019/day7/input.txt")
 
 	entry := make(chan int)
 	lastOutput := entry

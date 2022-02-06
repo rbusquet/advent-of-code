@@ -3,13 +3,14 @@ package day17
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func part1() {
-	program := utils.ReadProgram("./day17/input.txt")
+	program := utils.ReadProgram("./2019/day17/input.txt")
 	input := make(chan int)
-	computer := utils.NewComputer(&program, input)
+	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()
 
 	go computer.Execute()
@@ -75,7 +76,7 @@ func part2() {
 		prog[0] = 2
 		return prog
 	}
-	output := utils.RunProgram("./day17/input.txt", input, preprocess)
+	output := computer.RunProgram("./2019/day17/input.txt", input, preprocess)
 	// print grid
 	skippedLine := false
 	for out := range output {

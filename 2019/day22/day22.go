@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rbusquet/advent-of-code/2019/utils"
+	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func cut(deck []int, n int) []int {
@@ -34,7 +34,7 @@ func dealWithIncrement(deck []int, n int) []int {
 }
 
 func part1() {
-	file, scanner := utils.GenerateLineScanner("./day22/input.txt")
+	file, scanner := utils.GenerateLineScanner("./2019/day22/input.txt")
 	defer file.Close()
 
 	SIZE := 10007
