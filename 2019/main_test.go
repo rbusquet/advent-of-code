@@ -1,8 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"os"
-	"strconv"
+	"testing"
 
 	"github.com/rbusquet/advent-of-code/2019/day1"
 	"github.com/rbusquet/advent-of-code/2019/day10"
@@ -27,46 +28,35 @@ import (
 	"github.com/rbusquet/advent-of-code/2019/day9"
 )
 
-func main() {
-	handlers := map[string]func(){
-		"1":  day1.Run,
-		"2":  day2.Run,
-		"3":  day3.Run,
-		"4":  day4.Run,
-		"5":  day5.Run,
-		"6":  day6.Run,
-		"7":  day7.Run,
-		"8":  day8.Run,
-		"9":  day9.Run,
-		"10": day10.Run,
-		"11": day11.Run,
-		"12": day12.Run,
-		"13": day13.Run,
-		"14": day14.Run,
-		"15": day15.Run,
-		// "16": day16.Run, // tooooo slow
-		"17": day17.Run,
-		"18": day18.Run,
-		"19": day19.Run,
-		"20": day20.Run,
-		"21": day21.Run,
-		"22": day22.Run,
+func TestAll(t *testing.T) {
+	os.Chdir("../")
+	handlers := []func(){
+		day1.Run,
+		day2.Run,
+		day3.Run,
+		day4.Run,
+		day5.Run,
+		day6.Run,
+		day7.Run,
+		day8.Run,
+		day9.Run,
+		day10.Run,
+		day11.Run,
+		day12.Run,
+		day13.Run,
+		day14.Run,
+		day15.Run,
+		// day16.Run, // tooooo slow
+		day17.Run,
+		day18.Run,
+		day19.Run,
+		day20.Run,
+		day21.Run,
+		day22.Run,
 	}
-	day := ""
-	for idx, arg := range os.Args {
-		if arg == "--day" {
-			day = os.Args[idx+1]
-			break
-		}
+	for _, run := range handlers {
+		fmt.Println("ran")
+		run()
 	}
-	if day != "" {
-		handlers[day]()
-		return
-	}
-	for i := 1; i <= 22; i++ {
-		if i == 16 {
-			continue
-		}
-		handlers[strconv.Itoa(i)]()
-	}
+
 }
