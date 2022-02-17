@@ -29,15 +29,12 @@ func main() {
 			output := c.GetOutput()
 
 			for {
-
 				select {
 				case input <- x:
 
 				case dest, ok := <-output:
 				}
 			}
-
 		}(i, input, currentComputer)
 	}
-
 }

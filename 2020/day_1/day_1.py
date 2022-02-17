@@ -1,3 +1,4 @@
+import functools
 import time
 from functools import reduce
 from itertools import combinations
@@ -8,8 +9,9 @@ P = ParamSpec("P")
 T = TypeVar("T")
 
 
-def time_it(fn: Callable[P, T]) -> Callable[P, T]:  # type: ignore[misc]
-    def timed(*args: P.args, **kwargs: P.kwargs) -> T:  # type: ignore[name-defined]
+def time_it(fn: Callable[P, T]) -> Callable[P, T]:
+    @functools.wraps(fn)
+    def timed(*args: P.args, **kwargs: P.kwargs) -> T:
         before = time.process_time_ns()
         result = fn(*args, **kwargs)
         after = time.process_time_ns()
