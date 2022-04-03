@@ -26,14 +26,14 @@ func main() {
 		fmt.Printf("Starting computer %d\n", i)
 		go func(idx int, input chan int, c *computer.Computer) {
 			input <- idx
-			output := c.GetOutput()
+			// output := c.GetOutput()
 
 			for {
-				select {
-				case input <- x:
+				// select {
+				// case input <- x:
 
-				case dest, ok := <-output:
-				}
+				// case dest, ok := <-output:
+				// }
 			}
 		}(i, input, currentComputer)
 	}

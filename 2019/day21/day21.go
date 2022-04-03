@@ -60,7 +60,7 @@ func part2() {
 				fmt.Println(out)
 				break
 			}
-			fmt.Print(string(out))
+			fmt.Print(fmt.Sprint(out))
 		}
 		quit <- 1
 	}()

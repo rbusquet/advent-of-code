@@ -64,9 +64,9 @@ func DigitSeparatedScanner(fileName string) (*os.File, *bufio.Scanner) {
 
 // Permutations returns permutations
 // From https://en.wikipedia.org/wiki/Heap%27s_algorithm#Details_of_the_algorithm
-func Permutations(input []int, size int) [][]int {
+func Permutations[T any](input []T, size int) [][]T {
 	if size == 1 {
-		return [][]int{append([]int{}, input...)}
+		return [][]T{append([]T{}, input...)}
 	}
 	results := Permutations(input, size-1)
 	for i := 0; i < size-1; i++ {

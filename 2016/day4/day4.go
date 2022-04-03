@@ -68,7 +68,7 @@ loop:
 			}
 			position := int(char - 'a')
 			decrypted := (position + sector) % 26
-			actualName += string('a' + decrypted)
+			actualName += fmt.Sprint('a' + decrypted)
 		}
 		if strings.TrimSpace(actualName) == "northpole object storage" {
 			fmt.Println("Part two output:", sector)

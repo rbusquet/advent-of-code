@@ -1,6 +1,6 @@
 module github.com/rbusquet/advent-of-code
 
-go 1.17
+go 1.18
 
 require github.com/gdamore/tcell/v2 v2.4.0
 
