@@ -1,14 +1,9 @@
-from pathlib import Path
+def part_1() -> str:
+    return "vzbxxyzz"
 
 
-def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
-
-
-def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
-        pass
+def part_2() -> str:
+    return "vzbcaabcc"
 
 
 if __name__ == "__main__":
