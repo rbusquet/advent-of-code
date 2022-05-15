@@ -8,7 +8,7 @@ import (
 )
 
 func part1() {
-	program := utils.ReadProgram("./2019/day17/input.txt")
+	program := computer.ReadProgram("./2019/day17/input.txt")
 	input := make(chan int)
 	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()

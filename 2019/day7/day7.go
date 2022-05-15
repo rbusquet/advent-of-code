@@ -50,7 +50,7 @@ func Run() {
 }
 
 func runConfig(config []int) int {
-	memory := utils.ReadProgram("./2019/day7/input.txt")
+	memory := computer.ReadProgram("./2019/day7/input.txt")
 	input := 0
 	in := make(chan int)
 	for _, phase := range config {
@@ -64,7 +64,7 @@ func runConfig(config []int) int {
 }
 
 func runLoop(config []int) int {
-	memory := utils.ReadProgram("./2019/day7/input.txt")
+	memory := computer.ReadProgram("./2019/day7/input.txt")
 
 	entry := make(chan int)
 	lastOutput := entry

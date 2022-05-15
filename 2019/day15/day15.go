@@ -8,7 +8,7 @@ import (
 )
 
 func part1() []int {
-	program := utils.ReadProgram("./2019/day15/input.txt")
+	program := computer.ReadProgram("./2019/day15/input.txt")
 	input := make(chan int)
 	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()
@@ -74,7 +74,7 @@ func nextPosition(direction int, pos utils.Position) utils.Position {
 }
 
 func part2(initialPath []int) int {
-	program := utils.ReadProgram("./2019/day15/input.txt")
+	program := computer.ReadProgram("./2019/day15/input.txt")
 	input := make(chan int)
 	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()

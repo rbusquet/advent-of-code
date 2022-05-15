@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	"github.com/rbusquet/advent-of-code/2019/computer"
-	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func run(input int) {
-	memory := utils.ReadProgram("./2019/day9/input.txt")
+	memory := computer.ReadProgram("./2019/day9/input.txt")
 
 	entry := make(chan int)
 

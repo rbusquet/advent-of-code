@@ -29,7 +29,7 @@ const (
 )
 
 func run(initial color) map[utils.Position]*panel {
-	program := utils.ReadProgram("./2019/day11/input.txt")
+	program := computer.ReadProgram("./2019/day11/input.txt")
 
 	input := make(chan int)
 	computer := computer.NewComputer(&program, input)

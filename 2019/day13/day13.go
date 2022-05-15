@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/rbusquet/advent-of-code/2019/computer"
-	"github.com/rbusquet/advent-of-code/utils"
 
 	"github.com/gdamore/tcell/v2"
 )
@@ -29,7 +28,7 @@ type Tile struct {
 }
 
 func part1() {
-	program := utils.ReadProgram("./2019/day13/input.txt")
+	program := computer.ReadProgram("./2019/day13/input.txt")
 	input := make(chan int)
 	computer := computer.NewComputer(&program, input)
 	output := computer.GetOutput()
@@ -55,7 +54,7 @@ func part1() {
 }
 
 func part2(showScreen bool, speed int) {
-	program := utils.ReadProgram("./2019/day13/input.txt")
+	program := computer.ReadProgram("./2019/day13/input.txt")
 	program[0] = 2
 
 	input := make(chan int)

@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/rbusquet/advent-of-code/2019/computer"
-	"github.com/rbusquet/advent-of-code/utils"
 )
 
 func main() {
@@ -12,7 +11,7 @@ func main() {
 	computers := make([]*computer.Computer, 50)
 
 	for i := 0; i < len(computers); i++ {
-		program := utils.ReadProgram("./program.txt")
+		program := computer.ReadProgram("./program.txt")
 		input := make(chan int)
 		computer := computer.NewComputer(&program, input)
 		go computer.Execute()

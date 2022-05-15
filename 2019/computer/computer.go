@@ -1,6 +1,9 @@
 package computer
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/rbusquet/advent-of-code/utils"
 )
 
@@ -14,6 +17,19 @@ type Computer struct {
 	instruction    int
 	relativeBase   int
 	instructionSet map[int]func(*Computer)
+}
+
+// ReadProgram reads an IntCode program from a file
+func ReadProgram(filename string) (program []int) {
+	memory := []int{}
+	file, scanner := utils.GenerateCommaSeparatedScanner(filename)
+	for scanner.Scan() {
+		if val, err := strconv.Atoi(strings.TrimSpace(scanner.Text())); err == nil {
+			memory = append(memory, val)
+		}
+	}
+	file.Close()
+	return memory
 }
 
 // NewComputer instantiates a new computer object
@@ -43,7 +59,7 @@ func NOOP(x []int) []int {
 
 // RunProgram runs a program, preprocessing it before executing.
 func RunProgram(fileName string, input chan int, preprocess func([]int) []int) (out chan int) {
-	program := preprocess(utils.ReadProgram(fileName))
+	program := preprocess(ReadProgram(fileName))
 
 	computer := NewComputer(&program, input)
 	go computer.Execute()
