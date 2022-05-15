@@ -54,9 +54,9 @@ func TestAll(t *testing.T) {
 		day21.Run,
 		day22.Run,
 	}
-	for _, run := range handlers {
-		fmt.Println("ran")
-		run()
+	for i, run := range handlers {
+		t.Run(fmt.Sprintf("Test for day #%d", i), func(t *testing.T) {
+			run()
+		})
 	}
-
 }
