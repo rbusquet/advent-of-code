@@ -13,7 +13,7 @@ class Solver:
     def __init__(self):
         results = dict[str, tuple[str | int, ...]]()
 
-        with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+        with open(Path(__file__).parent / "input.txt") as file:
             for line in file:
                 match line.split():
                     case [operator, a, "->", b]:

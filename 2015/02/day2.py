@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         total_area = 0
         for square in file:
             l, w, h = map(int, square.split("x"))
@@ -13,7 +13,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         total_ribbon = 0
         for square in file:
             l, w, h = map(int, square.split("x"))

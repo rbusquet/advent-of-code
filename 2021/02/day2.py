@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def part_1():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         horizontal = depth = 0
         for command in file:
             match command.split(" "):
@@ -16,7 +16,7 @@ def part_1():
 
 
 def part_2():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         horizontal = depth = aim = 0
         for command in file:
             match command.split(" "):

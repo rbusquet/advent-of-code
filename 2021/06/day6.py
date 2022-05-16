@@ -121,25 +121,25 @@ def grow_fastest(initial: list[int], max_days: int) -> int:
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         fishes = list(map(int, file.readline().split(",")))
     return grow_slow(fishes, max_days=80)
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         fishes = list(map(int, file.readline().split(",")))
     return grow_fast(fishes, 256)
 
 
 def part_2_faster() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         fishes = list(map(int, file.readline().split(",")))
     return grow_faster(fishes, 256)
 
 
 def part_2_fastest() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         fishes = list(map(int, file.readline().split(",")))
     return grow_fastest(fishes, 256)
 

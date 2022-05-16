@@ -40,13 +40,13 @@ def best_alignment_part_2(crabs: list[int]) -> int:
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         crabs = list(map(int, file.readline().split(",")))
     return best_alignment(crabs)
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         crabs = list(map(int, file.readline().split(",")))
     return best_alignment_part_2(crabs)
 

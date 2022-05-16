@@ -15,7 +15,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         secret = file.readline()
     for number in count():
         result = md5(f"{secret}{number}".encode())

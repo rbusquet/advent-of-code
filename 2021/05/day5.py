@@ -49,7 +49,7 @@ def get_coverage(file: TextIO, non_diagonal: bool = True) -> Iterator[tuple[int,
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         coverage = Counter(get_coverage(file))
 
         # remove 1s
@@ -58,7 +58,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         coverage = Counter(get_coverage(file, non_diagonal=False))
 
         # remove 1s

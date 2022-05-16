@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         x, y = 0, 0
         visited = set[tuple[int, int]]()
         visited.add((x, y))
@@ -23,7 +23,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         positions = [0, 0, 0, 0]
         visited = set[tuple[int, int]]()
         visited.add((0, 0))

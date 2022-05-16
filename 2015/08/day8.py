@@ -26,7 +26,7 @@ def encoded_len(word: str) -> int:
 
 def part_1() -> int:
     total = 0
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         for line in file:
             a, b = len(line.strip()), memory_len(line.strip())
             total += a
@@ -36,7 +36,7 @@ def part_1() -> int:
 
 def part_2() -> int:
     total = 0
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         for line in file:
             a, b = len(line.strip()), encoded_len(line.strip())
             total -= a

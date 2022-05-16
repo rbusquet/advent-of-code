@@ -2,7 +2,7 @@ from pathlib import Path
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         floor = 0
         while step := file.read(1):
             floor += step == "(" or -1
@@ -10,7 +10,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         floor = 0
         position = 1
         while step := file.read(1):

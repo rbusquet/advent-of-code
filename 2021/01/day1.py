@@ -17,7 +17,7 @@ def sliding_window(iterable: Iterable[T], n: int) -> Iterator[tuple[T, ...]]:
 
 
 def part_1() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         previous = int(file.readline())
 
         increases = 0
@@ -28,7 +28,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
 
         it = sliding_window(map(int, file), 3)
         previous = next(it)

@@ -49,7 +49,7 @@ class Board:
 
 
 def part_1():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         boards, numbers = build_game(file)
 
         for number in numbers:
@@ -61,7 +61,7 @@ def part_1():
 
 
 def part_2():
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         boards, numbers = build_game(file)
 
         winners = []

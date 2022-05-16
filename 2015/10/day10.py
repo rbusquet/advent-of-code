@@ -19,7 +19,7 @@ def yield_and_count(seq):
 
 def part_1() -> None:
     print("start time:", time_ns())
-    with open(Path(__file__).parent / "input.txt") as file:  # noqa: F841
+    with open(Path(__file__).parent / "input.txt") as file:
         initial = file.readline().strip()
     print(time_ns())
     word = iter(initial)
