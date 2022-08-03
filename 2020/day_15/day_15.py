@@ -3,14 +3,16 @@ from progress.bar import PixelBar
 
 def memory_game(initial, stop):
     seen = {}
+    last_index = index
 
     for index, value in enumerate(initial):
         seen[value] = index
+        last_index = index
 
     last_spoken = initial[-1]
     # print(f"last spoken: {last_spoken}")
     with PixelBar() as bar:
-        for index in range(index - 1, stop - 1):
+        for index in range(last_index - 1, stop - 1):
             next_spoken = index - seen.get(last_spoken, index)
             seen[last_spoken] = index
             last_spoken = next_spoken

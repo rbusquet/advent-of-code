@@ -3,7 +3,7 @@ from typing import Iterator
 
 def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:
     left = 0
-    right = 2 ** count
+    right = 2**count
 
     for i in range(count):
         ch = code[i]

@@ -34,7 +34,7 @@ for generation in range(50000000000):
     current_generation = f"{gutter}{current_generation}{gutter}"
     # print(f'{generation}: {current_generation}')
     first_index -= 5
-    index = first_index
+    index = first_index  # noqa: SIM113
     generation_sum = 0
     for pot in range(len(current_generation)):
         l2 = current_generation[pot - 2] if pot - 2 >= 0 else "."
