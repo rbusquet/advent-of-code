@@ -1,4 +1,6 @@
 from collections import defaultdict
+from functools import partial
+from pathlib import Path
 from string import ascii_uppercase, digits, punctuation
 
 mapping = ascii_uppercase + punctuation + digits
@@ -7,7 +9,7 @@ mapping = ascii_uppercase + punctuation + digits
 print("--- DAY 06: part 1 ---")
 
 coordinates = []
-with open("input6.txt") as f:
+with open(Path(__file__).parent / "input.txt") as f:
     for line in f.readlines():
         coordinates.append(tuple(map(int, line.split(", "))))
 
@@ -32,15 +34,16 @@ min_x, max_x = min_max(c[0] for c in coordinates)
 min_y, max_y = min_max(c[1] for c in coordinates)
 
 
-def part_1(M):
+def part_1(M=0):
     areas = defaultdict(int)
+
     for x in range(min_x - M, max_x + M):
         for y in range(min_y - M, max_y + M):
             p = x, y
-            closest_points = sorted(coordinates, key=lambda c: distance(c, p))
+            closest_points = sorted(coordinates, key=partial(distance, p))
             if distance(p, closest_points[0]) != distance(p, closest_points[1]):
                 areas[closest_points[0]] += 1
-    return areas
+    return max(areas.values())
 
 
 def part_2():

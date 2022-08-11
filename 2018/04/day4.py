@@ -11,11 +11,13 @@ class Entry(NamedTuple):
     data: str
 
 
-entries = []
+entries = list[Entry]()
 entry_regex = re.compile(r"\[([:\d\s-]+)\] (.*)")
 with open("input4.txt") as f:
     for line in f.readlines():
-        date_time, info = entry_regex.match(line).groups()
+        if (match := entry_regex.match(line)) is None:
+            continue
+        date_time, info = match.groups()
         parsed_datetime = datetime.datetime.strptime(date_time, "%Y-%m-%d %H:%M")
         entries.append(Entry(parsed_datetime, info))
 
@@ -23,7 +25,7 @@ entries = sorted(entries, key=lambda e: e.date_time)
 
 guard_regex = re.compile(r"Guard #(\d+).*")
 guards = defaultdict(list)
-night_timeline = []
+night_timeline = list[int]()
 for entry in entries:
     guard_match = guard_regex.match(entry.data)
     if guard_match:

@@ -16,7 +16,7 @@ with open("input12.txt") as f:
 
 gutter = "....."
 current_generation = INITIAL_STATE
-first_index = 0
+
 last_generation_sum = 0
 diff = 0
 for generation in range(50000000000):
@@ -33,10 +33,9 @@ for generation in range(50000000000):
     next_generation = ""
     current_generation = f"{gutter}{current_generation}{gutter}"
     # print(f'{generation}: {current_generation}')
-    first_index -= 5
-    index = first_index  # noqa: SIM113
+
     generation_sum = 0
-    for pot in range(len(current_generation)):
+    for index, pot in enumerate(range(len(current_generation))):
         l2 = current_generation[pot - 2] if pot - 2 >= 0 else "."
         l1 = current_generation[pot - 1] if pot - 1 >= 0 else "."
         r1 = current_generation[pot + 1] if pot + 1 < len(current_generation) else "."
@@ -44,8 +43,8 @@ for generation in range(50000000000):
 
         result = RULES.get(l2 + l1 + current_generation[pot] + r1 + r2, ".")
         if result == "#":
-            generation_sum += index
-        index += 1  # noqa: SIM113
+            generation_sum += index - 5
+
         next_generation += result
 
     diff = generation_sum - last_generation_sum

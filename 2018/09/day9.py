@@ -37,7 +37,7 @@ class Marble:
 
 
 current_marble = Marble(0)
-scores = defaultdict(int)
+scores = defaultdict[int, int](int)
 
 for _round in range(1, MARBLES + 1):
     print(_round)

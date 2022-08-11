@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass
@@ -28,10 +29,10 @@ def next_input():
 
 items = next_input()
 # print(list(next_input()))
-queue = []
+queue = list[Node]()
 nodes = []
 
-current_parent: Node = None
+current_parent: Optional[Node] = None
 while True:
     try:
         current_parent = queue[-1] if queue else None

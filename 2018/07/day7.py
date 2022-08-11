@@ -8,8 +8,9 @@ regex = re.compile(r"Step ([A-Z]) must be finished before step ([A-Z]) can begin
 instructions = []
 with open("input7.txt") as f:
     for line in f:
-        matches = regex.match(line).groups()
-        instructions.append(matches)
+        if match := regex.match(line):
+            groups = match.groups()
+            instructions.append(groups)
 
 
 requirements = defaultdict(list)
@@ -17,15 +18,17 @@ for step in instructions:
     requirements[step[1]].append(step[0])
 
 
-steps = list(ascii_uppercase)
+letters = list(ascii_uppercase)
 ordering = []
 
-while steps:
-    for i, step in enumerate(steps):
-        requirements[step] = [req for req in requirements[step] if req not in ordering]
-        if not requirements[step]:
-            ordering.append(step)
-            steps.pop(i)
+while letters:
+    for i, letter in enumerate(letters):
+        requirements[letter] = [
+            req for req in requirements[letter] if req not in ordering
+        ]
+        if not requirements[letter]:
+            ordering.append(letter)
+            letters.pop(i)
             break
 
 pprint("".join(ordering))
@@ -37,9 +40,8 @@ steps = list(ascii_uppercase)
 BASE_SECONDS = 60
 TOTAL_WORKES = 5
 time_to_complete = {step: BASE_SECONDS + i + 1 for i, step in enumerate(steps)}
-complete = []
 
-workers = set()
+workers = set[tuple]()
 
 requirements = defaultdict(list)
 for step in instructions:

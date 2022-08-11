@@ -17,8 +17,8 @@ claims = []
 regex = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
 with open("input3.txt") as f:
     for line in f.readlines():
-        match = regex.match(line)
-        claims.append(Claim(*[int(x) for x in match.groups()]))
+        if match := regex.match(line):
+            claims.append(Claim(*[int(x) for x in match.groups()]))
 
 
 fabric = [[0] * 1000 for i in range(1000)]

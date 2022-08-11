@@ -2,8 +2,6 @@ from collections import defaultdict
 
 SERIAL_NUMBER = 7803
 
-matrix = defaultdict(int)
-
 
 def power(x, y):
     x, y = x + 1, y + 1
@@ -15,7 +13,7 @@ def power(x, y):
     return hundreds - 5
 
 
-matrix = defaultdict(int)
+matrix = defaultdict[tuple[int, int], int](int)
 for y in range(1, 301):
     for x in range(1, 301):
         p = power(x, y)

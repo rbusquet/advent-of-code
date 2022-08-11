@@ -34,7 +34,9 @@ min_x = min_y = 0
 
 with open("input10.txt") as f:
     for line in f.readlines():
-        px, py, vx, vy = map(int, regex.match(line).groups())
+        if (match := regex.match(line)) is None:
+            continue
+        px, py, vx, vy = map(int, match.groups())
         vectors.append(Vector(px, py, vx, vy))
         min_x = min(min_x, px)
         min_y = min(min_y, py)
