@@ -28,9 +28,9 @@ args = parser.parse_args()
 if __name__ == "__main__":
 
     for i in range(1, 26):
-        old_dir = Path(f"{args.year}", f"{i:02}")
+        # old_dir = Path(f"{args.year}", f"{i:02}")
         dir = Path(f"{args.year}", f"day_{i:02}")
-        old_dir.rename(dir)
+        # old_dir.rename(dir)
         init = dir / "__init__.py"
         file = dir / f"day{i}.py"
         input_file = dir / "input.txt"
