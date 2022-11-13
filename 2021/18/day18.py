@@ -4,8 +4,9 @@ import functools
 import math
 import re
 from itertools import combinations
-from more_itertools import last
 from pathlib import Path
+
+from more_itertools import last
 
 re_single_number = re.compile(r"\d+")
 re_regular_number = re.compile(r"\[(\d+),(\d+)\]")
@@ -97,14 +98,14 @@ def magnitude(a: str) -> int:
 
 def part_1() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
-        numbers = map(lambda a: a.strip(), file.readlines())
+        numbers = [a.strip() for a in file.readlines()]
     result = functools.reduce(add, numbers)
     return magnitude(result)
 
 
 def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
-        numbers = map(lambda a: a.strip(), file.readlines())
+        numbers = [a.strip() for a in file.readlines()]
     magnitudes = []
 
     for x, y in combinations(numbers, 2):

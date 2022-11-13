@@ -1,9 +1,10 @@
 from collections import Counter
 from functools import cache
 from itertools import cycle, product
-from more_itertools import chunked
 from pathlib import Path
 from typing import Iterator, cast
+
+from more_itertools import chunked
 
 
 def deterministic_die() -> Iterator[int]:

@@ -4,7 +4,7 @@ from typing import Iterator
 
 def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
-        yield from map(lambda c: c.strip(), f.readlines())
+        yield from (c.strip() for c in f.readlines())
 
 
 to_containers = defaultdict[str, set[str]](set)

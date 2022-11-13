@@ -1,8 +1,9 @@
 from collections import defaultdict
 from itertools import combinations
-from more_itertools import one
 from pathlib import Path
 from typing import Iterable, Iterator
+
+from more_itertools import one
 
 Vector = tuple[int, int, int]
 Pair = tuple[Vector, Vector]

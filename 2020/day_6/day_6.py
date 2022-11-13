@@ -4,7 +4,7 @@ from typing import Iterator, List, Tuple
 
 def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
-        yield from map(lambda c: c.strip(), f.readlines())
+        yield from (c.strip() for c in f.readlines())
 
 
 Group = Tuple[Counter[str], int]
@@ -23,7 +23,7 @@ for line in read_file():
 
 groups.append((current_group, group_size))
 print("--- part 1 ---")
-print(sum(map(lambda c: len(c[0]), groups)))
+print(sum(len(c[0]) for c in groups))
 
 print("--- part 2 ---")
 

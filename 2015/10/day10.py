@@ -1,7 +1,8 @@
-from more_itertools import run_length
 from pathlib import Path
 from time import time_ns
 from typing import Iterator
+
+from more_itertools import run_length
 
 
 def look_and_say(look: Iterator[str]) -> Iterator[str]:
