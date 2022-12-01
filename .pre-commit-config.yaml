@@ -43,4 +43,5 @@ repos:
         args: [--namespace-packages]
         additional_dependencies:
           - requests == 2.27.1
+          - types-requests
           - more_itertools
