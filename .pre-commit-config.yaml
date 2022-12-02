@@ -12,8 +12,8 @@ repos:
     rev: 22.3.0
     hooks:
       - id: black
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 5.0.4
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
     hooks:
       - id: flake8
         additional_dependencies:
@@ -40,7 +40,7 @@ repos:
     rev: v0.971
     hooks:
       - id: mypy
-        args: [--namespace-packages]
+        args: ["--namespace-packages", "--explicit-package-bases"]
         additional_dependencies:
           - requests == 2.27.1
           - types-requests
