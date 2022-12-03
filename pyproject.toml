@@ -1,5 +1,7 @@
+# mypy global options:
+
 [tool.mypy]
 python_version = "3.10"
-warn_return_any = true
 warn_unused_configs = true
-files = "20*/**/*.py"
+
+mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"

@@ -1,12 +1,14 @@
-from typing import DefaultDict, NamedTuple
+from collections import defaultdict
+from dataclasses import dataclass
 
 
-class Cube(NamedTuple):
+@dataclass
+class Cube:
     x: int
     y: int
     z: int
 
-    def __add__(self, cube: "Cube"):
+    def __add__(self, cube: "Cube") -> "Cube":
         return Cube(self.x + cube.x, self.y + cube.y, self.z + cube.z)
 
     @classmethod
@@ -30,10 +32,10 @@ def read_file():
         yield from (c.strip() for c in f.readlines())
 
 
-hex_grid = DefaultDict(bool)
+hex_grid = defaultdict[Cube, bool](bool)
 
 
-def find_cube(instruction):
+def find_cube(instruction) -> Cube:
     p = 0
     cube = Cube.new()
     while p < len(instruction):
@@ -48,7 +50,7 @@ def find_cube(instruction):
     return cube
 
 
-hex_grid = DefaultDict(bool)
+hex_grid = defaultdict[Cube, bool](bool)
 
 for instruction in read_file():
     cube = find_cube(instruction)
@@ -66,7 +68,7 @@ def neighborhood(cube: Cube):
 
 def full_cycle(grid, days):
     for _ in range(days):
-        cube_to_active_count = DefaultDict[Cube, int](int)
+        cube_to_active_count = defaultdict[Cube, int](int)
 
         for cube in grid:
             if not grid[cube]:

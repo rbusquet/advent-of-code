@@ -88,7 +88,7 @@ def part_1() -> int:
     z = 0
 
     for fun in decompiler.functions[1:]:
-        z = eval(fun, {"w": w, "z": z})
+        z = eval(fun, {"w": w, "z": z})  # type: ignore[name-defined]
 
     return 0
 

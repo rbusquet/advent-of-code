@@ -47,12 +47,13 @@ def part_2() -> int:  # noqa: C901
         for line in file:
             patterns, outputs = line.strip().split(" | ")
 
-            decoder = defaultdict[str, list[str]](set)
+            decoder = defaultdict[str, list[str]](list)
 
             sorted_patterns = sorted(map(set[str], patterns.split()), key=len)
 
-            patterns_by_length = defaultdict[int, list[str]](list)
+            patterns_by_length = defaultdict[int, set[str]](set)
 
+            one = set()
             for current in sorted_patterns:
                 match len(current):
                     case 2:
@@ -69,9 +70,9 @@ def part_2() -> int:  # noqa: C901
                             if segment not in decoder:
                                 decoder[segment] = ["b", "d"]
                     case 5:
-                        patterns_by_length[5].append(current)
+                        patterns_by_length[5].update(current)
                     case 6:
-                        patterns_by_length[6].append(current)
+                        patterns_by_length[6].update(current)
                     case 7:
                         for segment in current:
                             if segment not in decoder:
@@ -89,9 +90,9 @@ def part_2() -> int:  # noqa: C901
             # 'g' -> ['e', 'g']  # g and e want to light up the lower L
             # 'e' -> ['e', 'g']  # (just a coincidence????)
             # solve 5
-            for current in patterns_by_length[5]:
+            for word in patterns_by_length[5]:
                 base = set[frozenset[str]]()
-                for segment in current:
+                for segment in word:
                     possibles = decoder[segment]
                     children = set[frozenset[str]]()
                     for possible in possibles:
@@ -103,7 +104,7 @@ def part_2() -> int:  # noqa: C901
                     base = children
                 potential_solution = [a for a in base if a in DISPLAY_TO_NUMBER]
                 if len(potential_solution) == 1:
-                    for segment in current:
+                    for segment in word:
                         decoder[segment] = list(
                             set(decoder[segment]) & set(potential_solution[0])
                         )

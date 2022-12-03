@@ -1,12 +1,15 @@
 from itertools import count, product
+from typing import Generator
 
 
-def read_file():
+def read_file() -> Generator[str, None, None]:
     with open("./input.txt") as f:
-        yield from map(lambda c: c.strip(), f.readlines())
+        yield from (c.strip() for c in f.readlines())
 
 
-layout = {}
+Point = tuple[int, int]
+
+layout = dict[Point, str]()
 
 max_i = 0
 max_j = 0
@@ -59,8 +62,8 @@ def count_occupied(i, j, layout):
 while True:
     new_layout = {}
     occupied_count = 0
-    for seat, state in layout.items():
-        i, j = seat
+    for position, state in layout.items():
+        i, j = position
         new_layout[i, j] = state
         if state == "L":
             has_adj = check_adj(i, j, layout)

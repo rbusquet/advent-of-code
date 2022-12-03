@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+from operator import itemgetter
 from typing import List
 
 regex = re.compile(
@@ -51,7 +52,7 @@ while True:
 
     positions = [v.current_position for v in vectors]
     min_x = min(positions)[0]
-    min_y = min(positions, key=lambda n: n[1])[1]
+    min_y = min(positions, key=itemgetter(1))[1]
 
     # normalize vectors
     for vector in vectors:
@@ -59,7 +60,7 @@ while True:
         matrix[vector.current_position] = "#"
 
     max_x = max(matrix)[0]
-    max_y = max(matrix, key=lambda n: n[1])[1]
+    max_y = max(matrix, key=itemgetter(1))[1]
     if max_x > 200:
         print(f"{max_x} is still large to print")
         continue

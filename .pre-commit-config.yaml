@@ -45,3 +45,4 @@ repos:
           - requests == 2.27.1
           - types-requests
           - more_itertools
+          - progress == 1.6

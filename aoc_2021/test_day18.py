@@ -1,6 +1,6 @@
 import functools
 
-from day18 import add, magnitude
+from .day18 import add, magnitude
 
 
 def test_add() -> None:
