@@ -22,9 +22,21 @@ if __name__ == "__main__":
             (right[0], left[0], left[1], right[1]),
         ]
 
+        # without ordered step
+        assert fully_contains == (
+            (left[0] <= right[0] and left[1] >= right[1])
+            or (right[0] <= left[0] and right[1] >= left[1])
+        )
+
         no_overlaps = (
             ordered == (left[0], left[1], right[0], right[1]) and left[1] != right[0]
         ) or (ordered == (right[0], right[1], left[0], left[1]) and right[1] != left[0])
+
+        # without ordered step
+        assert no_overlaps != (left[0] <= right[1] and left[1] >= right[0]) or (
+            right[0] <= left[1] and right[1] >= left[0]
+        )
+
         fully_contains_count += fully_contains
         overlaps_count += not no_overlaps
 
