@@ -24,20 +24,19 @@ with open("input4.txt") as f:
 entries = sorted(entries, key=lambda e: e.date_time)
 
 guard_regex = re.compile(r"Guard #(\d+).*")
-guards = defaultdict(list)
+guards = defaultdict[str, list[list[int]]](list)
 night_timeline = list[int]()
 for entry in entries:
     guard_match = guard_regex.match(entry.data)
     if guard_match:
-        night_timeline = []
+        night_timeline = list[int]()
         guard_id = guard_match.group(1)
         guards[guard_id].append(night_timeline)
         continue
     night_timeline.append(entry.date_time.minute)
 
 
-def most_sleep(guard):
-    guard_id, nights = guard
+def most_sleep(nights: list[list[int]]) -> int:
     total_sleep = 0
     for night in nights:
         for index in range(0, len(night), 2):
@@ -48,7 +47,7 @@ def most_sleep(guard):
     return total_sleep
 
 
-choosen_guard = max(guards.items(), key=most_sleep)
+choosen_guard = max(guards.items(), key=lambda a: most_sleep(a[1]))
 
 choosen_guard_nights = choosen_guard[1]
 

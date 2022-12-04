@@ -1,5 +1,12 @@
 {
-    "python.linting.flake8Enabled": true,
-    "python.formatting.provider": "black",
-    "python.linting.mypyEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.formatting.provider": "black",
+  "python.linting.mypyEnabled": true,
+  "isort.importStrategy": "fromEnvironment",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "isort.check": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.stubPath": "stubs"
 }

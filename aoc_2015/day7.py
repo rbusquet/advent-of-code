@@ -1,5 +1,11 @@
 # mypy: ignore-errors
 from pathlib import Path
+from typing import Literal
+
+Operators = Literal["AND", "OR", "LSHIFT", "RSHIFT"]
+Negate = tuple[Literal["NOT"], str | int]
+Operation = tuple[str | int, Operators, str | int]
+Single = tuple[str | int]
 
 
 class Solver:
@@ -10,23 +16,29 @@ class Solver:
         "RSHIFT": lambda a, b: a >> b,
     }
 
-    def __init__(self):
-        results = dict[str, tuple[str | int, ...]]()
+    def __init__(self) -> None:
+        results = dict[str, Negate | Operation | Single | int]()
 
         with open(Path(__file__).parent / "input.txt") as file:
             for line in file:
                 match line.split():
-                    case [operator, a, "->", b]:
-                        results[b] = (operator, a)
+                    case ["NOT", a, "->", b]:
+                        results[b] = ("NOT", a)
                     case [a, "->", b]:
                         if a.isdigit():
                             a = int(a)
                         results[b] = (a,)
-                    case [a, operator, b, "->", c]:
+                    case [
+                        a,
+                        "AND" | "OR" | "LSHIFT" | "RSHIFT" as operator,
+                        b,
+                        "->",
+                        c,
+                    ]:
                         results[c] = (a, operator, b)
         self.results = results
 
-    def do_work(self, wire: str | int):
+    def do_work(self, wire: str | int) -> int:
         if isinstance(wire, int) or wire.isdigit():
             return int(wire)
         value = self.results[wire]
@@ -47,14 +59,18 @@ class Solver:
 def part_1() -> int:
     solver = Solver()
     solver.do_work("a")
-    return solver.results["a"]
+    if isinstance(solver.results["a"], int):
+        return int(solver.results["a"])
+    raise Exception
 
 
 def part_2(part_1_result) -> int:
     solver = Solver()
     solver.results["b"] = part_1_result
     solver.do_work("a")
-    return solver.results["a"]
+    if isinstance(solver.results["a"], int):
+        return int(solver.results["a"])
+    raise Exception
 
 
 if __name__ == "__main__":

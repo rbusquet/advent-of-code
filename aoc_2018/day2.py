@@ -1,7 +1,7 @@
 from collections import Counter
 
 
-def part_1():
+def part_1() -> None:
     data = []
     with open("input.txt") as f:
         for item in f.readlines():
@@ -19,11 +19,11 @@ def part_1():
     print(f"Checksum: {count2 * count3}")
 
 
-def part_2():
+def part_2() -> None:
     data = []
     with open("input.txt") as f:
-        for item in f.readlines():
-            data.append(item.strip())
+        for line in f.readlines():
+            data.append(line.strip())
 
     for i in range(len(data)):
         for j in range(i + 1, len(data)):
