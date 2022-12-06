@@ -97,7 +97,7 @@ def copy_deck(deck, size):
     return s
 
 
-def recursive_combat(player_1, player_2, level=1, bar: ChargingBar = None):
+def recursive_combat(player_1, player_2, level=1, bar: ChargingBar | None = None):
     print_wrapper(f"=== Game {level} ===")
     visited_games = set()
     round = 0
