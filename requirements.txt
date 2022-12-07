@@ -2,3 +2,4 @@ mypy
 black
 more_itertools
 isort
+progress
