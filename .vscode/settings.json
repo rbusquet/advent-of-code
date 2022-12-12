@@ -7,5 +7,6 @@
   },
   "isort.check": true,
   "python.analysis.autoImportCompletions": true,
-  "python.analysis.stubPath": "stubs"
+  "python.analysis.stubPath": "stubs",
+  "python.linting.flake8Enabled": true
 }

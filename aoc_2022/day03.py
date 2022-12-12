@@ -7,8 +7,8 @@ from typing import Iterable
 from more_itertools import chunked
 
 
-def find_common(*iterables: str):
-    common: set = reduce(and_, [set(it.strip()) for it in iterables])
+def find_common(*iterables: str) -> str:
+    common: set[str] = reduce(and_, [set(it.strip()) for it in iterables])
     common.discard("\n")
     return common.pop()
 

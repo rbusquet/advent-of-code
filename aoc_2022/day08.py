@@ -4,7 +4,6 @@ import argparse
 import math
 import sys
 from dataclasses import dataclass
-from itertools import takewhile
 from typing import Generator, Iterable, TextIO
 
 
