@@ -74,11 +74,11 @@ def neighborhood(i: int, j: int) -> Iterator[Point]:
 
 def part_1(file: TextIO) -> int:
     """
-    Starting from S, calculate a dijkstra distance to E.
+    Starting from S, calculate the shortest path to E using
+    dijkstra algorithm.
     """
     heights = dict[Point, int]()
     distances = defaultdict[Point, int](lambda: sys.maxsize)
-    paths = dict[Point, Point | None]()
 
     queue = Queue[Point]()
     start = end = 0, 0
@@ -109,20 +109,20 @@ def part_1(file: TextIO) -> int:
                 continue
             alt = distances[u] + 1
             if alt < distances[n]:
+                if n == end:  # found N, and this will be the shortest distance
+                    return alt
                 distances[n] = alt
-                paths[n] = u
                 queue.add_task(n, alt)
-    return distances[end]
+    raise Exception(f"{end} not found")
 
 
 def part_2(file: TextIO) -> int:
     """
-    start from the end, return the minimum of the distances
-    from E to any `a`.
+    Starting from E, build the shortest path graph and
+    find the minimum distance to any `"a"` node.
     """
     heights = dict[Point, int]()
     distances = defaultdict[Point, int](lambda: sys.maxsize)
-    paths = dict[Point, Point | None]()
 
     queue = Queue[Point]()
     all_starts = list[Point]()
@@ -157,7 +157,6 @@ def part_2(file: TextIO) -> int:
             alt = distances[u] + 1
             if alt < distances[n]:
                 distances[n] = alt
-                paths[n] = u
                 queue.add_task(n, alt)
     return min(distances[start] for start in all_starts)
 

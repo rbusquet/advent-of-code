@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import enum
 import sys
@@ -5,12 +7,6 @@ from dataclasses import dataclass
 from typing import TextIO
 
 from more_itertools import grouper
-
-
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
 
 Packet = list["Packet"] | int
 
@@ -63,12 +59,7 @@ def bubble_sort(packets: list[Packet]) -> None:
                 packets[j], packets[j + 1] = packets[j + 1], packets[j]
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
+def main(args: Arguments) -> None:
     indexes_sum = 0
 
     all_packets = list[Packet]()
@@ -106,3 +97,17 @@ if __name__ == "__main__":
     first_divider_index = all_packets.index(divider_2) + 1
     second_divider_index = all_packets.index(divider_6) + 1
     print(first_divider_index * second_divider_index)
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)
