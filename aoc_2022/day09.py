@@ -7,11 +7,6 @@ from itertools import product
 from typing import Callable, Generator, NamedTuple, TextIO
 
 
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
-
 class Node(NamedTuple):
     x: int
     y: int
@@ -49,13 +44,8 @@ steps = dict[str, Step](
     R=lambda node: Node(node.x + 1, node.y),
 )
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
 
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
+def main(args: Arguments) -> None:
     head = Node(0, 0)
     tail = Node(0, 0)
     rope = 10 * [Node(0, 0)]
@@ -77,3 +67,17 @@ if __name__ == "__main__":
             visited_part_2.add(rope[-1])
     print(len(visited_part_1))
     print(len(visited_part_2))
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)

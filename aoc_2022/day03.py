@@ -2,7 +2,7 @@ import argparse
 import string
 from functools import reduce
 from operator import and_
-from typing import Iterable
+from typing import Iterable, TextIO
 
 from more_itertools import chunked
 
@@ -31,17 +31,12 @@ def find_misplaced_priorities(rucksacks: Iterable[str]) -> int:
     return priorities
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = parser.parse_args()
-
+def main(file: TextIO) -> None:
     misplaced_priority = 0
     badges_priority = 0
     letters = string.ascii_letters
     ended = False
-    for group in chunked(args.infile, 3):
+    for group in chunked(file, 3):
         for line in group:
             if not line.strip():
                 ended = True
@@ -56,3 +51,11 @@ if __name__ == "__main__":
 
     print("misplaced priority:", misplaced_priority)
     print("badges priority:", badges_priority)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = parser.parse_args()
+    main(args.infile)

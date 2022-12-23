@@ -7,11 +7,6 @@ from typing import Literal, TextIO
 
 
 @dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
-
-@dataclass
 class Node:
     name: str
     type: Literal["d", "f"]
@@ -29,13 +24,7 @@ class Node:
             self.parent.add_size(size)
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
+def main(args: Arguments) -> None:
     current_dir = root_dir = Node("/", type="d")
     nodes = {current_dir.qual_name(): current_dir}
     for line in args.infile:
@@ -89,3 +78,17 @@ if __name__ == "__main__":
                 #     f"but with size {node.size} it's larger than the current smallest one ({smallest})"
                 # )
     print(smallest)
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)

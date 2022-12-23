@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import copy
 import re
@@ -6,11 +8,6 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from operator import itemgetter
 from typing import TextIO
-
-
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
 
 
 def build_stacks(file: TextIO) -> dict[int, deque[str]]:
@@ -32,13 +29,7 @@ def build_stacks(file: TextIO) -> dict[int, deque[str]]:
     return stacks
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
+def main(args: Arguments) -> None:
     stacks_1 = build_stacks(args.infile)
     stacks_2 = copy.deepcopy(stacks_1)
 
@@ -62,3 +53,17 @@ if __name__ == "__main__":
     for _, stack in sorted(stacks_2.items()):
         print(stack.pop(), end="")
     print()
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)

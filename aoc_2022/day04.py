@@ -1,16 +1,13 @@
 import argparse
 import re
+from typing import TextIO
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
 
-    args = parser.parse_args()
-
+def main(infile: TextIO) -> None:
     fully_contains_count = 0
     overlaps_count = 0
 
-    for line in args.infile:
+    for line in infile:
         if not line.strip():
             break
         a, b, c, d = [int(x) for x in re.split("[,-]", line.strip())]
@@ -42,3 +39,11 @@ if __name__ == "__main__":
 
     print("total fully contained:", fully_contains_count)
     print("total overlaps:", overlaps_count)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = parser.parse_args()
+    main(args.infile)

@@ -86,54 +86,44 @@ if_true_re = re.compile(r"If true: throw to monkey (\d+)")
 if_false_re = re.compile(r"If false: throw to monkey (\d+)")
 
 
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
+def parse_file(file: TextIO) -> tuple[list[Monkey], dict[int, Monkey]]:
+    file.seek(0)
+    monkey_map = defaultdict[int, Monkey](Monkey)
+    monkeys = list[Monkey]()
+    monkey: Monkey | None = None
 
-    def parse_file(self) -> tuple[list[Monkey], dict[int, Monkey]]:
-        self.infile.seek(0)
-        monkey_map = defaultdict[int, Monkey](Monkey)
-        monkeys = list[Monkey]()
-        monkey: Monkey | None = None
+    for line in args.infile:
+        if match := monkey_re.fullmatch(line.strip()):
+            monkey_id = int(match.group(1))
 
-        for line in args.infile:
-            if match := monkey_re.fullmatch(line.strip()):
-                monkey_id = int(match.group(1))
-
-                monkey = monkey_map[monkey_id]
-                monkey.id = monkey_id
-                monkeys.append(monkey)
-            assert monkey is not None
-            if match := items_re.fullmatch(line.strip()):
-                items = match.group(1)
-                for item in items.split(", "):
-                    monkey.items.append(int(item))
-            if match := operation_re.fullmatch(line.strip()):
-                operator, value = match.groups()
-                if value == "old":
-                    monkey.operation = Operation(operator, "self")
-                else:
-                    monkey.operation = Operation(operator, int(value))
-            if match := test_re.fullmatch(line.strip()):
-                test = match.group(1)
-                monkey.test = int(test)
-            if match := if_true_re.fullmatch(line.strip()):
-                test = match.group(1)
-                monkey.if_true = int(test)
-            if match := if_false_re.fullmatch(line.strip()):
-                test = match.group(1)
-                monkey.if_false = int(test)
-        return monkeys, monkey_map
+            monkey = monkey_map[monkey_id]
+            monkey.id = monkey_id
+            monkeys.append(monkey)
+        assert monkey is not None
+        if match := items_re.fullmatch(line.strip()):
+            items = match.group(1)
+            for item in items.split(", "):
+                monkey.items.append(int(item))
+        if match := operation_re.fullmatch(line.strip()):
+            operator, value = match.groups()
+            if value == "old":
+                monkey.operation = Operation(operator, "self")
+            else:
+                monkey.operation = Operation(operator, int(value))
+        if match := test_re.fullmatch(line.strip()):
+            test = match.group(1)
+            monkey.test = int(test)
+        if match := if_true_re.fullmatch(line.strip()):
+            test = match.group(1)
+            monkey.if_true = int(test)
+        if match := if_false_re.fullmatch(line.strip()):
+            test = match.group(1)
+            monkey.if_false = int(test)
+    return monkeys, monkey_map
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
-    monkeys, monkey_map = args.parse_file()
+def main(args: Arguments) -> None:
+    monkeys, monkey_map = parse_file(args.infile)
 
     for round in range(20):
         for monkey in monkeys:
@@ -148,7 +138,7 @@ if __name__ == "__main__":
     one, two = nlargest(2, monkey_business)
     print("part 1:", one * two)
 
-    monkeys, monkey_map = args.parse_file()
+    monkeys, monkey_map = parse_file(args.infile)
 
     divisor = math.prod([monkey.test for monkey in monkeys])
     for round in range(10_000):
@@ -163,3 +153,18 @@ if __name__ == "__main__":
 
     one, two = nlargest(2, monkey_business)
     print("part 2:", one * two)
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+
+    main(args)

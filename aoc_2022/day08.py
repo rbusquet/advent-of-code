@@ -7,11 +7,6 @@ from dataclasses import dataclass
 from typing import Generator, Iterable, TextIO
 
 
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
-
 def count_visible(row: Iterable[str]) -> Generator[int, None, None]:
     heighest = -1
     for i, tree in enumerate(row):
@@ -20,13 +15,7 @@ def count_visible(row: Iterable[str]) -> Generator[int, None, None]:
             yield i
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
+def main(args: Arguments) -> None:
     forest = list[str]()
     for line in args.infile:
         if line := line.strip():
@@ -87,3 +76,17 @@ if __name__ == "__main__":
         if score > max_score:
             max_score = score
     print(max_score)
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)

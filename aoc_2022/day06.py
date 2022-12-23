@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import sys
 from dataclasses import dataclass
@@ -6,18 +8,7 @@ from typing import Generator, TextIO
 from more_itertools import sliding_window
 
 
-@dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
-
-    args = Arguments()
-    parser.parse_args(namespace=args)
-
+def main(args: Arguments) -> None:
     def buffer() -> Generator[str, None, None]:
         while ch := args.infile.read(1).strip():
             yield ch
@@ -32,3 +23,17 @@ if __name__ == "__main__":
         if len(set(window)) == len(window):
             print(i + 14)
             break
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("infile", type=argparse.FileType("r"))
+
+    args = Arguments()
+    parser.parse_args(namespace=args)
+    main(args)

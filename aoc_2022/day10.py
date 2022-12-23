@@ -7,11 +7,6 @@ from typing import TextIO
 
 
 @dataclass
-class Arguments:
-    infile: TextIO = sys.stdin
-
-
-@dataclass
 class CPU:
     x: int = 1
     signal_strength: int = 0
@@ -54,6 +49,18 @@ class CPU:
                     self.x += int(value)
 
 
+def main(args: Arguments) -> None:
+    cpu = CPU(watch_cycles=[20, 60, 100, 140, 180, 220])
+    cpu.process(args.infile)
+    print()
+    print(cpu.signal_strength)
+
+
+@dataclass
+class Arguments:
+    infile: TextIO = sys.stdin
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("infile", type=argparse.FileType("r"))
@@ -61,7 +68,4 @@ if __name__ == "__main__":
     args = Arguments()
     parser.parse_args(namespace=args)
 
-    cpu = CPU(watch_cycles=[20, 60, 100, 140, 180, 220])
-    cpu.process(args.infile)
-    print()
-    print(cpu.signal_strength)
+    main(args)
