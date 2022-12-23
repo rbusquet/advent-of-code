@@ -3,7 +3,6 @@ import itertools
 import sys
 from collections import defaultdict
 from dataclasses import dataclass
-from email.policy import default
 from heapq import heappop, heappush
 from typing import Generic, Iterator, TextIO, TypeVar
 
