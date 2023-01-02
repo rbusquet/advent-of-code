@@ -111,3 +111,8 @@ poetry.lock
 !requirements.txt
 
 vendor/
+
+
+# Added by cargo
+
+/target
