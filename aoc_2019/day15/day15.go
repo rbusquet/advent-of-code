@@ -3,7 +3,7 @@ package day15
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/aoc_2019/computer"
 	"github.com/rbusquet/advent-of-code/utils"
 )
 

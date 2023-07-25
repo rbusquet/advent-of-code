@@ -6,9 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/rbusquet/advent-of-code/2019/computer"
-
 	"github.com/gdamore/tcell/v2"
+	"github.com/rbusquet/advent-of-code/aoc_2019/computer"
 )
 
 // TileType is an int

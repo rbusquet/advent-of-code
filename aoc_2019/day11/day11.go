@@ -3,7 +3,7 @@ package day11
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/aoc_2019/computer"
 	"github.com/rbusquet/advent-of-code/utils"
 )
 
@@ -63,10 +63,8 @@ loop:
 
 				turn := <-output
 				if turn == 0 {
-
 					direction--
 				} else if turn == 1 {
-
 					direction++
 				}
 				if direction < 0 {

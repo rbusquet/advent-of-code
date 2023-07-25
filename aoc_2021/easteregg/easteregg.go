@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/rbusquet/advent-of-code/2019/computer"
+	"github.com/rbusquet/advent-of-code/aoc_2019/computer"
 )
 
 // main prints Ceci n'est pas une intcode program :)
