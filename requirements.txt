@@ -2,4 +2,4 @@ mypy
 black
 more_itertools
 isort
-progress
+progressbar2

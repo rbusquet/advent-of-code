@@ -2,10 +2,10 @@ import re
 from collections import defaultdict
 from functools import reduce
 from operator import mul
-from typing import List, NamedTuple, Tuple
+from typing import Iterator, List, NamedTuple, Tuple
 
 
-def read_file():
+def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
         yield from (c.strip() for c in f.readlines())
 
@@ -34,14 +34,14 @@ fields: List[Field] = []
 for line in file:
     if not line:
         break
-    field, rules = line.split(":")
-    if match := rules_exp.match(rules.strip()):
+    field_str, rules_str = line.split(":")
+    if match := rules_exp.match(rules_str.strip()):
         s1, e1, s2, e2 = match.groups()
         rules = (
             Rule(int(s1), int(e1)),
             Rule(int(s2), int(e2)),
         )
-        fields.append(Field(rules, field))
+        fields.append(Field(rules, field_str))
 
 
 assert next(file) == "your ticket:"
@@ -52,8 +52,8 @@ assert next(file) == "nearby tickets:"
 
 error_rate = 0
 valid_tickets = []
-for ticket in file:
-    ticket = [*map(int, ticket.split(","))]
+for ticket_str in file:
+    ticket = [*map(int, ticket_str.split(","))]
     ticket_error_rate = 0
     # before, I would check if the rate is 0, it's a valid ticket
     # but there are tickets where the only error was a field with value 0,
@@ -78,7 +78,7 @@ print(error_rate)
 indexed_fields = dict[int, str]()
 
 while len(indexed_fields) < len(my_ticket):
-    indexes_by_field = defaultdict(list)
+    indexes_by_field = defaultdict[str, list[int]](list)
     for index in range(len(my_ticket)):
         if index in indexed_fields:
             continue
@@ -86,15 +86,15 @@ while len(indexed_fields) < len(my_ticket):
             if all(field.within_range(ticket[index]) for ticket in valid_tickets):
                 indexes_by_field[field.field].append(index)
 
-    for field, indexes in indexes_by_field.items():
+    for field_str, indexes in indexes_by_field.items():
         if len(indexes) == 1:
-            indexed_fields[indexes[0]] = field
+            indexed_fields[indexes[0]] = field_str
             break
 
 
 departure = []
-for index, field in indexed_fields.items():
-    if "departure" in field:
+for index, field_str in indexed_fields.items():
+    if "departure" in field_str:
         departure.append(my_ticket[index])
 
 print(reduce(mul, departure))
