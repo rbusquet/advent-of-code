@@ -1,7 +1,7 @@
 import itertools
 from heapq import heappop, heappush
 from pathlib import Path
-from typing import Generic, Iterator, Optional, TypeVar
+from typing import Iterator, Optional
 
 N = (-1, 0)
 S = (1, 0)
@@ -11,10 +11,7 @@ W = (0, -1)
 Point = tuple[int, int]
 
 
-T = TypeVar("T")
-
-
-class Queue(Generic[T]):
+class Queue[T]:
     """
     From https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes
     """
@@ -75,7 +72,6 @@ def part_1() -> int:
 
     distances[0, 0] = 0.0
     while u := queue.pop_task():
-
         for n in neighborhood(*u):
             if n not in risk_map:
                 continue

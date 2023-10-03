@@ -1,7 +1,6 @@
 import itertools
 import re
 import sys
-import typing as t
 from collections import defaultdict
 from dataclasses import dataclass
 from heapq import heappop, heappush
@@ -9,18 +8,16 @@ from pathlib import Path
 
 expression = re.compile(r"(\w+) to (\w+) = (\d+)")
 
-T = t.TypeVar("T")
-
 
 @dataclass(slots=True, order=True)
-class Entry(t.Generic[T]):
+class Entry[T]:
     priority: int
     count: int
     item: T
     removed: bool = False
 
 
-class Queue(t.Generic[T]):
+class Queue[T]:
     """
     From https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes
     """
@@ -81,16 +78,11 @@ def Dijkstra(V: int, distances: defaultdict[int, Distance]) -> defaultdict[Item,
     return cost
 
 
-class CounterDict(t.Generic[T], defaultdict[T, int]):
-    def __init__(self) -> None:
-        counter = itertools.count()
-        return super().__init__(lambda: next(counter))
-
-
 def part_1() -> int:
     file = Path(__file__).parent / "input.txt"
     contents = file.read_text()
-    nodes = CounterDict[str]()
+    counter = itertools.count()
+    nodes = defaultdict[str, int](lambda: next(counter))
 
     distances = defaultdict[int, Distance](list)
     for line in contents.splitlines():
@@ -117,7 +109,8 @@ def part_1() -> int:
 def part_2() -> int:
     file = Path(__file__).parent / "input.txt"
     contents = file.read_text()
-    nodes = CounterDict[str]()
+    counter = itertools.count()
+    nodes = defaultdict[str, int](lambda: next(counter))
 
     distances = defaultdict[int, Distance](list)
     for line in contents.splitlines():

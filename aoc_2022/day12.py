@@ -4,7 +4,7 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from heapq import heappop, heappush
-from typing import Generic, Iterator, TextIO, TypeVar
+from typing import Generic, Iterator, TextIO
 
 
 @dataclass
@@ -20,18 +20,15 @@ W = (0, -1)
 Point = tuple[int, int]
 
 
-T = TypeVar("T")
-
-
 @dataclass(slots=True, order=True)
-class Entry(Generic[T]):
+class Entry[T]:
     priority: float
     count: int
     task: T
     removed: bool = False
 
 
-class Queue(Generic[T]):
+class Queue[T]:
     """
     From https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes
     """

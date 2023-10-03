@@ -3,13 +3,10 @@ import time
 from functools import reduce
 from itertools import combinations
 from operator import mul
-from typing import Callable, ParamSpec, TypeVar, cast
-
-P = ParamSpec("P")
-T = TypeVar("T")
+from typing import Callable, cast
 
 
-def time_it(fn: Callable[P, T]) -> Callable[P, T]:
+def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
     @functools.wraps(fn)
     def timed(*args: P.args, **kwargs: P.kwargs) -> T:
         before = time.process_time_ns()

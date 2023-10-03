@@ -1,12 +1,10 @@
 from collections import deque
 from itertools import islice
 from pathlib import Path
-from typing import Iterable, Iterator, TypeVar
-
-T = TypeVar("T")
+from typing import Iterable, Iterator
 
 
-def sliding_window(iterable: Iterable[T], n: int) -> Iterator[tuple[T, ...]]:
+def sliding_window[T](iterable: Iterable[T], n: int) -> Iterator[tuple[T, ...]]:
     it = iter(iterable)
     window = deque(islice(it, n), maxlen=n)
     if len(window) == n:
@@ -29,7 +27,6 @@ def part_1() -> int:
 
 def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
-
         it = sliding_window(map(int, file), 3)
         previous = next(it)
 

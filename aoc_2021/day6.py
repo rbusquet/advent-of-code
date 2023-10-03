@@ -1,30 +1,29 @@
 from __future__ import annotations
 
+import functools
 import time
 from collections import Counter, defaultdict
-from functools import wraps
 from heapq import heapify, heappop, heappush
 from pathlib import Path
-from typing import Any, Callable, TypeVar, cast
+from typing import Callable, cast
 
 DAYS = 80
 
-F = TypeVar("F", bound=Callable[..., Any])
+
+def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
+    @functools.wraps(fn)
+    def timed(*args: P.args, **kwargs: P.kwargs) -> T:
+        before = time.process_time_ns()
+        result = fn(*args, **kwargs)
+        after = time.process_time_ns()
+        diff = after - before
+        print(f"{fn.__name__} ran in {diff}ns")
+        return cast(T, result)
+
+    return timed
 
 
-def timeit(fn: F) -> F:
-    @wraps(fn)
-    def wrapper(*args, **kwargs):  # type: ignore[no-untyped-def]
-        t0 = time.perf_counter_ns()
-        ret = fn(*args, **kwargs)
-        t1 = time.perf_counter_ns()
-        print(f"{fn.__name__} ran in {t1 - t0}ns")
-        return ret
-
-    return cast(F, wrapper)
-
-
-@timeit
+@time_it
 def grow_slow(fishes: list[int], max_days: int) -> int:
     """
     Naive implementation, solves for part 1 but can't do part 2.
@@ -45,7 +44,7 @@ def grow_slow(fishes: list[int], max_days: int) -> int:
     return len(fishes)
 
 
-@timeit
+@time_it
 def grow_fast(initial: list[int], max_days: int) -> int:
     """
     Got the right answer with this solution.
@@ -71,7 +70,7 @@ def grow_fast(initial: list[int], max_days: int) -> int:
     return sum(f[1] for f in fishes_by_age)
 
 
-@timeit
+@time_it
 def grow_faster(initial: list[int], max_days: int) -> int:
     """
     Similar solution to above, but avoids creating new lists.
@@ -91,7 +90,7 @@ def grow_faster(initial: list[int], max_days: int) -> int:
     return sum(same_age.values())
 
 
-@timeit
+@time_it
 def grow_fastest(initial: list[int], max_days: int) -> int:
     """
     Fastest implementation by using a heapq and just popping items, not shifting.

@@ -5,10 +5,10 @@ import typing as tp
 from collections import defaultdict
 from pathlib import Path
 
-Var = tp.Literal["w", "x", "y", "z"]
+type Var = tp.Literal["w", "x", "y", "z"]
 
 
-AnyInstruction = tp.Callable[..., None]
+type AnyInstruction = tp.Callable[..., None]
 
 
 class ALUDecompiler(defaultdict[Var, str]):
@@ -19,7 +19,9 @@ class ALUDecompiler(defaultdict[Var, str]):
         return super().__init__(str)
 
     @classmethod
-    def register(cls, name: str) -> tp.Callable[[TInstruction], TInstruction]:
+    def register[
+        TInstruction
+    ](cls, name: str) -> tp.Callable[[TInstruction], TInstruction]:
         def decorator(fn: TInstruction) -> TInstruction:
             cls.__instructions[name] = fn
             return fn
@@ -43,12 +45,12 @@ class ALUDecompiler(defaultdict[Var, str]):
         self.functions.append(self["z"])
 
 
-Instruction = tp.Union[
-    tp.Callable[[ALUDecompiler, Var], None],
-    tp.Callable[[ALUDecompiler, Var, tp.Union[Var, int]], None],
-]
+class Instruction(tp.Protocol):
+    def __call__(self, alu: ALUDecompiler, a: Var) -> None:
+        ...
 
-TInstruction = tp.TypeVar("TInstruction", bound=Instruction)
+    def __call__(self, alu: ALUDecompiler, a: Var, b: Var | int) -> None:
+        ...
 
 
 @ALUDecompiler.register("inp")

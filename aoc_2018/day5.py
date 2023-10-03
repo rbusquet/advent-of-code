@@ -1,9 +1,6 @@
 from string import ascii_lowercase
-from typing import TypeVar
 
 print("--- DAY 5: part 1 ---")
-
-T = TypeVar("T")
 
 
 def destroy(letter: str, next_letter: str) -> bool:
@@ -12,7 +9,7 @@ def destroy(letter: str, next_letter: str) -> bool:
     return opposite_sign and same_letter
 
 
-def break_array(array: list[T], index: int) -> tuple[list[T], T, T, list[T]]:
+def break_array[T](array: list[T], index: int) -> tuple[list[T], T, T, list[T]]:
     return array[:index], array[index], array[index + 1], array[index + 2 :]
 
 
