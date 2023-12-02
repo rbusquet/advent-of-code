@@ -11,71 +11,51 @@ class Arguments:
 
 
 GRAB_REGEX = re.compile(r"(\d+) (red|blue|green)")
-CONTENTS = {
-    "red": 12,
-    "green": 13,
-    "blue": 14,
-}
+
+
+def process_line(line: str) -> tuple[int, list[tuple[int, str]]]:
+    game_id_str, grab_str = line.split(":")
+    game_id = int(game_id_str.split(" ")[1])
+    grabs = [GRAB_REGEX.findall(grab) for grab in grab_str.strip().split(";")]
+    return game_id, grabs
 
 
 def part_1(file: TextIO) -> int:
-    CONTENTS = {
-        "red": 12,
-        "green": 13,
-        "blue": 14,
-    }
+    CONTENTS = {"red": 12, "green": 13, "blue": 14}
     valid_ids = 0
     for line in file:
-        if not line.strip():
-            continue
-        game_id_str, grab_str = line.split(":")
-        game_id = int(game_id_str.split(" ")[1])
-
-        grabs = grab_str.strip().split(";")
+        game_id, grabs = process_line(line)
         for grab in grabs:
-            matches = GRAB_REGEX.findall(grab)
-            invalid = False
-            for grab_count_str, color in matches:
-                grab_count = int(grab_count_str.split(" ")[0])
-                if invalid := grab_count > CONTENTS[color]:
+            for grab_count_str, color in grab:
+                if int(grab_count_str.split(" ")[0]) > CONTENTS[color]:
                     break
-            if invalid:
-                break
+            else:
+                continue
+            break
         else:
             valid_ids += game_id
-
     return valid_ids
 
 
 def part_2(file: TextIO) -> int:
     total_power = 0
     for line in file:
-        if not line.strip():
-            continue
-        game_id_str, grab_str = line.split(":")
-
-        grabs = grab_str.strip().split(";")
-        min_contents = {
-            "red": 0,
-            "green": 0,
-            "blue": 0,
-        }
+        game_id, grabs = process_line(line)
+        min_contents = {"red": 0, "green": 0, "blue": 0}
         for grab in grabs:
-            matches = GRAB_REGEX.findall(grab)
-            for grab_count_str, color in matches:
-                grab_count = int(grab_count_str.split(" ")[0])
-                min_contents[color] = max(min_contents[color], grab_count)
+            for grab_count_str, color in grab:
+                min_contents[color] = max(
+                    min_contents[color], int(grab_count_str.split(" ")[0])
+                )
         total_power += (
             min_contents["red"] * min_contents["green"] * min_contents["blue"]
         )
-
     return total_power
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file", type=argparse.FileType("r"))
-
     args = Arguments()
     parser.parse_args(namespace=args)
     print(part_1(args.file))
