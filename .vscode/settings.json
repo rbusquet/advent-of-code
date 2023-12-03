@@ -14,4 +14,9 @@
   "python.testing.unittestEnabled": true,
   "black-formatter.importStrategy": "fromEnvironment",
   "editor.formatOnSave": true,
+  "[plaintext]": {
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.fontLigatures": false
+  }
 }
