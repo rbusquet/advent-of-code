@@ -2,7 +2,6 @@ import argparse
 import re
 import sys
 from dataclasses import dataclass
-from operator import mul
 from typing import TextIO
 
 
@@ -28,8 +27,8 @@ class Symbol:
     def adjacent_to(self, other: "Part") -> bool:
         """Check if the symbol is adjacent to this part
         in all directions."""
-        y_adjacent = self.y in range(other.y - 1, other.y + 2)
-        x_adjacent = self.x in range(other.x - 1, other.x + other.length + 1)
+        y_adjacent = other.y - 1 <= self.y <= other.y + 1
+        x_adjacent = other.x - 1 <= self.x <= other.x + other.length
         return y_adjacent and x_adjacent
 
 
