@@ -21,9 +21,7 @@ def process_file(file: TextIO):
 def part_1(file: TextIO) -> int:
     total = 0
     for card, winning_numbers, scratch_numbers in process_file(file):
-        common_numbers = set(w for w in winning_numbers if w) & set(
-            s for s in scratch_numbers if s
-        )
+        common_numbers = set(winning_numbers) & set(scratch_numbers)
         if not common_numbers:
             continue
         # 1 point for the first common number, any additional doubles the points
@@ -38,9 +36,7 @@ def part_2(file: TextIO) -> int:
         card_counter[current_card_id] += 1
 
         current_count = card_counter[current_card_id]
-        common_numbers = set(w for w in winning_numbers if w) & set(
-            s for s in scratch_numbers if s
-        )
+        common_numbers = set(winning_numbers) & set(scratch_numbers)
 
         wins = len(common_numbers)
         for i in range(wins):
