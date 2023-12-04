@@ -13,7 +13,7 @@ class Arguments:
 GRAB_REGEX = re.compile(r"(\d+) (red|blue|green)")
 
 
-def process_line(line: str) -> tuple[int, list[tuple[int, str]]]:
+def process_line(line: str) -> tuple[int, list[list[tuple[str, str]]]]:
     game_id_str, grab_str = line.split(":")
     game_id = int(game_id_str.split(" ")[1])
     grabs = [GRAB_REGEX.findall(grab) for grab in grab_str.strip().split(";")]
