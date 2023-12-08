@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import sys
 from dataclasses import dataclass
-from typing import Any, Iterable, TextIO
+from typing import Iterable, TextIO
 
 
 @dataclass
@@ -93,19 +93,35 @@ def part_2(file: TextIO):
                 continue
 
             if range.start < intersect.start:
-                ranges.append(
-                    Range.start_to_end(intersect.start, max(intersect.end, range.end))
-                )
+                # beginning of range is not mapped using current rule
+                # range:  ____======...
+                # inter:  ______====...
+                # new:    ______====...
+                # update: ____==____...
+                # continue loop since this updated range won't update
+                ranges.append(Range.start_to_end(intersect.start, range.end))
                 range.length = Range.start_to_end(
                     range.start, intersect.start - 1
                 ).length
+                continue
+
             if range.end > intersect.end:
+                # end of range is not mapped using current rule
+                # range:  ...======____
+                # inter:  ...====______
+                # new:    _______==____
+                # update: ...====______
+                # keep loop, this range will update up to intersection length
+                # new range won't match this rule anymore (may match future ones)
                 ranges.append(Range.start_to_end(intersect.end + 1, range.end))
                 range.length = intersect.length
 
-            if range.start == intersect.start and range.end == intersect.end:
-                range.start = destination + range.start - source.start
-                range.mapped = True
+            range.start = destination + range.start - source.start
+
+            # individual updated ranges won't match future rules.
+            # flag them so updates to new ranges aren't considered in this
+            # map group
+            range.mapped = True
 
     return min(r.start for r in ranges)
 
