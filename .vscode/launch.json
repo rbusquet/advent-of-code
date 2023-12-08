@@ -20,7 +20,8 @@
       "program": "${file}",
       "console": "integratedTerminal",
       "justMyCode": true,
-      "args": ["${relativeFileDirname}/input.txt"]
+      "args": ["${relativeFileDirname}/input.txt"],
+      "purpose": ["debug-in-terminal"]
     }
   ]
 }
