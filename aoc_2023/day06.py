@@ -18,6 +18,7 @@ def solve(times: list[int], distances: list[int]) -> int:
         # distance = (total_time - time_holding) * time_holding
         #            ^ time left after holding     ^ speed after holding for time
         # distance = time_holding * total_time - time_holding ** 2
+        # I bet there's a way to graph this and get the output in a single formula
         ways_to_beat = 0
 
         for time_holding in range(time):
