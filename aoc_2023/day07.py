@@ -60,7 +60,7 @@ class Hand:
         return HandType.HIGH_CARD
 
     @cached_property
-    def strength(self) -> list[int]:
+    def strength(self) -> int:
         return sum(
             self.CARDS.index(card) * 13**i for i, card in enumerate(self.cards[::-1])
         )
