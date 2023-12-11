@@ -5,6 +5,8 @@ import sys
 from dataclasses import dataclass
 from typing import Iterator, TextIO
 
+from more_itertools import unzip
+
 
 @dataclass
 class Arguments:
@@ -63,6 +65,34 @@ class Walker:
         self.loop.append((x, y))
         return self.PIPES[next_pipe][direction]
 
+    def contained_area(self) -> int:
+        x_values, y_values = zip(*self.loop)
+
+        min_x, max_x = min(x_values), max(x_values)
+        min_y, max_y = min(y_values), max(y_values)
+
+        area = 0
+        vertices = [
+            (x, y) for (x, y) in self.loop if self.pipes[y][x] in ["L", "7", "J", "F"]
+        ]
+        for y in range(min_y, max_y + 1):
+            for x in range(min_x, max_x + 1):
+                if self._is_inside(x, y, vertices):
+                    area += 1
+        return area
+
+    def _is_inside(self, x: int, y: int, vertices) -> bool:
+        count = 0
+        if (x, y) in self.loop:
+            return False
+        for i in range(len(vertices)):
+            x1, y1 = vertices[i]
+            x2, y2 = vertices[(i + 1) % len(vertices)]
+            if (y1 > y) != (y2 > y):
+                if x1 + (y - y1) / (y2 - y1) * (x2 - x1) > x:
+                    count += 1
+        return count % 2 == 1
+
 
 def part_1(file: TextIO) -> None:
     file.seek(0)
@@ -95,6 +125,7 @@ def part_1(file: TextIO) -> None:
                 break
         else:
             print(steps // 2)
+            print(walker.contained_area())
             break
 
 
