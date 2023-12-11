@@ -12,7 +12,7 @@ def look_and_say(look: Iterator[str]) -> Iterator[str]:
         yield ch
 
 
-def yield_and_count[T](seq: Iterator[T]) -> Generator[T, None, None]:
+def yield_and_count[T](seq: Iterator[T]) -> Generator[T, None, None]:  # type: ignore[misc,name-defined]
     _count = 0
     for _count, x in enumerate(seq):
         yield x

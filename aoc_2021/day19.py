@@ -46,7 +46,6 @@ def turn(v: Vector) -> Vector:
 
 
 def generate_rotations(v: Vector) -> Iterator[Vector]:
-
     for _ in range(2):
         for _ in range(3):  # Yield RTTT 3 times
             v = roll(v)

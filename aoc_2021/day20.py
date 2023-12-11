@@ -2,7 +2,9 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Literal, Sequence, cast
 
-from progress.spinner import LineSpinner
+from progress.spinner import (  # type: ignore[import-not-found,import-untyped]
+    LineSpinner,
+)
 
 Pixel = tuple[int, int]
 Value = Literal[".", "#"]

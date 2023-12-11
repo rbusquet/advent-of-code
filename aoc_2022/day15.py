@@ -36,14 +36,10 @@ def parse(string: str) -> list[sensor]:
         first, second = line.split(": ")
 
         # first:  "Sensor at x=2391367, y=3787759"
-        sensor_x, sensor_y = first[12:].split(", ")
-        sensor_x = int(sensor_x)
-        sensor_y = int(sensor_y[2:])
+        sensor_x, sensor_y = map(int, first[12:].split(", y="))
 
         # second: "closest beacon is at x=2345659, y=4354867"
-        beacon_x, beacon_y = second[23:].split(", ")
-        beacon_x = int(beacon_x)
-        beacon_y = int(beacon_y[2:])
+        beacon_x, beacon_y = map(int, second[23:].split(", y="))
 
         result.append(sensor((sensor_x, sensor_y), (beacon_x, beacon_y)))
 

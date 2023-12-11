@@ -25,7 +25,6 @@ def count(report: Iterable[str], position: int) -> Counter[str]:
 
 
 def part_1() -> int:
-
     with open(Path(__file__).parent / INPUT) as file:
         report = list(parse(file))
     counters: list[Counter[str]] = []

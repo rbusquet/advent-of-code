@@ -1,4 +1,4 @@
-from progress.bar import ShadyBar
+from progress.bar import ShadyBar  # type: ignore[import-not-found,import-untyped]
 
 cups = list(map(int, "712643589"))
 
@@ -32,7 +32,6 @@ head = 1_000_000
 with ShadyBar(max=10_000_000) as bar:
     bar.suffix = "ETA: %(eta)ds"
     while moves < 10_000_000:
-
         current_cup = linked[head]
         n1 = linked[current_cup]
         n2 = linked[n1]

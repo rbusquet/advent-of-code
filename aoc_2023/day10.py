@@ -5,8 +5,6 @@ import sys
 from dataclasses import dataclass
 from typing import Iterator, TextIO
 
-from more_itertools import unzip
-
 
 @dataclass
 class Arguments:

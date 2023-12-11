@@ -1,6 +1,6 @@
 from os import environ
 
-from progress.bar import ChargingBar
+from progress.bar import ChargingBar  # type: ignore[import-not-found,import-untyped]
 
 NARRATE = environ.get("NARRATE")
 
