@@ -139,7 +139,7 @@ def part_2(file: TextIO) -> int:
 
     costs[start] = 0
 
-    while u := queue.get().step:
+    while u := queue.get_nowait().step:
         for n in neighborhood_part2(u, end):
             x, y = n.x, n.y
             if (x, y) not in grid:
@@ -151,7 +151,7 @@ def part_2(file: TextIO) -> int:
             alternative_cost = costs[u] + grid[x, y]
             if alternative_cost < current_cost:
                 costs[n] = alternative_cost
-                queue.put(Entry(alternative_cost + heuristic((x, y), end), n))
+                queue.put_nowait(Entry(alternative_cost + heuristic((x, y), end), n))
 
     raise ValueError("No path found")
 
