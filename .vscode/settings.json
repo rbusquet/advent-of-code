@@ -19,5 +19,6 @@
     "editor.unicodeHighlight.invisibleCharacters": false,
     "editor.fontLigatures": false
   },
-  "python.analysis.typeCheckingMode": "basic"
+  "python.analysis.typeCheckingMode": "basic",
+  "mypy-type-checker.args": []
 }

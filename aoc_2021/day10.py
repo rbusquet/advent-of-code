@@ -3,15 +3,15 @@ from collections import deque
 from pathlib import Path
 from statistics import median
 
-CHUNK_DELIMTERS = {
+CHUNK_DELIMITERS = {
     "(": ")",
     "[": "]",
     "{": "}",
     "<": ">",
 }
 
-OPEN_DELIMETER = list(CHUNK_DELIMTERS.keys())
-CLOSE_DELIMETER = list(CHUNK_DELIMTERS.values())
+OPEN_DELIMITER = list(CHUNK_DELIMITERS.keys())
+CLOSE_DELIMITER = list(CHUNK_DELIMITERS.values())
 
 CORRUPT_POINTS = {")": 3, "]": 57, "}": 1197, ">": 25137}
 
@@ -30,15 +30,16 @@ def part_1_and_2() -> tuple[int, int]:
             chunks = []
             line_score = 0
             for i, ch in enumerate(line):
-                if ch in OPEN_DELIMETER:
+                if ch in OPEN_DELIMITER:
                     queue.append((i, ch))
                 else:
-                    last_index, last_delimeter = queue.pop()
-                    expected_delimeter = CHUNK_DELIMTERS[last_delimeter]
-                    if ch != expected_delimeter:
+                    last_index, last_delimiter = queue.pop()
+                    expected_delimiter = CHUNK_DELIMITERS[last_delimiter]
+                    if ch != expected_delimiter:
                         line_score += CORRUPT_POINTS[ch]
                         logger.debug(
-                            f"{lineno}:{i} Expected {expected_delimeter}, but found {ch} instead."
+                            f"{lineno}:{i} Expected {expected_delimiter}, "
+                            f"but found {ch} instead."
                         )
                         break
                     else:
@@ -51,7 +52,7 @@ def part_1_and_2() -> tuple[int, int]:
 
                 while queue:
                     _, ch = queue.pop()
-                    score = score * 5 + INCOMPLETE_POINTS[CHUNK_DELIMTERS[ch]]
+                    score = score * 5 + INCOMPLETE_POINTS[CHUNK_DELIMITERS[ch]]
                 logger.debug(f"{lineno}: Incomplete line. Score is {score}.")
                 incomplete_scores.append(score)
 
