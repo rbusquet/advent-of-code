@@ -24,20 +24,18 @@ class Rule:
     operation: str
     next: str
 
-    def next_workflow(self, item: dict[str, int]) -> str | None:
-        return self.next if self.execute(item) else None
-
-    def execute(self, item: dict[str, int]) -> bool:
+    def execute(self, item: dict[str, int]) -> str | None:
         operations = {"<": operator.lt, ">": operator.gt}
 
         if not self.operation:
-            return True
+            return self.next
         match = RULE_REGEX.match(self.operation)
         if match is None:
             raise ValueError(f"Invalid rule: {self.operation}")
         key, opcode, value = match.groups()
 
-        return operations[opcode](item[key], int(value))
+        result = operations[opcode](item[key], int(value))
+        return self.next if result else None
 
 
 @dataclass
@@ -47,7 +45,7 @@ class Workflow:
 
     def execute(self, item: dict[str, int]) -> str:
         for rule in self.rules:
-            next_workflow = rule.next_workflow(item)
+            next_workflow = rule.execute(item)
             if next_workflow is not None:
                 return next_workflow
         raise ValueError(f"Invalid item: {item}")
