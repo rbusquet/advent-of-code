@@ -1,10 +1,9 @@
 import argparse
-import itertools
 import sys
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass, field
-from heapq import heappop, heappush
-from typing import Generic, Iterator, TextIO, TypeVar
+from queue import PriorityQueue
+from typing import Iterator, TextIO
 
 
 @dataclass
@@ -20,53 +19,6 @@ DIRECTIONS = dict(
 )
 
 Step = namedtuple("Step", "x y steps direction")
-T = TypeVar("T")
-
-
-@dataclass(slots=True, order=True)
-class Entry(Generic[T]):
-    priority: float
-    count: int
-    task: T = field(compare=False)
-    removed: bool = field(default=False, compare=False)
-
-
-class Queue(Generic[T]):
-    """
-    From https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes  # noqa: E501
-    """
-
-    def __init__(self) -> None:
-        self.pq = list[Entry[T]]()  # list of entries arranged in a heap
-        self.entry_finder = dict[T, Entry[T]]()  # mapping of tasks to entries
-        self.counter = itertools.count()  # unique sequence count
-
-    def add_task(self, task: T, priority: float = 0.0) -> None:
-        "Add a new task or update the priority of an existing task"
-        if task in self.entry_finder:
-            self.remove_task(task)
-        count = next(self.counter)
-        entry = Entry(priority, count, task)
-        self.entry_finder[task] = entry
-        heappush(self.pq, entry)
-
-    def remove_task(self, task: T) -> None:
-        "Mark an existing task as REMOVED.  Raise KeyError if not found."
-        entry = self.entry_finder.pop(task)
-        entry.removed = True
-
-    def pop_task(self) -> T | None:
-        "Remove and return the lowest priority task. Return None if empty."
-        while self.pq:
-            entry = heappop(self.pq)
-            # if task is not self.REMOVED:
-            if not entry.removed:
-                del self.entry_finder[entry.task]
-                return entry.task
-
-        return None
-
-
 OPPOSITES = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
@@ -131,9 +83,9 @@ def part_1(file: TextIO) -> int:
     grid = dict[tuple[int, int], int]()
     costs = defaultdict[Step, int](lambda: sys.maxsize)
 
-    queue = Queue[Step]()
+    queue = PriorityQueue[Entry]()
     start = Step(0, 0, 0, None)
-    queue.add_task(start, 0)
+    queue.put(Entry(0, start))
 
     end = 0, 0
     for i, line in enumerate(strip_lines(file)):
@@ -143,7 +95,7 @@ def part_1(file: TextIO) -> int:
 
     costs[start] = 0
 
-    while u := queue.pop_task():
+    while u := queue.get().step:
         for n in neighborhood(u):
             x, y = n.x, n.y
             if (x, y) not in grid:
@@ -155,9 +107,15 @@ def part_1(file: TextIO) -> int:
             alternative_cost = costs[u] + grid[x, y]
             if alternative_cost < current_cost:
                 costs[n] = alternative_cost
-                queue.add_task(n, alternative_cost + heuristic((x, y), end))
+                queue.put(Entry(alternative_cost + heuristic((x, y), end), n))
 
     raise ValueError("No path found")
+
+
+@dataclass(order=True)
+class Entry:
+    cost: int
+    step: Step | None = field(compare=False)
 
 
 def part_2(file: TextIO) -> int:
@@ -169,9 +127,9 @@ def part_2(file: TextIO) -> int:
     grid = dict[tuple[int, int], int]()
     costs = defaultdict[Step, int](lambda: sys.maxsize)
 
-    queue = Queue[Step]()
+    queue = PriorityQueue[Entry]()
     start = Step(0, 0, 0, None)
-    queue.add_task(start, 0)
+    queue.put(Entry(0, start))
 
     end = 0, 0
     for i, line in enumerate(strip_lines(file)):
@@ -181,7 +139,7 @@ def part_2(file: TextIO) -> int:
 
     costs[start] = 0
 
-    while u := queue.pop_task():
+    while u := queue.get().step:
         for n in neighborhood_part2(u, end):
             x, y = n.x, n.y
             if (x, y) not in grid:
@@ -193,7 +151,7 @@ def part_2(file: TextIO) -> int:
             alternative_cost = costs[u] + grid[x, y]
             if alternative_cost < current_cost:
                 costs[n] = alternative_cost
-                queue.add_task(n, alternative_cost + heuristic((x, y), end))
+                queue.put(Entry(alternative_cost + heuristic((x, y), end), n))
 
     raise ValueError("No path found")
 
