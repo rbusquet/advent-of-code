@@ -1,5 +1,4 @@
 import argparse
-import functools
 import operator
 import re
 import sys
