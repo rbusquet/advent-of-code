@@ -1,7 +1,9 @@
 import argparse
+import functools
 import operator
 import re
 import sys
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Iterator, TextIO
 
@@ -17,6 +19,7 @@ def strip_lines(file: TextIO) -> Iterator[str]:
 
 
 RULE_REGEX = re.compile(r"(\w+)([<>])(\d+)")
+WORKFLOW_REGEX = re.compile(r"(\w+){(.+)}")
 
 
 @dataclass
@@ -24,44 +27,38 @@ class Rule:
     operation: str
     next: str
 
-    def execute(self, item: dict[str, int]) -> str | None:
-        operations = {"<": operator.lt, ">": operator.gt}
-
-        if not self.operation:
-            return self.next
+    def terms(self) -> tuple[str, str, int]:
         match = RULE_REGEX.match(self.operation)
         if match is None:
             raise ValueError(f"Invalid rule: {self.operation}")
         key, opcode, value = match.groups()
+        return key, opcode, int(value)
 
-        result = operations[opcode](item[key], int(value))
+    def execute(self, item: dict[str, int]) -> str | None:
+        if not self.operation:
+            return self.next
+
+        operations = {"<": operator.lt, ">": operator.gt}
+        key, opcode, value = self.terms()
+
+        result = operations[opcode](item[key], value)
         return self.next if result else None
 
-    def match_range(self, item: dict[str, range]) -> tuple[dict[str, range], ...]:
+    def match_range(
+        self, item: dict[str, range]
+    ) -> tuple[dict[str, range], dict[str, range]]:
         if not self.operation:
             return item, {}
-        match = RULE_REGEX.match(self.operation)
-        if match is None:
-            raise ValueError(f"Invalid rule: {self.operation}")
 
-        key, opcode, value_str = match.groups()
-        value = int(value_str)
+        key, opcode, value = self.terms()
+        current_range = item[key]
+
         if opcode == "<":
-            current_range = item[key]
-            if value >= current_range.stop:
-                return {}, item
-            if value <= current_range.start:
-                return item, {}
             return (
                 {**item, key: range(current_range.start, value)},
                 {**item, key: range(value, current_range.stop)},
             )
         if opcode == ">":
-            current_range = item[key]
-            if value <= current_range.start:
-                return {}, item
-            if value >= current_range.stop:
-                return item, {}
             return (
                 {**item, key: range(value + 1, current_range.stop)},
                 {**item, key: range(current_range.start, value + 1)},
@@ -83,16 +80,9 @@ class Workflow:
 
     def match_range(self, item: dict[str, range]):
         unmatched = item
-        next_workflows = dict[str, dict[str, range]]()
         for rule in self.rules:
             matched, unmatched = rule.match_range(unmatched)
-            if matched is not None:
-                yield rule.next, matched
-
-        return next_workflows
-
-
-WORKFLOW_REGEX = re.compile(r"(\w+){(.+)}")
+            yield rule.next, matched
 
 
 def parse_workflow(line: str) -> Workflow:
@@ -142,31 +132,6 @@ def part_1(file: TextIO) -> int:
     return sum(sum(item.values()) for item in accepted)
 
 
-def execute(
-    workflow: Workflow,
-    to_match: dict[str, range],
-    workflows: dict[str, Workflow],
-    rule_index: int,
-) -> int:
-    total = 0
-
-    gen = workflow.match_range(to_match)
-
-    next_workflow, matched = next(gen)
-    if matched:
-        if next_workflow == "A":
-            combinations = 1
-            for r in matched.values():
-                combinations *= len(r)
-            total = combinations
-        elif next_workflow == "R":
-            total = 0
-        else:
-            total = execute(workflows[next_workflow], matched, workflows, 0)
-
-    return total
-
-
 def part_2(file: TextIO) -> int:
     file.seek(0)
 
@@ -177,17 +142,37 @@ def part_2(file: TextIO) -> int:
         workflow = parse_workflow(line)
         workflows[workflow.name] = workflow
 
-    return execute(
-        workflows["in"],
-        {
-            "x": range(1, 4001),
-            "m": range(1, 4001),
-            "a": range(1, 4001),
-            "s": range(1, 4001),
-        },
-        workflows,
-        0,
+    queue = deque(
+        [
+            (
+                workflows["in"],
+                {
+                    "x": range(1, 4000 + 1),
+                    "m": range(1, 4000 + 1),
+                    "a": range(1, 4000 + 1),
+                    "s": range(1, 4000 + 1),
+                },
+            )
+        ]
     )
+
+    total = 0
+
+    while queue:
+        workflow, to_match = queue.pop()
+
+        for next_workflow, next_item in workflow.match_range(to_match):
+            if next_workflow == "A":
+                combinations = 1
+                for r in next_item.values():
+                    combinations *= len(r)
+                total += combinations
+            elif next_workflow == "R":
+                continue
+            else:
+                queue.append((workflows[next_workflow], next_item))
+
+    return total
 
 
 if __name__ == "__main__":
