@@ -37,6 +37,37 @@ class Rule:
         result = operations[opcode](item[key], int(value))
         return self.next if result else None
 
+    def match_range(self, item: dict[str, range]) -> tuple[dict[str, range], ...]:
+        if not self.operation:
+            return item, {}
+        match = RULE_REGEX.match(self.operation)
+        if match is None:
+            raise ValueError(f"Invalid rule: {self.operation}")
+
+        key, opcode, value_str = match.groups()
+        value = int(value_str)
+        if opcode == "<":
+            current_range = item[key]
+            if value >= current_range.stop:
+                return {}, item
+            if value <= current_range.start:
+                return item, {}
+            return (
+                {**item, key: range(current_range.start, value)},
+                {**item, key: range(value, current_range.stop)},
+            )
+        if opcode == ">":
+            current_range = item[key]
+            if value <= current_range.start:
+                return {}, item
+            if value >= current_range.stop:
+                return item, {}
+            return (
+                {**item, key: range(value + 1, current_range.stop)},
+                {**item, key: range(current_range.start, value + 1)},
+            )
+        raise ValueError(f"Invalid opcode: {opcode}")
+
 
 @dataclass
 class Workflow:
@@ -49,6 +80,16 @@ class Workflow:
             if next_workflow is not None:
                 return next_workflow
         raise ValueError(f"Invalid item: {item}")
+
+    def match_range(self, item: dict[str, range]):
+        unmatched = item
+        next_workflows = dict[str, dict[str, range]]()
+        for rule in self.rules:
+            matched, unmatched = rule.match_range(unmatched)
+            if matched is not None:
+                yield rule.next, matched
+
+        return next_workflows
 
 
 WORKFLOW_REGEX = re.compile(r"(\w+){(.+)}")
@@ -98,13 +139,55 @@ def part_1(file: TextIO) -> int:
             if result == "R":
                 break
             workflow = workflows[result]
-        print(item)
     return sum(sum(item.values()) for item in accepted)
+
+
+def execute(
+    workflow: Workflow,
+    to_match: dict[str, range],
+    workflows: dict[str, Workflow],
+    rule_index: int,
+) -> int:
+    total = 0
+
+    gen = workflow.match_range(to_match)
+
+    next_workflow, matched = next(gen)
+    if matched:
+        if next_workflow == "A":
+            combinations = 1
+            for r in matched.values():
+                combinations *= len(r)
+            total = combinations
+        elif next_workflow == "R":
+            total = 0
+        else:
+            total = execute(workflows[next_workflow], matched, workflows, 0)
+
+    return total
 
 
 def part_2(file: TextIO) -> int:
     file.seek(0)
-    return -1
+
+    workflows = dict[str, Workflow]()
+    for line in strip_lines(file):
+        if not line:
+            break
+        workflow = parse_workflow(line)
+        workflows[workflow.name] = workflow
+
+    return execute(
+        workflows["in"],
+        {
+            "x": range(1, 4001),
+            "m": range(1, 4001),
+            "a": range(1, 4001),
+            "s": range(1, 4001),
+        },
+        workflows,
+        0,
+    )
 
 
 if __name__ == "__main__":
