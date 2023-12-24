@@ -207,6 +207,43 @@ def part_2(file: TextIO) -> int:
     return lcm(*counts)
 
 
+def part_2_looking_at_outputs(file: TextIO) -> int:
+    file.seek(0)
+
+    modules, flip_flops = process_input(file)
+
+    button = Button("button")
+    button.outputs.append(modules["broadcaster"])
+
+    # conjunction vf outputs to output rx
+    # hf, pk, mk, pm are conjunctions and output to vf
+    # if we count how many times we have to press the button
+    # to get these conjunctions to output a high pulse,
+    # we can find the least common multiple of these counts
+    # and that will be the number of times we have to press the button
+    # to get a low pulse from vf
+    important_conjunctions = ["hf", "pk", "mk", "pm"]
+
+    counts = []
+    count = 0
+    while True:
+        count += 1
+        events = button.press()
+        conjunction_events = [
+            e for e in events if e.sender.name in important_conjunctions
+        ]
+        for event in conjunction_events:
+            if event.pulse == Pulse.HIGH:
+                counts.append(count)
+                important_conjunctions.remove(event.sender.name)
+                if not important_conjunctions:
+                    return lcm(*counts)
+
+    # this output is how many presses it takes to get all flip flops to be off
+    # I don't really understand why this works, but it does
+    return lcm(*counts)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file", type=argparse.FileType("r"))
@@ -214,3 +251,4 @@ if __name__ == "__main__":
     parser.parse_args(namespace=args)
     print(part_1(args.file))
     print(part_2(args.file))
+    print(part_2_looking_at_outputs(args.file))
