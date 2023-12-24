@@ -239,10 +239,6 @@ def part_2_looking_at_outputs(file: TextIO) -> int:
                 if not important_conjunctions:
                     return lcm(*counts)
 
-    # this output is how many presses it takes to get all flip flops to be off
-    # I don't really understand why this works, but it does
-    return lcm(*counts)
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
