@@ -34,17 +34,6 @@ class Module(abc.ABC):
     def process(self, event: Event, bus: Bus) -> None:
         raise NotImplementedError
 
-    @classmethod
-    def from_str(cls, source: str) -> Module:
-        if source[0] == "%":
-            return FlipFlop(source[1:])
-        elif source[0] == "&":
-            return Conjunction(source[1:])
-        elif source == "broadcaster":
-            return Broadcaster(source)
-        else:
-            return Unknown(source)
-
 
 @dataclass
 class Event:
@@ -140,16 +129,6 @@ class Button(Module):
         return processed_events
 
 
-class Unknown(Module):
-    state: Pulse | None = None
-
-    def process(self, event: Event, bus: Bus) -> None:
-        self.state = event.pulse
-
-    def __repr__(self) -> str:
-        return f'Unknown("{self.name}" {self.state})'
-
-
 def process_input(file: TextIO):
     outputs = dict[str, list[str]]()
     modules = dict[str, Module]()
@@ -166,15 +145,13 @@ def process_input(file: TextIO):
             modules[source] = Conjunction(source)
         elif source == "broadcaster":
             modules[source] = Broadcaster(source)
-        else:
-            modules[source] = Unknown(source)
 
         outputs[source] = outs.split(", ")
 
     for source, output_names in outputs.items():
         for out in output_names:
             if out not in modules:
-                modules[out] = Unknown(out)
+                continue
             out_module = modules[out]
 
             modules[source].outputs.append(out_module)
@@ -225,6 +202,8 @@ def part_2(file: TextIO) -> int:
             if all_off:  # looped back to start
                 break
 
+    # this output is how many presses it takes to get all flip flops to be off
+    # I don't really understand why this works, but it does
     return lcm(*counts)
 
 
