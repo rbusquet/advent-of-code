@@ -66,6 +66,14 @@ class Bus(deque[Event]):
 class FlipFlop(Module):
     state: Pulse = Pulse.LOW
 
+    @property
+    def on(self) -> bool:
+        return self.state == Pulse.HIGH
+
+    @property
+    def off(self) -> bool:
+        return self.state == Pulse.LOW
+
     def process(self, event: Event, bus: Bus) -> None:
         if event.pulse == Pulse.HIGH:
             return
@@ -142,17 +150,17 @@ class Unknown(Module):
         return f'Unknown("{self.name}" {self.state})'
 
 
-def part_1(file: TextIO) -> int:
-    file.seek(0)
-
+def process_input(file: TextIO):
     outputs = dict[str, list[str]]()
     modules = dict[str, Module]()
-
+    flip_flops = list[FlipFlop]()
     for line in strip_lines(file):
         source, outs = line.split(" -> ")
         if source[0] == "%":
             source = source[1:]
-            modules[source] = FlipFlop(source)
+            ff = FlipFlop(source)
+            flip_flops.append(ff)
+            modules[source] = ff
         elif source[0] == "&":
             source = source[1:]
             modules[source] = Conjunction(source)
@@ -172,6 +180,14 @@ def part_1(file: TextIO) -> int:
             modules[source].outputs.append(out_module)
             if isinstance(out_module, Conjunction):
                 out_module.memory[source] = Pulse.LOW
+
+    return modules, flip_flops
+
+
+def part_1(file: TextIO) -> int:
+    file.seek(0)
+
+    modules, flip_flops = process_input(file)
 
     button = Button("button")
     button.outputs.append(modules["broadcaster"])
@@ -192,65 +208,21 @@ def part_1(file: TextIO) -> int:
 def part_2(file: TextIO) -> int:
     file.seek(0)
 
-    outputs = dict[str, list[str]]()
-    modules = dict[str, Module]()
-
-    for line in strip_lines(file):
-        source, outs = line.split(" -> ")
-        if source[0] == "%":
-            source = source[1:]
-            modules[source] = FlipFlop(source)
-        elif source[0] == "&":
-            source = source[1:]
-            modules[source] = Conjunction(source)
-        elif source == "broadcaster":
-            modules[source] = Broadcaster(source)
-        else:
-            modules[source] = Unknown(source)
-
-        outputs[source] = outs.split(", ")
-
-    for source, output_names in outputs.items():
-        for out in output_names:
-            if out not in modules:
-                modules[out] = Unknown(out)
-            out_module = modules[out]
-
-            modules[source].outputs.append(out_module)
-            if isinstance(out_module, Conjunction):
-                out_module.memory[source] = Pulse.LOW
+    modules, flip_flops = process_input(file)
 
     button = Button("button")
     button.outputs.append(modules["broadcaster"])
 
-    rx = modules["rx"]
-    assert isinstance(rx, Unknown)
     sub_circuits = modules["broadcaster"].outputs
 
     counts = [0] * len(sub_circuits)
     for i, circuit in enumerate(sub_circuits):
-        initial_state = tuple(
-            [
-                hash(module)
-                for module in modules.values()
-                if isinstance(module, FlipFlop)
-            ]
-        )
-
         while True:
             counts[i] += 1
             button.press(circuit)
-            state = tuple(
-                [
-                    hash(module)
-                    for module in modules.values()
-                    if isinstance(module, FlipFlop)
-                ]
-            )
-            if state == initial_state:
-                break
+            all_off = all(ff.off for ff in flip_flops)
 
-            if rx.state == Pulse.LOW:
+            if all_off:  # looped back to start
                 break
 
     return lcm(*counts)
