@@ -6,6 +6,18 @@ warn_unused_configs = true
 
 mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+more-itertools = "^10.5.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.13.0"
+ruff = "^0.8.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,5 +1,0 @@
-mypy
-black
-more_itertools
-isort
-progressbar2

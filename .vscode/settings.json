@@ -3,16 +3,14 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
-  "isort.check": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.stubPath": "stubs",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff"
   },
   "python.testing.unittestArgs": ["-v", "-s", ".", "-p", "*_test.py"],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true,
-  "black-formatter.importStrategy": "fromEnvironment",
   "editor.formatOnSave": true,
   "[plaintext]": {
     "editor.unicodeHighlight.ambiguousCharacters": false,
