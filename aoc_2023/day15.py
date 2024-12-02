@@ -27,7 +27,7 @@ def hash(value: str) -> int:
 class Box:
     EMPTY = ("", 0)
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._data: list[tuple[str, int]] = []
         self._map: dict[str, int] = {}
 
@@ -64,7 +64,7 @@ class Box:
 
 
 class HashMap:
-    def __init__(self):
+    def __init__(self) -> None:
         self._data: list[Box | None] = [None] * 256
 
     def __setitem__(self, key: str, value: int):
