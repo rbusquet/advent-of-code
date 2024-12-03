@@ -1,7 +1,8 @@
 {
   "isort.importStrategy": "fromEnvironment",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit"
+    "source.organizeImports": "explicit",
+    "source.fixAll.ruff": "explicit"
   },
   "python.analysis.autoImportCompletions": true,
   "python.analysis.stubPath": "stubs",
@@ -18,5 +19,6 @@
     "editor.fontLigatures": false
   },
   "python.analysis.typeCheckingMode": "basic",
-  "mypy-type-checker.args": []
+  "mypy-type-checker.args": [],
+  "github.copilot.editor.enableAutoCompletions": false
 }

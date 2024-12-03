@@ -21,3 +21,7 @@ ruff = "^0.8.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.lint]
+extend-select = ['T10', 'E', 'W', 'DJ', 'I']
+preview = true

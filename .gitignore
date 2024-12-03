@@ -111,7 +111,7 @@ venv.bak/
 
 vendor/
 
-
 # Added by cargo
 
 /target
+.ruff_cache
