@@ -29,7 +29,7 @@ def part_1() -> int:
 
     i = 0
     while i < len(memory) - 1:
-        # cleanpup empty space at the end
+        # clean up empty space at the end
         while memory[-1] == -1:
             memory.pop()
         if i >= len(memory):
@@ -44,6 +44,7 @@ def part_1() -> int:
 class File:
     id: int
     size: int
+    index: int
 
 
 def checksum_v2(memory: list[File]) -> int:
@@ -56,39 +57,59 @@ def checksum_v2(memory: list[File]) -> int:
     return total
 
 
+class DiskMap(list[File]):
+    def __str__(self):
+        result = ""
+        s = sorted(self, key=lambda x: x.index)
+        for i, file in enumerate(s):
+            result += f"{file.id}" * file.size
+            if i + 1 >= len(self):
+                return result
+            next_file = s[i + 1]
+            empty = next_file.index - file.index - file.size
+            result += "." * empty
+        return result
+
+    def checksum(self) -> int:
+        checksum = 0
+        for file in self:
+            for i in range(file.index, file.index + file.size):
+                checksum += i * file.id
+        return checksum
+
+
 def part_2() -> int:
     disk_map = input.read_text()
 
-    memory = list[File]()
+    files = DiskMap()
+    empty_space = list[File]()
     counter = count()
+    index = 0
     for i, size in enumerate(map(int, disk_map)):
         if i % 2 == 0:
             file_id = next(counter)
-            memory.append(File(file_id, size))
+            files.append(File(file_id, size, index))
         else:
-            memory.append(File(-1, size))
+            empty_space.append(File(-1, size, index))
+        index += size
 
-    left = 0
+    moved = DiskMap()
+    while files:
+        file_to_move = files.pop()
 
-    while left < len(memory):
-        # find first empty block
-        while memory[left].id != -1:
-            left += 1
-        empty_space = memory[left]
-        # find first file from the back that fits in empty space
-        right = len(memory) - 1
-        while memory[right].id == -1 or memory[right].size > empty_space.size:
-            right -= 1
-            if right <= left:
-                # nothing fits
-                left += 1
+        for empty in empty_space:
+            if empty.index > file_to_move.index:
                 break
-        else:
-            file = memory.pop(right)
-            memory.insert(left, file)
-            empty_space.size -= file.size
+            if empty.size >= file_to_move.size:
+                file_to_move.index = empty.index
+                empty.index += file_to_move.size
+                empty.size -= file_to_move.size
+                if empty.size == 0:
+                    empty_space.remove(empty)
+                break
+        moved.append(file_to_move)
 
-    return checksum_v2(memory)
+    return moved.checksum()
 
 
 print(part_1())
