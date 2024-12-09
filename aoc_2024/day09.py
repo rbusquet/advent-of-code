@@ -48,40 +48,17 @@ class File:
 
 
 def checksum_v2(memory: list[File]) -> int:
-    counter = count()
-    total = 0
+    checksum = 0
     for file in memory:
-        if file.id == -1:
-            continue
-        total += next(counter) * file.id
-    return total
-
-
-class DiskMap(list[File]):
-    def __str__(self):
-        result = ""
-        s = sorted(self, key=lambda x: x.index)
-        for i, file in enumerate(s):
-            result += f"{file.id}" * file.size
-            if i + 1 >= len(self):
-                return result
-            next_file = s[i + 1]
-            empty = next_file.index - file.index - file.size
-            result += "." * empty
-        return result
-
-    def checksum(self) -> int:
-        checksum = 0
-        for file in self:
-            for i in range(file.index, file.index + file.size):
-                checksum += i * file.id
-        return checksum
+        for i in range(file.index, file.index + file.size):
+            checksum += i * file.id
+    return checksum
 
 
 def part_2() -> int:
     disk_map = input.read_text()
 
-    files = DiskMap()
+    files = list[File]()
     empty_space = list[File]()
     counter = count()
     index = 0
@@ -93,7 +70,7 @@ def part_2() -> int:
             empty_space.append(File(-1, size, index))
         index += size
 
-    moved = DiskMap()
+    moved = list[File]()
     while files:
         file_to_move = files.pop()
 
@@ -109,7 +86,7 @@ def part_2() -> int:
                 break
         moved.append(file_to_move)
 
-    return moved.checksum()
+    return checksum_v2(moved)
 
 
 print(part_1())
