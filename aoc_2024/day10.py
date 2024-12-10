@@ -1,4 +1,4 @@
-from collections import defaultdict, deque
+from collections import deque
 from pathlib import Path
 from typing import Iterator
 
@@ -19,8 +19,6 @@ def neighborhood(i: int, j: int) -> Iterator[Position]:
 
 def score(trailhead: Position, grid: list[str]) -> int:
     queue = deque([trailhead])
-    distances = defaultdict[Position, int](int)
-
     height = len(grid)
     width = len(grid[0])
 
@@ -41,7 +39,6 @@ def score(trailhead: Position, grid: list[str]) -> int:
                 continue
             step = int(grid[ii][jj]) - current_height
             if step == 1:
-                distances[n] = max(distances[n], distances[current] + 1)
                 queue.append(n)
 
     return len(tops)
@@ -49,8 +46,6 @@ def score(trailhead: Position, grid: list[str]) -> int:
 
 def rating(trailhead: Position, grid: list[str]) -> int:
     queue = deque([trailhead])
-    distances = defaultdict[Position, int](int)
-
     height = len(grid)
     width = len(grid[0])
 
@@ -71,7 +66,6 @@ def rating(trailhead: Position, grid: list[str]) -> int:
                 continue
             step = int(grid[ii][jj]) - current_height
             if step == 1:
-                distances[n] = max(distances[n], distances[current] + 1)
                 queue.append(n)
 
     return len(tops)
@@ -84,7 +78,7 @@ def part_1() -> int:
 
     for x, line in enumerate(grid):
         for y, height in enumerate(line):
-            if grid[x][y] == "0":
+            if height == "0":
                 trailheads.append((x, y))
 
     return sum(score(t, grid) for t in trailheads)
@@ -97,7 +91,7 @@ def part_2() -> int:
 
     for x, line in enumerate(grid):
         for y, height in enumerate(line):
-            if grid[x][y] == "0":
+            if height == "0":
                 trailheads.append((x, y))
 
     return sum(rating(t, grid) for t in trailheads)
