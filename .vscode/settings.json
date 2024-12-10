@@ -20,5 +20,6 @@
   },
   "python.analysis.typeCheckingMode": "basic",
   "mypy-type-checker.args": [],
-  "github.copilot.editor.enableAutoCompletions": false
+  "github.copilot.editor.enableAutoCompletions": false,
+  "cSpell.words": ["trailhead"]
 }
