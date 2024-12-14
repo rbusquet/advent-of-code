@@ -4,7 +4,6 @@ from collections import defaultdict
 from dataclasses import dataclass
 from heapq import heappop, heappush
 from pathlib import Path
-from typing import Generic, TypeVar
 
 import numpy as np
 
@@ -18,18 +17,15 @@ def manhattan_distance(a: Position, b: Position) -> int:
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 
-T = TypeVar("T")
-
-
 @dataclass(slots=True, order=True)
-class Entry(Generic[T]):
+class Entry[T]:
     priority: float
     count: int
     task: T
     removed: bool = False
 
 
-class Queue(Generic[T]):
+class Queue[T]:
     """
     From https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes
     """
