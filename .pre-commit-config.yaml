@@ -28,9 +28,11 @@ repos:
     hooks:
       - id: mypy
         language_version: "3.13"
-        args: ["--namespace-packages", "--explicit-package-bases"]
+        args:
+          - --namespace-packages
+          - --explicit-package-bases
+          - --install-types
         additional_dependencies:
-          - requests == 2.27.1
-          - types-requests
           - more_itertools
           - progress == 1.6
+          - numpy
