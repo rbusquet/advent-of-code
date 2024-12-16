@@ -147,7 +147,70 @@ class Maze:
                     cost[n] = tentative_cost
                     queue.add_task((n, d), tentative_cost + self.h(n))
 
+        # maxx, maxy = max(self.grid)
+        # path = self.recover_path(came_from, self.goal, direction)
+        # for position, direction in path:
+        #     self.grid[position] = str(direction)
+        # for i in range(maxx + 1):
+        #     for j in range(maxy + 1):
+        #         print(self.grid.get((i, j), " "), end="")
+        #     print()
         return cost[self.goal]
+
+    def best_seats(self) -> int | None:
+        queue = Queue[tuple[Position, Direction, int, tuple[Position, ...]]]()
+        queue.add_task((self.start, Direction.E, 0, (self.start,)), self.h(self.start))
+
+        cost = defaultdict[tuple[Position, Direction], int](lambda: sys.maxsize)
+        best = sys.maxsize
+        cost[self.start, Direction.E] = 0
+        tiles = set[Position]()
+
+        while current := queue.pop_task():
+            position, direction, current_cost, path = current
+
+            known_cost = cost[position, direction]
+            if known_cost < current_cost:
+                # been here with a better cost
+                continue
+
+            if current_cost > best:
+                # bail out
+                continue
+
+            cost[position, direction] = current_cost
+
+            if position == self.goal:
+                if current_cost < best:
+                    best = current_cost
+                    tiles = set(path)
+                else:
+                    tiles |= set(path)
+
+            for n, d in neighborhood(*position):
+                step_cost = 1
+                if n not in self.grid or self.grid[n] == "#":  # wall
+                    continue
+                elif d == direction.opposite():
+                    # do not move backwards
+                    continue
+                elif d != direction:
+                    step_cost += 1_000
+
+                tentative_cost = cost[position, direction] + step_cost
+                queue.add_task(
+                    (n, d, tentative_cost, (*path, n)), tentative_cost + self.h(n)
+                )
+
+        # maxx, maxy = max(self.grid)
+        # for i in range(maxx + 1):
+        #     for j in range(maxy + 1):
+        #         if (i, j) in tiles:
+        #             print("O", end="")
+        #         else:
+        #             print(self.grid.get((i, j), " "), end="")
+        #     print()
+        return len(tiles)
 
 
 def part_1() -> int:
@@ -165,7 +228,17 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    return 0
+    grid = {}
+    for x, line in enumerate(input.read_text().splitlines()):
+        for y, tile in enumerate(line):
+            grid[x, y] = tile
+            if tile == "S":
+                start = x, y
+            if tile == "E":
+                goal = x, y
+
+    maze = Maze(start, goal, grid)
+    return maze.best_seats() or 0
 
 
 print(part_1())
