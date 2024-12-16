@@ -13,10 +13,6 @@ input = Path(__file__).parent / "input.txt"
 Position = tuple[int, int]
 
 
-def manhattan_distance(a: Position, b: Position) -> int:
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
-
 @dataclass(slots=True, order=True)
 class Entry[T]:
     priority: float
@@ -98,25 +94,9 @@ class Maze:
         self.goal = goal
         self.grid = grid
 
-    def recover_path(
-        self,
-        came_from: dict[tuple[Position, Direction], tuple[Position, Direction]],
-        goal: Position,
-        direction: Direction,
-    ) -> list[tuple[Position, Direction]]:
-        path = []
-        current = (goal, direction)
-        while current in came_from:
-            path.append(current)
-            current = came_from[current]
-        return path
-
-    def h(self, position: Position) -> int:
-        return manhattan_distance(position, self.goal)
-
     def calculate_points(self) -> int | None:
         queue = Queue[tuple[Position, Direction]]()
-        queue.add_task((self.start, Direction.E), self.h(self.start))
+        queue.add_task((self.start, Direction.E))
 
         cost = defaultdict[Position, int](lambda: sys.maxsize)
         cost[self.start] = 0
@@ -126,8 +106,6 @@ class Maze:
             position, direction = current
 
             if position == self.goal:
-                # path = self.recover_path(came_from, self.goal, direction)
-                # in_path.update(p[0] for p in path)
                 break
 
             for n, d in neighborhood(*position):
@@ -145,21 +123,13 @@ class Maze:
                 if tentative_cost < cost[n]:
                     came_from[(n, d)] = current
                     cost[n] = tentative_cost
-                    queue.add_task((n, d), tentative_cost + self.h(n))
+                    queue.add_task((n, d), tentative_cost)
 
-        # maxx, maxy = max(self.grid)
-        # path = self.recover_path(came_from, self.goal, direction)
-        # for position, direction in path:
-        #     self.grid[position] = str(direction)
-        # for i in range(maxx + 1):
-        #     for j in range(maxy + 1):
-        #         print(self.grid.get((i, j), " "), end="")
-        #     print()
         return cost[self.goal]
 
     def best_seats(self) -> int | None:
         queue = Queue[tuple[Position, Direction, int, tuple[Position, ...]]]()
-        queue.add_task((self.start, Direction.E, 0, (self.start,)), self.h(self.start))
+        queue.add_task((self.start, Direction.E, 0, (self.start,)), 0)
 
         cost = defaultdict[tuple[Position, Direction], int](lambda: sys.maxsize)
         best = sys.maxsize
@@ -198,18 +168,8 @@ class Maze:
                     step_cost += 1_000
 
                 tentative_cost = cost[position, direction] + step_cost
-                queue.add_task(
-                    (n, d, tentative_cost, (*path, n)), tentative_cost + self.h(n)
-                )
+                queue.add_task((n, d, tentative_cost, (*path, n)), tentative_cost)
 
-        # maxx, maxy = max(self.grid)
-        # for i in range(maxx + 1):
-        #     for j in range(maxy + 1):
-        #         if (i, j) in tiles:
-        #             print("O", end="")
-        #         else:
-        #             print(self.grid.get((i, j), " "), end="")
-        #     print()
         return len(tiles)
 
 
