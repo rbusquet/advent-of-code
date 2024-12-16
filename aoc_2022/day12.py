@@ -4,7 +4,7 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from heapq import heappop, heappush
-from typing import Generic, Iterator, TextIO
+from typing import Iterator, TextIO
 
 
 @dataclass
