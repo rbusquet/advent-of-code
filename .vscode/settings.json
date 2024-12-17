@@ -21,5 +21,5 @@
   "python.analysis.typeCheckingMode": "basic",
   "mypy-type-checker.args": [],
   "github.copilot.editor.enableAutoCompletions": false,
-  "cSpell.words": ["trailhead", "trailheads"]
+  "cSpell.words": ["appendleft", "trailhead", "trailheads"]
 }
