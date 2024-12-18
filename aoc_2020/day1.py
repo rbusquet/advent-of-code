@@ -3,7 +3,7 @@ import time
 from functools import reduce
 from itertools import combinations
 from operator import mul
-from typing import Callable, cast
+from typing import Callable
 
 
 def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
@@ -14,7 +14,7 @@ def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
         after = time.process_time_ns()
         diff = after - before
         print(f"{fn.__name__} ran in {diff}ns")
-        return cast(T, result)
+        return result
 
     return timed
 

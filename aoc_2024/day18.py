@@ -64,33 +64,31 @@ class Maze:
         return best, tiles
 
 
-def run(count, size, end) -> int:
+def run(count, size, end) -> None:
     grid = {}
     for i in range(size):
         for j in range(size):
             grid[i, j] = "."
-    progress = iter(input.read_text().splitlines())
+    progress = iter(eval(line) for line in input.read_text().splitlines())
     i = 0
     for line in progress:
         if i >= count:
             break
-        grid[eval(line)] = "#"
+        grid[line] = "#"
         i += 1
 
     maze = Maze((0, 0), end, grid)
     best, path = maze.best_path()
+    print(f"part 1: {best}")
 
     for line in progress:
-        position = eval(line)
+        position = line
         grid[position] = "#"
         if position in path:
-            print(position, "blocks current path, recalculating")
             best, path = maze.best_path()
-            print("recalculated to", best)
             if best == sys.maxsize:
-                print("we're done")
+                print(f"part 2: {position}")
                 break
-    return best
 
 
-print(run(1024, 71, (70, 70)))
+run(1024, 71, (70, 70))

@@ -1,5 +1,4 @@
 {
-  "isort.importStrategy": "fromEnvironment",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
     "source.fixAll.ruff": "explicit"
@@ -19,7 +18,7 @@
     "editor.fontLigatures": false
   },
   "python.analysis.typeCheckingMode": "basic",
-  "mypy-type-checker.args": [],
   "github.copilot.editor.enableAutoCompletions": false,
-  "cSpell.words": ["appendleft", "trailhead", "trailheads"]
+  "cSpell.words": ["appendleft", "trailhead", "trailheads"],
+  "mypy-type-checker.importStrategy": "fromEnvironment"
 }
