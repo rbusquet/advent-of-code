@@ -11,19 +11,18 @@ def part_1() -> int:
     designs = lines[2:]
 
     @cache
-    def is_valid_design(design: str):
-        if design in patterns:
+    def count_valid_designs(design: str):
+        if design == "":
             return True
-
         for pattern in patterns:
             if design.startswith(pattern):
-                return is_valid_design(design[len(pattern) :])
-        else:
-            return False
+                if count_valid_designs(design[len(pattern) :]):
+                    return True
+        return False
 
     count = 0
     for design in designs:
-        count += is_valid_design(design)
+        count += count_valid_designs(design)
     return count
 
 
@@ -35,10 +34,10 @@ def part_2() -> int:
 
     @cache
     def count_valid_designs(design: str):
-        count = design in patterns
+        if design == "":
+            return 1
+        count = 0
         for pattern in patterns:
-            if pattern == design:
-                continue
             if design.startswith(pattern):
                 count += count_valid_designs(design[len(pattern) :])
         return count
