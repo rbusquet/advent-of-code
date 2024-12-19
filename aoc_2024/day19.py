@@ -7,7 +7,7 @@ input = Path(__file__).parent / "input.txt"
 def part_1() -> int:
     lines = input.read_text().splitlines()
 
-    patterns = lines[0]
+    patterns = lines[0].split(", ")
     designs = lines[2:]
 
     @cache
@@ -30,7 +30,7 @@ def part_1() -> int:
 def part_2() -> int:
     lines = input.read_text().splitlines()
 
-    patterns = lines[0]
+    patterns = lines[0].split(", ")
     designs = lines[2:]
 
     @cache
@@ -39,12 +39,12 @@ def part_2() -> int:
         for pattern in patterns:
             if pattern == design:
                 continue
-            if pattern.startswith(pattern):
-                count += count_valid_designs(pattern[len(pattern) :])
+            if design.startswith(pattern):
+                count += count_valid_designs(design[len(pattern) :])
         return count
 
     count = 0
-    for design in enumerate(designs):
+    for design in designs:
         count += count_valid_designs(design)
     return count
 
