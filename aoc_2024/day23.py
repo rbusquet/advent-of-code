@@ -1,7 +1,31 @@
 from collections import defaultdict
 from pathlib import Path
+from typing import Callable, Iterator
+
+from more_itertools import first
 
 input = Path(__file__).parent / "input.txt"
+
+
+def find_maximal_cliques(
+    current_clique: set[str],
+    candidates: set[str],
+    excluded: set[str],
+    n: Callable[[str], set[str]],
+) -> Iterator[frozenset[str]]:
+    if not candidates and not excluded:
+        yield frozenset(current_clique)
+        return
+    pivot = first(candidates, None)
+    neighboors = n(pivot) if pivot else set()
+    for vertex in candidates - neighboors:
+        yield from find_maximal_cliques(
+            current_clique | {vertex},
+            candidates & n(vertex),
+            excluded & n(vertex),
+            n,
+        )
+        excluded.add(vertex)
 
 
 def part_1() -> int:
@@ -32,30 +56,16 @@ def part_1() -> int:
 
 
 def part_2() -> str:
-    matrix = defaultdict[str, list[str]](list)
+    matrix = defaultdict[str, set[str]](set)
     with input.open() as file:
         for line in file:
             a, b = line.strip().split("-")
-            matrix[a].append(b)
-            matrix[b].append(a)
+            matrix[a].add(b)
+            matrix[b].add(a)
 
-    maximals = set[frozenset[str]]()
-
-    def find_maximal_cliques(
-        current_clique: set[str], candidates: set[str], excluded: set[str]
-    ) -> None:
-        if not candidates and not excluded:
-            maximals.add(frozenset(current_clique))
-        while candidates:
-            vertex = candidates.pop()
-            new_clique = current_clique.union({vertex})
-            new_candidates = candidates.intersection(matrix[vertex])
-            new_excluded = excluded.intersection(matrix[vertex])
-            find_maximal_cliques(new_clique, new_candidates, new_excluded)
-            candidates -= {vertex}
-            excluded.add(vertex)
-
-    find_maximal_cliques(set(), set(matrix.keys()), set())
+    maximals = list(
+        find_maximal_cliques(set(), set(matrix.keys()), set(), lambda x: matrix[x])
+    )
 
     largest = max(maximals, key=len)
     return ",".join(sorted(largest))
