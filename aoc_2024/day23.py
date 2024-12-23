@@ -14,7 +14,6 @@ def find_maximal_cliques(
     n: Callable[[str], set[str]],
 ) -> Iterator[frozenset[str]]:
     if not candidates and not excluded:
-        print(current_clique)
         yield frozenset(current_clique)
         return
     pivot = first(candidates, None)
@@ -65,13 +64,11 @@ def part_2() -> str:
             matrix[a].add(b)
             matrix[b].add(a)
 
-    maximals = list(
-        find_maximal_cliques(set(), set(matrix.keys()), set(), lambda x: matrix[x])
+    largest = max(
+        find_maximal_cliques(set(), set(matrix.keys()), set(), lambda x: matrix[x]),
+        key=len,
     )
-    print(len(maximals))
-    print(len(set(maximals)))
 
-    largest = max(maximals, key=len)
     return ",".join(sorted(largest))
 
 
