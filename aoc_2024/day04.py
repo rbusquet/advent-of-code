@@ -65,7 +65,25 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    return 0
+    a_positions = set()
+    grid = input.read_text().splitlines()
+    for i, line in enumerate(grid):
+        if i == 0 or i == len(grid) - 1:
+            continue
+        for j, char in enumerate(line):
+            if j == 0 or j == len(line) - 1:
+                continue
+            if char == "A":
+                a_positions.add((i, j))
+
+    count = 0
+    words = ["MAS", "SAM"]
+    for i, j in a_positions:
+        leg1 = "".join([grid[i - 1][j - 1], grid[i][j], grid[i + 1][j + 1]])
+        leg2 = "".join([grid[i - 1][j + 1], grid[i][j], grid[i + 1][j - 1]])
+        count += leg1 in words and leg2 in words
+
+    return count
 
 
 print(part_1())
