@@ -3,7 +3,7 @@ def part_1() -> str:
 
 
 def part_2() -> str:
-    return "vzbcaabcc"
+    return "vzcaabcc"
 
 
 if __name__ == "__main__":
