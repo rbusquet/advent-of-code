@@ -30,7 +30,10 @@ class Solver:
                         results[b] = (a,)
                     case [
                         a,
-                        "AND" | "OR" | "LSHIFT" | "RSHIFT" as operator,
+                        "AND"
+                        | "OR"
+                        | "LSHIFT"
+                        | "RSHIFT" as operator,
                         b,
                         "->",
                         c,
