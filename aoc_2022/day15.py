@@ -32,13 +32,13 @@ def parse(string: str) -> list[sensor]:
     """Parses the advent input and returns the list of sensors"""
     result: list[sensor] = []
     for line in string.splitlines():
-        # line: "Sensor at x=2391367, y=3787759: closest beacon is at x=2345659, y=4354867"
+        # line: "Sensor at x=_, y=_: closest beacon is at x=_, y=_"
         first, second = line.split(": ")
 
-        # first:  "Sensor at x=2391367, y=3787759"
+        # first:  "Sensor at x=_, y=_"
         sensor_x, sensor_y = map(int, first[12:].split(", y="))
 
-        # second: "closest beacon is at x=2345659, y=4354867"
+        # second: "closest beacon is at x=_, y=_"
         beacon_x, beacon_y = map(int, second[23:].split(", y="))
 
         result.append(sensor((sensor_x, sensor_y), (beacon_x, beacon_y)))
@@ -47,7 +47,8 @@ def parse(string: str) -> list[sensor]:
 
 
 def is_free(point: tuple[int, int], sensors: list[sensor]) -> bool:
-    """Returns True if point is outside the exclusion range of every sensor in sensors"""
+    """Returns True if point is outside the exclusion range of
+    every sensor in sensors"""
     for sensor in sensors:
         if sensor.in_exclusion_range(point):
             return False
@@ -106,7 +107,8 @@ def main(args: Arguments) -> int:
 
     for rising_q in rising_lines:
         for descending_q in descending_lines:
-            """I calculate the intersections between all the rising and descending lines i got"""
+            """I calculate the intersections between all
+            the rising and descending lines i got"""
             x = (rising_q - descending_q) // 2
             y = x + descending_q
             point = (x, y)

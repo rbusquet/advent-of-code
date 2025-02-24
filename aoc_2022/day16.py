@@ -6,7 +6,8 @@ from dataclasses import dataclass
 from typing import TextIO, TypedDict, cast
 
 regex = re.compile(
-    r"Valve (?P<valve>[A-Z]{2}) has flow rate=(?P<rate>[0-9]+); tunnel[s]{0,1} lead[s]{0,1} to valve[s]{0,1} (?P<leads>.*)"
+    r"Valve (?P<valve>[A-Z]{2}) has flow rate=(?P<rate>[0-9]+); "
+    r"tunnel[s]{0,1} lead[s]{0,1} to valve[s]{0,1} (?P<leads>.*)"
 )
 
 

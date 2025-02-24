@@ -94,20 +94,12 @@ def part_1() -> int:
 
         while True:
             boss_hp -= player_damage
-            # print(
-            #     f"The player deals {player_damage}; the boss goes down to {boss_hp} points"
-            # )
             if boss_hp <= 0:
-                # print("player wins")
                 min_cost = min(min_cost, cost)
                 break
             player_hp -= boss_damage
 
-            # print(
-            #     f"The boss deals {player_damage}; the player goes down to {boss_hp} points"
-            # )
             if player_hp <= 0:
-                # print("boss wins")
                 break
 
     return min_cost

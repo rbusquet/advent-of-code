@@ -67,16 +67,8 @@ def main(args: Arguments) -> None:
     for node in nodes.values():
         if node.type == "d":
             if free_space + node.size >= needed_space:
-                # print(f"can delete {node.qual_name()}...", end=" ")
                 if node.size < smallest:
-                    # print(
-                    #     f"and with size {node.size} it's smaller than the current smallest one ({smallest})"
-                    # )
                     smallest = node.size
-                # else:
-                # print(
-                #     f"but with size {node.size} it's larger than the current smallest one ({smallest})"
-                # )
     print(smallest)
 
 

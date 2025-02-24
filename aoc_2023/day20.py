@@ -47,8 +47,7 @@ class Event:
         return f"{self.sender.name} -{self.pulse.name}-> {self.receiver.name}"
 
 
-class Bus(deque[Event]):
-    ...
+class Bus(deque[Event]): ...
 
 
 @dataclass
@@ -113,8 +112,7 @@ class Broadcaster(Module):
 
 @dataclass
 class Button(Module):
-    def process(self, event: Event, bus: Bus) -> None:
-        ...
+    def process(self, event: Event, bus: Bus) -> None: ...
 
     def press(self, circuit: Module | None = None) -> list[Event]:
         bus = Bus()
@@ -164,7 +162,7 @@ def process_input(file: TextIO):
 def part_1(file: TextIO) -> int:
     file.seek(0)
 
-    modules, flip_flops = process_input(file)
+    modules, _ = process_input(file)
 
     button = Button("button")
     button.outputs.append(modules["broadcaster"])
@@ -210,7 +208,7 @@ def part_2(file: TextIO) -> int:
 def part_2_looking_at_outputs(file: TextIO) -> int:
     file.seek(0)
 
-    modules, flip_flops = process_input(file)
+    modules, _ = process_input(file)
 
     button = Button("button")
     button.outputs.append(modules["broadcaster"])

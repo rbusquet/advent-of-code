@@ -21,6 +21,7 @@
   "github.copilot.editor.enableAutoCompletions": false,
   "cSpell.words": [
     "appendleft",
+    "Decompiler",
     "fliplr",
     "flipud",
     "minmax",

@@ -35,7 +35,7 @@ def part_2() -> None:
                 print(f"boxes {data[i]} and {data[j]}")
                 item = list(data[i])
                 item.pop(diffs[0])
-                print(f'common letters {"".join(item)}')
+                print(f"common letters {''.join(item)}")
                 break
 
 

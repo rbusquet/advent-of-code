@@ -13,9 +13,10 @@ for i in range(1, 26):
     if today.day > i:
         break
     url = f"https://adventofcode.com/{year}/day/{i}/input"
-    with requests.get(
-        url, headers={"Cookie": f"session={session_cookie}"}
-    ) as request, open(
-        Path(__file__).parent / f"{year}" / f"day_{i:0>2}" / "input.txt", "w"
-    ) as file:
+    headers = {"Cookie": f"session={session_cookie}"}
+    out_file = Path(__file__).parent / f"{year}" / f"day_{i:0>2}" / "input.txt"
+    with (
+        requests.get(url, headers=headers) as request,
+        open(out_file, "w") as file,
+    ):
         file.write(request.text)

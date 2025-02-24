@@ -40,7 +40,7 @@ def part_1(file: TextIO) -> int:
 def part_2(file: TextIO) -> int:
     total_power = 0
     for line in file:
-        game_id, grabs = process_line(line)
+        _game_id, grabs = process_line(line)
         min_contents = {"red": 0, "green": 0, "blue": 0}
         for grab in grabs:
             for grab_count_str, color in grab:

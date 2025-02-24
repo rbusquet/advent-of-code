@@ -24,9 +24,7 @@ def test_multi_addition() -> None:
 [1,[[[9,3],9],[[9,0],[0,7]]]]
 [[[5,[7,4]],7],1]
 [[[[4,2],2],6],[8,7]]
-""".strip().split(
-        "\n"
-    )
+""".strip().split("\n")
 
     result = functools.reduce(add, numbers)
     expected = "[[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]"

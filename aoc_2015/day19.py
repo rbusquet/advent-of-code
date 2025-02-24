@@ -15,7 +15,7 @@ def part_1() -> int:
 
         start = -1
         while (start := molecule.find(left, start + 1)) >= 0:
-            molecules.add(f"{molecule[:start]}{right}{molecule[start + len(left):]}")
+            molecules.add(f"{molecule[:start]}{right}{molecule[start + len(left) :]}")
 
     return len(molecules)
 

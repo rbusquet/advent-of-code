@@ -1,4 +1,3 @@
-# flake8: noqa
 from __future__ import annotations
 
 import typing as tp
@@ -8,21 +7,16 @@ from pathlib import Path
 type Var = tp.Literal["w", "x", "y", "z"]
 
 
-type AnyInstruction = tp.Callable[..., None]
-
-
 class ALUDecompiler(defaultdict[Var, str]):
-    __instructions: tp.ClassVar[dict[str, AnyInstruction]] = {}
+    __instructions: tp.ClassVar[dict[str, "Instruction"]] = {}
 
     def __init__(self) -> None:
         self.functions = list[str]()
         return super().__init__(str)
 
     @classmethod
-    def register[
-        TInstruction
-    ](cls, name: str) -> tp.Callable[[TInstruction], TInstruction]:
-        def decorator(fn: TInstruction) -> TInstruction:
+    def register(cls, name: str) -> tp.Callable[[Instruction], Instruction]:
+        def decorator(fn: Instruction) -> Instruction:
             cls.__instructions[name] = fn
             return fn
 
@@ -46,25 +40,23 @@ class ALUDecompiler(defaultdict[Var, str]):
 
 
 class Instruction(tp.Protocol):
-    def __call__(self, alu: ALUDecompiler, a: Var) -> None:
-        ...
-
-    def __call__(self, alu: ALUDecompiler, a: Var, b: Var | int) -> None:
-        ...
+    def __call__(self, alu: ALUDecompiler, *vars: Var | int) -> None: ...
 
 
 @ALUDecompiler.register("inp")
-def inp(alu: ALUDecompiler, variable: Var) -> None:
+def inp(alu: ALUDecompiler, *vars: Var | int) -> None:
     alu.register_function()
+    variable = vars[0]
+    assert isinstance(variable, str)
     alu.update(dict.fromkeys(["w", "x", "y"], "0"))
     alu[variable] = variable
     alu["z"] = "z"
 
 
-def op_factory(
-    operator: str,
-) -> tp.Callable[[ALUDecompiler, Var, tp.Union[Var, int]], None]:
-    def base(alu: ALUDecompiler, a: Var, b: Var | int) -> None:
+def op_factory(operator: str) -> Instruction:
+    def base(alu: ALUDecompiler, *vars: Var | int) -> None:
+        a, b = vars
+        assert isinstance(a, str)
         if isinstance(b, str):
             result = alu[b] or "0"
         else:
@@ -90,7 +82,7 @@ def part_1() -> int:
     z = 0
 
     for fun in decompiler.functions[1:]:
-        z = eval(fun, {"w": w, "z": z})  # type: ignore[name-defined]
+        z = eval(fun, {"w": w, "z": z})  # type: ignore[name-defined]  # noqa: F821
 
     return 0
 
