@@ -1,9 +1,9 @@
 import functools
 import time
+from collections.abc import Callable
 from functools import reduce
 from itertools import combinations
 from operator import mul
-from typing import Callable
 
 
 def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:

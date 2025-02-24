@@ -8,7 +8,7 @@ type Var = tp.Literal["w", "x", "y", "z"]
 
 
 class ALUDecompiler(defaultdict[Var, str]):
-    __instructions: tp.ClassVar[dict[str, "Instruction"]] = {}
+    __instructions: tp.ClassVar[dict[str, Instruction]] = {}
 
     def __init__(self) -> None:
         self.functions = list[str]()

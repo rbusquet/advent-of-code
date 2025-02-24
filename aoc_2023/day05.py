@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Iterable, TextIO
+from typing import TextIO
 
 
 @dataclass

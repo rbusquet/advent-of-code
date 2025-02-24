@@ -4,9 +4,10 @@ import argparse
 import enum
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from functools import cached_property, total_ordering
-from typing import Iterable, TextIO
+from typing import TextIO
 
 
 @dataclass

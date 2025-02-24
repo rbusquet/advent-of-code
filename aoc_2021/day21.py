@@ -1,8 +1,9 @@
 from collections import Counter
+from collections.abc import Iterator
 from functools import cache
 from itertools import cycle, product
 from pathlib import Path
-from typing import Iterator, cast
+from typing import cast
 
 from more_itertools import chunked
 

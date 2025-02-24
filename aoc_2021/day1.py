@@ -1,7 +1,7 @@
 from collections import deque
+from collections.abc import Iterable, Iterator
 from itertools import islice
 from pathlib import Path
-from typing import Iterable, Iterator
 
 
 def sliding_window[T](iterable: Iterable[T], n: int) -> Iterator[tuple[T, ...]]:

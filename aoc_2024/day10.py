@@ -1,6 +1,6 @@
 from collections import deque
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 input = Path(__file__).parent / "input.txt"
 

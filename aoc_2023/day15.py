@@ -1,7 +1,8 @@
 import argparse
 import sys
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass

@@ -1,7 +1,8 @@
 import argparse
 import sys
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Iterator, NamedTuple, TextIO
+from typing import NamedTuple, TextIO
 
 
 @dataclass

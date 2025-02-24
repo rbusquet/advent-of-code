@@ -1,6 +1,6 @@
 from collections import defaultdict
+from collections.abc import Callable, Iterator
 from pathlib import Path
-from typing import Callable, Iterator
 
 from more_itertools import first
 

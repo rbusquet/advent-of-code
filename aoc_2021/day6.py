@@ -3,9 +3,10 @@ from __future__ import annotations
 import functools
 import time
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from heapq import heapify, heappop, heappush
 from pathlib import Path
-from typing import Callable, cast
+from typing import cast
 
 DAYS = 80
 

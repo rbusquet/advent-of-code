@@ -1,8 +1,9 @@
 import argparse
 import string
+from collections.abc import Iterable
 from functools import reduce
 from operator import and_
-from typing import Iterable, TextIO
+from typing import TextIO
 
 from more_itertools import chunked
 

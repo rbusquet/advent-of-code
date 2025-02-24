@@ -4,10 +4,11 @@ import argparse
 import re
 import sys
 from collections import defaultdict
+from collections.abc import Iterator
 from dataclasses import dataclass
 from itertools import cycle
 from math import lcm
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass

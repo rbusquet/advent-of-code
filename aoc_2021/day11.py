@@ -1,6 +1,6 @@
+from collections.abc import Iterator
 from itertools import count, product
 from pathlib import Path
-from typing import Iterator
 
 Point = tuple[int, int]
 

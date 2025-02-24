@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import Iterator, List, Tuple
+from collections.abc import Iterator
 
 
 def read_file() -> Iterator[str]:
@@ -7,8 +7,8 @@ def read_file() -> Iterator[str]:
         yield from (c.strip() for c in f.readlines())
 
 
-Group = Tuple[Counter[str], int]
-groups: List[Group] = []
+Group = tuple[Counter[str], int]
+groups: list[Group] = []
 
 current_group = Counter[str]()
 group_size = 0

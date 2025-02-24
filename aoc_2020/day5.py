@@ -1,4 +1,4 @@
-from typing import Iterator
+from collections.abc import Iterator
 
 
 def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:

@@ -1,7 +1,7 @@
+from collections.abc import Iterator
 from functools import reduce
 from itertools import count
 from operator import mul
-from typing import Iterator
 
 
 def read_file() -> Iterator[str]:

@@ -1,7 +1,7 @@
+from collections.abc import Generator
 from dataclasses import dataclass, field
 from math import trunc
 from pathlib import Path
-from typing import Generator
 
 input = Path(__file__).parent / "input.txt"
 
@@ -15,7 +15,7 @@ class Computer:
     program: list[int] = field(repr=False, default_factory=list)
     pointer: int = field(repr=False, default=0)
 
-    def loop(self) -> Generator[int, None, None]:
+    def loop(self) -> Generator[int]:
         while self.pointer < len(self.program):
             op = self.program[self.pointer]
             operand = self.program[self.pointer + 1]

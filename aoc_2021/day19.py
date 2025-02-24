@@ -1,7 +1,7 @@
 from collections import defaultdict
+from collections.abc import Iterable, Iterator
 from itertools import combinations
 from pathlib import Path
-from typing import Iterable, Iterator
 
 from more_itertools import one
 

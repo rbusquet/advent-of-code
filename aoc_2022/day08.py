@@ -3,11 +3,12 @@ from __future__ import annotations
 import argparse
 import math
 import sys
+from collections.abc import Generator, Iterable
 from dataclasses import dataclass
-from typing import Generator, Iterable, TextIO
+from typing import TextIO
 
 
-def count_visible(row: Iterable[str]) -> Generator[int, None, None]:
+def count_visible(row: Iterable[str]) -> Generator[int]:
     heighest = -1
     for i, tree in enumerate(row):
         if int(tree) > heighest:

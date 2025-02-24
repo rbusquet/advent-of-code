@@ -1,7 +1,7 @@
 from collections import defaultdict
+from collections.abc import Iterable
 from itertools import combinations
 from pathlib import Path
-from typing import Iterable
 
 input = Path(__file__).parent / "input.txt"
 

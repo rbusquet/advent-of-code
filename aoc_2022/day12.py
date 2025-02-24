@@ -2,9 +2,10 @@ import argparse
 import itertools
 import sys
 from collections import defaultdict
+from collections.abc import Iterator
 from dataclasses import dataclass
 from heapq import heappop, heappush
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass

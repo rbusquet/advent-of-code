@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import ClassVar, Dict, Iterator
+from typing import ClassVar
 
 
 def read_file() -> Iterator[str]:
@@ -42,7 +43,7 @@ class Computer:
     program: list
     acc: int = 0
     pointer: int = 0
-    instructions: ClassVar[Dict[str, Instruction]] = {}
+    instructions: ClassVar[dict[str, Instruction]] = {}
 
     def detect_loop(self) -> list[int]:
         visited_addresses = []

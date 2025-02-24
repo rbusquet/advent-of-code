@@ -1,9 +1,10 @@
 import argparse
 import sys
 from collections import defaultdict, namedtuple
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from queue import PriorityQueue
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass

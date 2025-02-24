@@ -1,7 +1,8 @@
 import re
 from collections import Counter
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator, NamedTuple, TextIO
+from typing import NamedTuple, TextIO
 
 expression = re.compile(r"(\d+),(\d+) -> (\d+),(\d+)")
 

@@ -1,7 +1,6 @@
 import re
 from collections import defaultdict
 from operator import itemgetter
-from typing import List
 
 regex = re.compile(
     r"position=<([\s-]*\d+), ([\s-]*\d+)> velocity=<([\s-]*\d+),([\s-]*\d+)>"
@@ -30,7 +29,7 @@ class Vector:
         return self._px, self._py
 
 
-vectors: List[Vector] = []
+vectors: list[Vector] = []
 min_x = min_y = 0
 
 with open("input10.txt") as f:

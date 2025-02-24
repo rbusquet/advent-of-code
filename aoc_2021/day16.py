@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import functools
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterator
 from unittest import TestCase, main
 
 

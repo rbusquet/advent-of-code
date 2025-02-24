@@ -1,8 +1,8 @@
 import sys
+from collections.abc import Iterator
 from dataclasses import dataclass
 from itertools import combinations
 from pathlib import Path
-from typing import Iterator
 
 input = Path(__file__).parent / "input.txt"
 

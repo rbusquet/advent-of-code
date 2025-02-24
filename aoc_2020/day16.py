@@ -1,8 +1,9 @@
 import re
 from collections import defaultdict
+from collections.abc import Iterator
 from functools import reduce
 from operator import mul
-from typing import Iterator, List, NamedTuple, Tuple
+from typing import NamedTuple
 
 
 def read_file() -> Iterator[str]:
@@ -19,7 +20,7 @@ class Rule(NamedTuple):
 
 
 class Field(NamedTuple):
-    rules: Tuple[Rule, ...]
+    rules: tuple[Rule, ...]
     field: str
 
     def within_range(self, value: int) -> bool:
@@ -30,7 +31,7 @@ file = read_file()
 
 rules_exp = re.compile(r"(\d+)-(\d+) or (\d+)-(\d+)")
 
-fields: List[Field] = []
+fields: list[Field] = []
 for line in file:
     if not line:
         break

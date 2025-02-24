@@ -1,6 +1,7 @@
 from collections import defaultdict
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Literal, Sequence, cast
+from typing import Literal, cast
 
 from progress.spinner import (  # type: ignore[import-not-found,import-untyped]
     LineSpinner,

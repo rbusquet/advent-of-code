@@ -1,8 +1,8 @@
 import math
 from collections import defaultdict, deque
+from collections.abc import Generator, Iterator
 from itertools import takewhile
 from pathlib import Path
-from typing import Generator, Iterator
 
 input = Path(__file__).parent / "input.txt"
 
@@ -22,7 +22,7 @@ class Computer(defaultdict[str, int]):
             return self[address]
         return int(address)
 
-    def run(self, *program: str) -> Generator[int | None, int, None]:
+    def run(self, *program: str) -> Generator[int | None, int]:
         pointer = 0
         while True:
             if pointer >= len(program):

@@ -1,6 +1,6 @@
+from collections.abc import Generator, Iterator
 from pathlib import Path
 from time import time_ns
-from typing import Generator, Iterator
 
 from more_itertools import run_length
 
@@ -12,7 +12,7 @@ def look_and_say(look: Iterator[str]) -> Iterator[str]:
         yield ch
 
 
-def yield_and_count[T](seq: Iterator[T]) -> Generator[T, None, None]:  # type: ignore[misc,name-defined]
+def yield_and_count[T](seq: Iterator[T]) -> Generator[T]:
     _count = 0
     for _count, x in enumerate(seq):
         yield x

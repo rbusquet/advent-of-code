@@ -1,6 +1,5 @@
 import re
 from collections import Counter
-from typing import List
 
 
 def read_file() -> list[str]:
@@ -21,7 +20,7 @@ def part_1(passwords: list[str]) -> int:
     return valid
 
 
-def part_2(passwords: List[str]) -> int:
+def part_2(passwords: list[str]) -> int:
     valid = 0
 
     expression = re.compile(r"(\d+)-(\d+) (.): (.*)")

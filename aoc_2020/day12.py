@@ -1,7 +1,7 @@
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from math import cos, radians, sin
-from typing import Iterable, Tuple
 
 
 def read_file() -> Iterable[str]:
@@ -11,8 +11,8 @@ def read_file() -> Iterable[str]:
 
 @dataclass
 class Ferry:
-    position: Tuple[float | int, float | int]
-    velocity: Tuple[float | int, float | int]
+    position: tuple[float | int, float | int]
+    velocity: tuple[float | int, float | int]
 
     def north(self, count: int) -> None:
         x, y = self.position

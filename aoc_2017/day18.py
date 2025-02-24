@@ -1,7 +1,7 @@
 from collections import defaultdict, deque
+from collections.abc import Generator, Iterator
 from itertools import takewhile
 from pathlib import Path
-from typing import Generator, Iterator
 
 from more_itertools import last
 
@@ -20,12 +20,12 @@ class Computer(defaultdict[str, int]):
         self.queue = deque[int]()
         self.gen = self.run(*program)
 
-    def get(self, address: str) -> int:
+    def __getitem__(self, address: str) -> int:
         if address.isalpha():
             return self[address]
         return int(address)
 
-    def run(self, *program: str) -> Generator[int | None, int, None]:
+    def run(self, *program: str) -> Generator[int | None, int]:
         pointer = 0
         while True:
             if pointer >= len(program):
@@ -39,23 +39,23 @@ class Computer(defaultdict[str, int]):
                 self.counter += 1
                 yield sound
             if op == "set":
-                self[args[0]] = self.get(args[1])
+                self[args[0]] = self[args[1]]
             if op == "add":
-                self[args[0]] += self.get(args[1])
+                self[args[0]] += self[args[1]]
             if op == "mul":
-                self[args[0]] *= self.get(args[1])
+                self[args[0]] *= self[args[1]]
             if op == "mod":
-                self[args[0]] %= self.get(args[1])
+                self[args[0]] %= self[args[1]]
             if op == "rcv":
-                received = yield
+                received = yield None
                 if received is not None:
                     # print(f"{self.id} receives {received}")
                     self[args[0]] = received
                 else:
                     continue
             if op == "jgz":
-                if self.get(args[0]) > 0:
-                    pointer += self.get(args[1])
+                if self[args[0]] > 0:
+                    pointer += self[args[1]]
                     continue
             pointer += 1
 
@@ -66,7 +66,7 @@ class Computer(defaultdict[str, int]):
         return " ".join(result)
 
     def run_until_idle(self, input: deque[int]) -> Iterator[int]:
-        out = list[int]()
+        out = list[int | None]()
         try:
             out = list(takewhile(lambda a: a is not None, self.gen))
             if input:

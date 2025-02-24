@@ -1,7 +1,7 @@
 import operator
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable
 
 input = Path(__file__).parent / "input.txt"
 

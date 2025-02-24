@@ -2,16 +2,17 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Callable, Generator
 from dataclasses import dataclass
 from itertools import product
-from typing import Callable, Generator, NamedTuple, TextIO
+from typing import NamedTuple, TextIO
 
 
 class Node(NamedTuple):
     x: int
     y: int
 
-    def neighboors(self) -> Generator[Node, None, None]:
+    def neighboors(self) -> Generator[Node]:
         for x, y in product([-1, 0, 1], repeat=2):
             neighbor = Node(self.x + x, self.y + y)
             yield neighbor

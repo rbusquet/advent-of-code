@@ -7,8 +7,8 @@ MARBLES = 72170 * 100
 class Marble:
     def __init__(self, id: int):
         self.id = id
-        self.previous: "Marble" = self
-        self.next: "Marble" = self
+        self.previous: Marble = self
+        self.next: Marble = self
 
     def replace(self, marble_id: int) -> "Marble":
         other = Marble(marble_id)

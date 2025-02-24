@@ -1,8 +1,9 @@
 import functools
 from collections import defaultdict, deque
+from collections.abc import Iterator
 from heapq import nlargest
 from pathlib import Path
-from typing import Iterator, TextIO
+from typing import TextIO
 
 N = (-1, 0)
 S = (1, 0)

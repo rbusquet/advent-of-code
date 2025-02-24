@@ -1,8 +1,8 @@
 from collections import deque
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from functools import cached_property
 from pathlib import Path
-from typing import Iterator
 
 input = Path(__file__).parent / "input.txt"
 

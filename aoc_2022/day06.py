@@ -2,14 +2,15 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections.abc import Generator
 from dataclasses import dataclass
-from typing import Generator, TextIO
+from typing import TextIO
 
 from more_itertools import sliding_window
 
 
 def main(args: Arguments) -> None:
-    def buffer() -> Generator[str, None, None]:
+    def buffer() -> Generator[str]:
         while ch := args.infile.read(1).strip():
             yield ch
 

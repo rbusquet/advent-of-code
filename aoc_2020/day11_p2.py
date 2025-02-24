@@ -1,8 +1,8 @@
+from collections.abc import Generator
 from itertools import count, product
-from typing import Generator
 
 
-def read_file() -> Generator[str, None, None]:
+def read_file() -> Generator[str]:
     with open("./input.txt") as f:
         yield from (c.strip() for c in f.readlines())
 

@@ -1,7 +1,7 @@
 import itertools
+from collections.abc import Iterator
 from heapq import heappop, heappush
 from pathlib import Path
-from typing import Iterator, Optional
 
 N = (-1, 0)
 S = (1, 0)
@@ -58,7 +58,7 @@ def part_1() -> int:
     risk_map = dict[Point, int]()
     distances = dict[Point, float]()
     distances[0, 0] = 0
-    paths = dict[Point, Optional[Point]]()
+    paths = dict[Point, Point | None]()
 
     queue = Queue[Point]()
     with open(Path(__file__).parent / "input.txt") as file:
@@ -87,7 +87,7 @@ def part_2() -> int:
     risk_map = dict[Point, int]()
     distances = dict[Point, float]()
     distances[0, 0] = 0
-    paths = dict[Point, Optional[Point]]()
+    paths = dict[Point, Point | None]()
 
     queue = Queue[Point]()
     with open(Path(__file__).parent / "input.txt") as file:
@@ -127,7 +127,7 @@ def part_2() -> int:
 def find_paths(
     risk_map: dict[Point, int],
     distances: dict[Point, float],
-    paths: dict[Point, Optional[Point]],
+    paths: dict[Point, Point | None],
     queue: Queue[Point],
 ) -> None:
     while u := queue.pop_task():

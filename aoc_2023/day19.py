@@ -3,8 +3,9 @@ import operator
 import re
 import sys
 from collections import deque
+from collections.abc import Iterator
 from dataclasses import dataclass, field
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass

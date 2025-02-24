@@ -1,6 +1,6 @@
 from collections import defaultdict
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Iterator
 
 from knot_hash import knot_hash
 

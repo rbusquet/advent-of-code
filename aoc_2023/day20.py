@@ -5,9 +5,10 @@ import argparse
 import enum
 import sys
 from collections import deque
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from math import lcm
-from typing import Iterator, TextIO
+from typing import TextIO
 
 
 @dataclass
@@ -28,7 +29,7 @@ class Pulse(enum.Flag):
 @dataclass
 class Module(abc.ABC):
     name: str
-    outputs: list["Module"] = field(default_factory=list)
+    outputs: list[Module] = field(default_factory=list)
 
     @abc.abstractmethod
     def process(self, event: Event, bus: Bus) -> None:
