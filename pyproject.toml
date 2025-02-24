@@ -1,27 +1,24 @@
-# mypy global options:
+[project]
+name = "advent-of-code"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "more-itertools>=10.6.0",
+]
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.13"
 warn_unused_configs = true
-
 mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
-
-[tool.poetry]
-package-mode = false
-
-[tool.poetry.dependencies]
-python = "^3.12"
-more-itertools = "^10.5.0"
-
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.13.0"
-ruff = "^0.8.1"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.ruff.lint]
 extend-select = ['T10', 'E', 'W', 'DJ', 'I']
 preview = true
+
+[dependency-groups]
+dev = [
+    "mypy>=1.15.0",
+    "ruff>=0.9.7",
+]
