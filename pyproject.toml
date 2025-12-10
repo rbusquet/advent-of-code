@@ -22,4 +22,8 @@ extend-select = ['T10', 'E', 'W', 'DJ', 'I', 'UP']
 preview = true
 
 [dependency-groups]
-dev = ["mypy>=1.15.0", "ruff>=0.9.7"]
+dev = [
+    "mypy>=1.15.0",
+    "ruff>=0.9.7",
+    "scipy-stubs>=1.16.3.3",
+]
