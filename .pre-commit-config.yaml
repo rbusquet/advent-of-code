@@ -36,3 +36,4 @@ repos:
           - more_itertools
           - progress == 1.6
           - numpy
+          - scipy-stubs
