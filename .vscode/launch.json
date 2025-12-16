@@ -19,7 +19,7 @@
       "request": "launch",
       "program": "${file}",
       "console": "integratedTerminal",
-      "justMyCode": true,
+      "justMyCode": false,
       "args": ["${relativeFileDirname}/input.txt"],
       "purpose": ["debug-in-terminal"]
     }
