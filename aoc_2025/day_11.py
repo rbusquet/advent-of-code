@@ -7,12 +7,10 @@ input = Path(__file__).parent / "input.txt"
 
 def part_1() -> int:
     graph = defaultdict[str, list[str]](list)
-    inverted_graph = defaultdict[str, list[str]](list)
     for line in input.read_text().splitlines():
         from_node, *nodes = line.replace(":", "").split()
         for to_node in nodes:
             graph[to_node].append(from_node)
-        inverted_graph[from_node] += nodes
 
     ts = TopologicalSorter(graph)
     paths = defaultdict[str, int](int)
@@ -46,12 +44,10 @@ def count_paths(
 
 def part_2() -> int:
     graph = defaultdict[str, list[str]](list)
-    inverted_graph = defaultdict[str, list[str]](list)
     for line in input.read_text().splitlines():
         from_node, *nodes = line.replace(":", "").split()
         for to_node in nodes:
             graph[to_node].append(from_node)
-        inverted_graph[from_node] += nodes
 
     ts = TopologicalSorter(graph)
     m1, m2 = "dac", "fft"
