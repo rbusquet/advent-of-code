@@ -74,8 +74,7 @@ def main(args: Arguments) -> None:
             scores.append(len(forest) - 1 - j)
 
         score = math.prod(scores)
-        if score > max_score:
-            max_score = score
+        max_score = max(max_score, score)
     print(max_score)
 
 

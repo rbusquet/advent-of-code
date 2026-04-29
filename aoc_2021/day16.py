@@ -52,7 +52,7 @@ class Packet:
                 first, second = self.evaluate_all()
                 return first == second
             case _:
-                raise Exception("Unknown type")
+                raise RuntimeError("Unknown type")
         # fmt: on
 
     def evaluate_all(self) -> Iterator[int]:
@@ -62,7 +62,7 @@ class Packet:
 
 def parse_packet(pointer: int, packet: str) -> Packet:
     if pointer >= len(packet):
-        raise Exception()
+        raise RuntimeError("Packet pointer out of bounds")
     initial = pointer
     type_id = packet[pointer + 3 : pointer + 6]
 

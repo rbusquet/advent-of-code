@@ -59,7 +59,7 @@ Distance = list[tuple[int, int]]
 def Dijkstra(V: int, distances: defaultdict[int, Distance]) -> defaultdict[Item, int]:
     cost = defaultdict[Item, int](lambda: sys.maxsize)
     queue = Queue[Item]()
-    for node in range(0, V):
+    for node in range(V):
         item = node, (node,)
         cost[item] = 0
         queue.add_item(item, 0)
@@ -97,7 +97,7 @@ def part_1() -> int:
     cost = Dijkstra(len(nodes), distances)
     answer = sys.maxsize
 
-    for n, path in cost.keys():
+    for n, path in cost:
         if len(path) != len(nodes):
             continue
         answer = min(answer, cost[n, path])
@@ -125,7 +125,7 @@ def part_2() -> int:
     cost = Dijkstra(len(nodes), distances)
     answer = 0
 
-    for n, path in cost.keys():
+    for n, path in cost:
         if len(path) != len(nodes):
             continue
         answer = max(answer, cost[n, path])

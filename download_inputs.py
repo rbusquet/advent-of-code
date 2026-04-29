@@ -7,7 +7,7 @@ import requests
 session_cookie = os.environ["SESSION_COOKIE"]
 year = os.environ.get("YEAR") or 2019
 
-today = datetime.date.today()
+today = datetime.datetime.now(tz=datetime.UTC).date()
 
 for i in range(1, 26):
     if today.day > i:

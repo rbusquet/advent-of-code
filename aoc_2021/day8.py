@@ -40,7 +40,7 @@ def part_1() -> int:
 HARD_DECODER = {5: [2, 3, 5], 6: [0, 6, 9]}
 
 
-def part_2() -> int:  # noqa: C901
+def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
         final = 0
 
@@ -49,7 +49,9 @@ def part_2() -> int:  # noqa: C901
 
             decoder = defaultdict[str, list[str]](list)
 
-            sorted_patterns = sorted(map(set[str], patterns.split()), key=len)
+            sorted_patterns = sorted(
+                map(set[str], patterns.split()), key=lambda p: len(p)
+            )
 
             patterns_by_length = defaultdict[int, set[str]](set)
 
@@ -77,7 +79,6 @@ def part_2() -> int:  # noqa: C901
                         for segment in current:
                             if segment not in decoder:
                                 decoder[segment] = ["e", "g"]  # abcdefg - cf - bd - a
-                        pass
             # at this point, all decoders look like:
             # 'a' -> ['c', 'f']  # meaning a and d want to light up number 1
             # 'd' -> ['c', 'f']
@@ -164,7 +165,7 @@ def part_2() -> int:  # noqa: C901
                             decoded = decoder[segment]
                             if len(decoded) != 1:
                                 print("now we have a problem")
-                                raise Exception("break everything")
+                                raise RuntimeError("Cannot decode segment")
                             display.add(decoded[0])
                         n += str(DISPLAY_TO_NUMBER[frozenset(display)])
             print(n)

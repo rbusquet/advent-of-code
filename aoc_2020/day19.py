@@ -4,7 +4,7 @@ from pprint import pprint
 
 def read_file():
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 lines = read_file()
@@ -19,9 +19,7 @@ for line in lines:
         rules[rule] = options
         continue
     for OR in options.strip('"').split(" | "):
-        poo = []
-        for AND in OR.split(" "):
-            poo.append(AND)
+        poo = [AND for AND in OR.split(" ")]
         rules[rule].append(poo)
 
 pprint(rules)
@@ -36,8 +34,8 @@ def decode_rule(rule_id):
     possibilities = set()
     for branch in rule:
         decoded_for_branch = set()
-        for rule_id in branch:
-            decoded_for_rule = decode_rule(rule_id)
+        for branch_rule_id in branch:
+            decoded_for_rule = decode_rule(branch_rule_id)
             if not decoded_for_branch:
                 decoded_for_branch = decoded_for_rule
             else:

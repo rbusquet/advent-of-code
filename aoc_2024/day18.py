@@ -71,11 +71,10 @@ def run(count, size, end) -> None:
             grid[i, j] = "."
     progress = iter(eval(line) for line in input.read_text().splitlines())
     i = 0
-    for line in progress:
+    for i, line in enumerate(progress):
         if i >= count:
             break
         grid[line] = "#"
-        i += 1
 
     maze = Maze((0, 0), end, grid)
     best, path = maze.best_path()

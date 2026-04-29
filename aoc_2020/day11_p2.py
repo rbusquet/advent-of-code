@@ -4,7 +4,7 @@ from itertools import count, product
 
 def read_file() -> Generator[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 Point = tuple[int, int]

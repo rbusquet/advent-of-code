@@ -6,6 +6,10 @@ from pathlib import Path
 input = Path(__file__).parent / "input.txt"
 
 
+class InvalidWire(Exception):
+    pass
+
+
 def part_1() -> int:
     wires = defaultdict[str, int](int)
     gates = {"AND": operator.and_, "OR": operator.or_, "XOR": operator.xor}
@@ -26,7 +30,7 @@ def part_1() -> int:
             result = op(solve(a), solve(b))
             wires[wire] = result
             return result
-        raise Exception("invalid wire")
+        raise InvalidWire(f"Invalid wire: {wire}")
 
     z_wires = []
     for wire in instructions:

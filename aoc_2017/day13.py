@@ -4,7 +4,7 @@ input = Path(__file__).parent / "input.txt"
 
 
 def part_1() -> int:
-    layers = dict()
+    layers = {}
     for line in input.read_text().splitlines():
         layer, depth = map(int, line.split(": "))
         layers[layer] = depth
@@ -17,7 +17,7 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    layers = dict()
+    layers = {}
     for line in input.read_text().splitlines():
         layer, depth = map(int, line.split(": "))
         layers[layer] = depth

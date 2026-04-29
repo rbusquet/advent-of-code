@@ -53,10 +53,9 @@ class Computer(defaultdict[str, int]):
                     self[args[0]] = received
                 else:
                     continue
-            if op == "jgz":
-                if self[args[0]] > 0:
-                    pointer += self[args[1]]
-                    continue
+            if op == "jgz" and self[args[0]] > 0:
+                pointer += self[args[1]]
+                continue
             pointer += 1
 
     def __str__(self) -> str:
@@ -90,8 +89,9 @@ def part_1() -> int:
 
 
 def part_2() -> int:
-    c0 = Computer(id=0, *input.read_text().splitlines())
-    c1 = Computer(id=1, *input.read_text().splitlines())
+    lines = tuple(input.read_text().splitlines())
+    c0 = Computer(*lines, id=0)
+    c1 = Computer(*lines, id=1)
 
     while True:
         out0 = list(c0.run_until_idle(c1.queue))

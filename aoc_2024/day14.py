@@ -66,9 +66,7 @@ def part_1() -> int:
     print("-----------")
     for i in range(height):
         for j in range(width):
-            if i == mid_x - 2:
-                print(" ", end="")
-            elif j == mid_y + 2:
+            if i == mid_x - 2 or j == mid_y + 2:
                 print(" ", end="")
             else:
                 print(len(final[j, i]) or ".", end="")

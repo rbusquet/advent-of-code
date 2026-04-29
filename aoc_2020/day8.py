@@ -8,7 +8,7 @@ from typing import ClassVar
 
 def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 program = [(x[0], x[1]) for instruction in read_file() if (x := instruction.split(" "))]

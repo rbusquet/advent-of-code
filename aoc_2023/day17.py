@@ -12,12 +12,12 @@ class Arguments:
     file: TextIO = sys.stdin
 
 
-DIRECTIONS = dict(
-    N=(-1, 0),
-    S=(1, 0),
-    E=(0, 1),
-    W=(0, -1),
-)
+DIRECTIONS = {
+    "N": (-1, 0),
+    "S": (1, 0),
+    "E": (0, 1),
+    "W": (0, -1),
+}
 
 Step = namedtuple("Step", "x y steps direction")
 OPPOSITES = {"N": "S", "S": "N", "E": "W", "W": "E"}

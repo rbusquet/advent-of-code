@@ -4,7 +4,7 @@ from collections import Counter
 def part_1() -> None:
     data = []
     with open("input.txt") as f:
-        for item in f.readlines():
+        for item in f:
             data.append(item.strip())
 
     count2 = 0
@@ -22,7 +22,7 @@ def part_1() -> None:
 def part_2() -> None:
     data = []
     with open("input.txt") as f:
-        for line in f.readlines():
+        for line in f:
             data.append(line.strip())
 
     for i in range(len(data)):

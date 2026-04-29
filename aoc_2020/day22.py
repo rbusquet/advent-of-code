@@ -1,7 +1,5 @@
 from os import environ
 
-from progress.bar import ChargingBar  # type: ignore[import-not-found,import-untyped]
-
 NARRATE = environ.get("NARRATE")
 
 
@@ -97,7 +95,7 @@ def copy_deck(deck, size):
     return s
 
 
-def recursive_combat(player_1, player_2, level=1, bar: ChargingBar | None = None):
+def recursive_combat(player_1, player_2, level=1):
     print_wrapper(f"=== Game {level} ===")
     visited_games = set()
     round = 0
@@ -140,8 +138,6 @@ def recursive_combat(player_1, player_2, level=1, bar: ChargingBar | None = None
             else:
                 print_wrapper(f"Player 2 wins round {round} of game {level}!")
                 player_2 = (*player_2, card_2, card_1)
-        if bar and max(len(player_1), len(player_2)) > bar.index:
-            bar.goto(max(len(player_1), len(player_2)))
 
     winner = max(player_1, player_2)
     if winner == player_1:
@@ -208,8 +204,7 @@ player_2 = (
 )
 
 if not NARRATE:
-    with ChargingBar(max=len(player_1) + len(player_2)) as bar:
-        winner, deck = recursive_combat(player_1, player_2, bar=bar)
+    winner, deck = recursive_combat(player_1, player_2)
 else:
     winner, deck = recursive_combat(player_1, player_2)
 total = 0

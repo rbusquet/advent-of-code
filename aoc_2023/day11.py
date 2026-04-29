@@ -34,8 +34,8 @@ def solve(file, expansion_rate):
     expanded_galaxy_map = []
     dx = dy = 0
     for x, y in galaxy_map:
-        dx = (expansion_rate - 1) * len([x for x in range(0, x) if x not in xs])
-        dy = (expansion_rate - 1) * len([y for y in range(0, y) if y not in ys])
+        dx = (expansion_rate - 1) * len([x for x in range(x) if x not in xs])
+        dy = (expansion_rate - 1) * len([y for y in range(y) if y not in ys])
         expanded_galaxy_map.append((x + dx, y + dy))
 
     distances = {}

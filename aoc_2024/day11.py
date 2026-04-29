@@ -1,12 +1,12 @@
 from functools import cache
-from math import floor, log
+from math import floor, log10
 from pathlib import Path
 
 input = Path(__file__).parent / "input.txt"
 
 
 def digits(number: int) -> int:
-    return floor(log(number, 10) + 1)
+    return floor(log10(number) + 1)
 
 
 def blink_one(stone: int) -> list[int]:

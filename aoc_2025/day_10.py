@@ -89,7 +89,7 @@ def find_min_presses_joltage(targets: list[int], buttons: list[list[int]]) -> in
 
     result = milp(c, constraints=constraints, bounds=bounds, integrality=integrality)
     if result.success and result.fun is not None:
-        return int(round(result.fun))
+        return round(result.fun)
     return -1
 
 

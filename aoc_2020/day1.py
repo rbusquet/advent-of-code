@@ -7,13 +7,15 @@ from operator import mul
 
 
 def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
+    fn_name = getattr(fn, "__name__", repr(fn))
+
     @functools.wraps(fn)
     def timed(*args: P.args, **kwargs: P.kwargs) -> T:
         before = time.process_time_ns()
         result = fn(*args, **kwargs)
         after = time.process_time_ns()
         diff = after - before
-        print(f"{fn.__name__} ran in {diff}ns")
+        print(f"{fn_name} ran in {diff}ns")
         return result
 
     return timed
@@ -54,7 +56,7 @@ def best_performance_part_2(lst: list[int]) -> int:
                 left += 1
             else:
                 right -= 1
-    raise Exception("something bad happened")
+    raise RuntimeError("No valid combination found")
 
 
 if __name__ == "__main__":

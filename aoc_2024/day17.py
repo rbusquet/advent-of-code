@@ -6,6 +6,10 @@ from pathlib import Path
 input = Path(__file__).parent / "input.txt"
 
 
+class ComputerError(Exception):
+    pass
+
+
 @dataclass
 class Computer:
     a: int = 0
@@ -52,7 +56,7 @@ class Computer:
                 self.c = trunc(numerator / denominator)
                 self.pointer += 2
             else:
-                raise Exception("invalid op")
+                raise ComputerError("invalid op")
 
     def combo(self, value: int) -> int:
         if value <= 3:
@@ -63,7 +67,7 @@ class Computer:
             return self.b
         if value == 6:
             return self.c
-        raise Exception("invalid combo")
+        raise ComputerError("invalid combo")
 
 
 def part_1() -> str:

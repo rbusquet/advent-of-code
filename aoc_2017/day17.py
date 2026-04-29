@@ -1,7 +1,5 @@
 from pathlib import Path
 
-import progressbar
-
 input = Path(__file__).parent / "input.txt"
 
 
@@ -24,12 +22,12 @@ def part_2() -> int:
     steps = int(input.read_text())
 
     current_position = 0
-    for i in progressbar.progressbar(range(1, 50_000_000 + 1)):
+    for i, _ in enumerate(range(1, 50_000_000 + 1), 1):
         next_position = (current_position + steps) % len_buffer + 1
         if next_position == 1:
             out = int(i)
         current_position = next_position
-        len_buffer += 1
+        len_buffer = i + 1
     return out
 
 

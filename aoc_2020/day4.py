@@ -66,7 +66,7 @@ for passport in first_pass_valid:
     try:
         passport.validate()
         valid += 1
-    except Exception:
+    except ValueError:
         continue
 
 print(valid)

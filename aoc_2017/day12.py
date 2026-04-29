@@ -9,11 +9,11 @@ def part_1() -> int:
         root_str, children = line.split(" <-> ")
         root = int(root_str)
         if root not in matrix:
-            matrix[root] = list()
+            matrix[root] = []
         for child in map(int, children.split(", ")):
             matrix[root].append(child)
             if child not in matrix:
-                matrix[child] = list()
+                matrix[child] = []
             matrix[child].append(root)
 
     visited = set()
@@ -33,11 +33,11 @@ def part_2() -> int:
         root_str, children = line.split(" <-> ")
         root = int(root_str)
         if root not in matrix:
-            matrix[root] = list()
+            matrix[root] = []
         for child in map(int, children.split(", ")):
             matrix[root].append(child)
             if child not in matrix:
-                matrix[child] = list()
+                matrix[child] = []
             matrix[child].append(root)
 
     groups = 0

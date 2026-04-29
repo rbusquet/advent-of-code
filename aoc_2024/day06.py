@@ -6,12 +6,16 @@ from more_itertools import seekable
 input = Path(__file__).parent / "input.txt"
 
 
+class InvalidInput(Exception):
+    pass
+
+
 def find_guard(grid: list[list[str]]) -> tuple[int, int]:
     for x, line in enumerate(grid):
         for y, col in enumerate(line):
             if col == "^":
                 return x, y
-    raise Exception("invalid input")
+    raise InvalidInput("Guard not found")
 
 
 def next_step(x: int, y: int, direction: int) -> tuple[int, int]:
@@ -72,7 +76,7 @@ def part_2() -> int:
         x, y = guard
         directions = seekable(cycle(range(4)))
         direction = next(directions)
-        visited = set([(x, y, direction)])
+        visited = {(x, y, direction)}
 
         start = x, y, direction
         while True:
@@ -82,14 +86,14 @@ def part_2() -> int:
                 break
             if y < 0 or y >= width:
                 break
-            found_obsctruction = False
+            found_obstruction = False
             while grid[x][y] == "#" or (x == xx and y == yy):
-                found_obsctruction = True
+                found_obstruction = True
                 direction = next(directions)
                 x, y = next_step(start[0], start[1], direction)
             grid[x][y] = "X"
             start = x, y, direction
-            if found_obsctruction and start in visited:
+            if found_obstruction and start in visited:
                 # found loop
                 result += 1
                 break

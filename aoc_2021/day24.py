@@ -11,8 +11,8 @@ class ALUDecompiler(defaultdict[Var, str]):
     __instructions: tp.ClassVar[dict[str, Instruction]] = {}
 
     def __init__(self) -> None:
+        super().__init__(str)
         self.functions = list[str]()
-        return super().__init__(str)
 
     @classmethod
     def register(cls, name: str) -> tp.Callable[[Instruction], Instruction]:
@@ -82,7 +82,7 @@ def part_1() -> int:
     z = 0
 
     for fun in decompiler.functions[1:]:
-        z = eval(fun, {"w": w, "z": z})  # type: ignore[name-defined]  # noqa: F821
+        z = eval(fun, {"w": w, "z": z})  # type: ignore[name-defined]  # noqa: F821  # ty:ignore[unresolved-reference]
 
     return 0
 

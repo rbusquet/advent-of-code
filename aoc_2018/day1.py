@@ -2,7 +2,7 @@ print("--- DAY 01: part 1 ---")
 
 data = []
 with open("input1.txt") as f:
-    for line in f.readlines():
+    for line in f:
         data.append(int(line))
 
 frequency = 0

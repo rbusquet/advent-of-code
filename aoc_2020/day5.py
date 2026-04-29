@@ -17,7 +17,7 @@ def partition(code: str, count: int, lower_ch: str, upper_ch: str) -> int:
 
 def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 def to_int(code: str, zero: str, one: str) -> int:
@@ -31,8 +31,7 @@ def part_1_thanks_alex() -> int:
         row = to_int(code[:7], "F", "B")
         col = to_int(code[-3:], "L", "R")
         seat_id = row * 8 + col
-        if seat_id > max_id:
-            max_id = seat_id
+        max_id = max(max_id, seat_id)
     return max_id
 
 
@@ -42,8 +41,7 @@ def part_1() -> int:
         row = partition(code[:7], 7, "F", "B")
         col = partition(code[-3:], 3, "L", "R")
         seat_id = row * 8 + col
-        if seat_id > max_id:
-            max_id = seat_id
+        max_id = max(max_id, seat_id)
     return max_id
 
 

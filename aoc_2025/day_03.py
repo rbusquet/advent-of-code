@@ -9,8 +9,7 @@ def max_joltage(bank: str) -> int:
     for left in range(len(bank) - 1):
         for right in range(left + 1, len(bank)):
             joltage = int(bank[left]) * 10 + int(bank[right])
-            if joltage > max_joltage:
-                max_joltage = joltage
+            max_joltage = max(max_joltage, joltage)
     return max_joltage
 
 

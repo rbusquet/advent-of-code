@@ -15,9 +15,10 @@ def part_1() -> int:
         if design == "":
             return True
         for pattern in patterns:
-            if design.startswith(pattern):
-                if count_valid_designs(design[len(pattern) :]):
-                    return True
+            if design.startswith(pattern) and count_valid_designs(
+                design[len(pattern) :]
+            ):
+                return True
         return False
 
     count = 0

@@ -3,10 +3,6 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Literal, cast
 
-from progress.spinner import (  # type: ignore[import-not-found,import-untyped]
-    LineSpinner,
-)
-
 Pixel = tuple[int, int]
 Value = Literal[".", "#"]
 
@@ -26,7 +22,7 @@ POWER_MAP = {
 X X X X X
 X 9 8 7 X  if I'm looking at how a pixel    1 2 3
 X 6 5 4 X ------------------------------->  4 5 6
-X 3 2 1 X      affects its neighboors       7 8 9
+X 3 2 1 X      affects its neighbors       7 8 9
 X X X X X
 """
 
@@ -45,7 +41,7 @@ def enhance(
 
     result_image = dict[Pixel, Value]()
     for x1, y1 in pixels_to_update:
-        # for all pixels to update, check if we know all their neighboors
+        # for all pixels to update, check if we know all their neighbors
         for (x2, y2), power in POWER_MAP.items():
             x, y = x1 + x2, y1 + y2
             if (x, y) not in known_pixels:
@@ -88,11 +84,9 @@ def part_2() -> int:
                 image[i, j] = cast(Value, char)
 
     background = cast(Value, ".")
-    with LineSpinner() as spinner:
-        for _ in range(50):
-            # print(background)
-            image, background = enhance(image, background, algorithm)
-            spinner.next()
+    for _ in range(50):
+        # print(background)
+        image, background = enhance(image, background, algorithm)
 
     assert background == "."
     return len([value for value in image.values() if value == "#"])

@@ -98,14 +98,14 @@ def magnitude(a: str) -> int:
 
 def part_1() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
-        numbers = [a.strip() for a in file.readlines()]
+        numbers = [a.strip() for a in file]
     result = functools.reduce(add, numbers)
     return magnitude(result)
 
 
 def part_2() -> int:
     with open(Path(__file__).parent / "input.txt") as file:
-        numbers = [a.strip() for a in file.readlines()]
+        numbers = [a.strip() for a in file]
     magnitudes = []
 
     for x, y in combinations(numbers, 2):

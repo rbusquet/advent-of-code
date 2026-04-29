@@ -38,7 +38,7 @@ class Programs(dict[str, Program]):
         for i in self.values():
             if not i.parent:
                 return i
-        raise Exception("No root found")
+        raise RuntimeError("No root found")
 
 
 def part_1() -> str:

@@ -20,20 +20,26 @@
   "python.analysis.typeCheckingMode": "basic",
   "github.copilot.editor.enableAutoCompletions": false,
   "cSpell.words": [
+    "addstr",
     "appendleft",
     "Decompiler",
     "fliplr",
     "flipud",
+    "getch",
     "joltage",
     "joltages",
     "milp",
     "minmax",
     "ndarray",
+    "nodelay",
     "popleft",
+    "stdscr",
     "tobytes",
     "trailhead",
-    "trailheads"
+    "trailheads",
+    "venv"
   ],
   "mypy-type-checker.importStrategy": "fromEnvironment",
-  "ruff.importStrategy": "fromEnvironment"
+  "ruff.importStrategy": "fromEnvironment",
+  "ty.importStrategy": "fromEnvironment"
 }

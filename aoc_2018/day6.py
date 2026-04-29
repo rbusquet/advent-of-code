@@ -10,17 +10,15 @@ print("--- DAY 06: part 1 ---")
 
 coordinates = []
 with open(Path(__file__).parent / "input.txt") as f:
-    for line in f.readlines():
+    for line in f:
         coordinates.append(tuple(map(int, line.split(", "))))
 
 
 def min_max(lst):
     min_ = max_ = -1
     for i in lst:
-        if i < min_:
-            min_ = i
-        if i > max_:
-            max_ = i
+        min_ = min(min_, i)
+        max_ = max(max_, i)
     return min_, max_
 
 

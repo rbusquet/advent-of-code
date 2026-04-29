@@ -1,6 +1,6 @@
 def read_file():
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 def part_1() -> None:

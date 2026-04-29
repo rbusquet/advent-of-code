@@ -34,13 +34,13 @@ def full_cycle(initial: str, count: int = 100, part_2: bool = False) -> int:
             for i, j in neighborhood(x, y):
                 if 0 <= i < size and 0 <= j < size:
                     cube_to_active_count[i, j] += (i, j) != (x, y)
-        for n, count in cube_to_active_count.items():
+        for n, active_count in cube_to_active_count.items():
             if n in space:
-                if count in [2, 3]:
+                if active_count in [2, 3]:
                     pass
                 else:
                     space.remove(n)
-            elif count == 3:
+            elif active_count == 3:
                 space.add(n)
 
     space.update(corners)

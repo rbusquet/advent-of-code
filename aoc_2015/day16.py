@@ -8,21 +8,20 @@ regexp = re.compile(r"Sue (\d+): ((\w+): (\d+)(,){0,1})+")
 
 
 def part_1() -> int:
-    i = 1
-    result = dict(
-        children=3,
-        cats=7,
-        samoyeds=2,
-        pomeranians=3,
-        akitas=0,
-        vizslas=0,
-        goldfish=5,
-        trees=3,
-        cars=2,
-        perfumes=1,
-    )
+    result = {
+        "children": 3,
+        "cats": 7,
+        "samoyeds": 2,
+        "pomeranians": 3,
+        "akitas": 0,
+        "vizslas": 0,
+        "goldfish": 5,
+        "trees": 3,
+        "cars": 2,
+        "perfumes": 1,
+    }
 
-    for line in input.read_text().splitlines():
+    for i, line in enumerate(input.read_text().splitlines(), 1):
         data = line.split(": ", 1)[1]
         sue = {}
         for property in data.split(", "):
@@ -31,25 +30,23 @@ def part_1() -> int:
 
         if all(value == result[name] for name, value in sue.items()):
             return i
-        i += 1
 
     return 0
 
 
 def part_2() -> int:
-    i = 1
-    result = dict(
-        children=3,
-        cats=7,
-        samoyeds=2,
-        pomeranians=3,
-        akitas=0,
-        vizslas=0,
-        goldfish=5,
-        trees=3,
-        cars=2,
-        perfumes=1,
-    )
+    result = {
+        "children": 3,
+        "cats": 7,
+        "samoyeds": 2,
+        "pomeranians": 3,
+        "akitas": 0,
+        "vizslas": 0,
+        "goldfish": 5,
+        "trees": 3,
+        "cars": 2,
+        "perfumes": 1,
+    }
 
     def evaluate(value, name):
         if name in ["cats", "trees"]:
@@ -58,7 +55,7 @@ def part_2() -> int:
             return value < result[name]
         return value == result[name]
 
-    for line in input.read_text().splitlines():
+    for i, line in enumerate(input.read_text().splitlines(), 1):
         data = line.split(": ", 1)[1]
         sue = {}
         for property in data.split(", "):
@@ -67,7 +64,6 @@ def part_2() -> int:
 
         if all(evaluate(value, name) for name, value in sue.items()):
             return i
-        i += 1
 
     return 0
 

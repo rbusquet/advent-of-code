@@ -1,12 +1,13 @@
 from collections import defaultdict
+from dataclasses import dataclass
 from itertools import pairwise
 from pathlib import Path
-from typing import NamedTuple
 
 input = Path(__file__).parent / "input.txt"
 
 
-class Vector(NamedTuple):
+@dataclass
+class Vector:
     x: int
     y: int
     z: int
@@ -31,7 +32,8 @@ class Vector(NamedTuple):
         )
 
 
-class Particle(NamedTuple):
+@dataclass
+class Particle:
     id: int
     p: Vector
     v: Vector
@@ -41,19 +43,17 @@ class Particle(NamedTuple):
         return (abs(self.a), abs(self.v), abs(self.p))
 
     def position(self, t: int = 0) -> Vector:
-        _, p, v, a = self
-        vt = v * t
+        vt = self.v * t
         t2 = (t * (t + 1)) // 2
-        at2 = a * t2
-        return p + vt + at2
+        at2 = self.a * t2
+        return self.p + vt + at2
 
 
 def part_1() -> int:
     particles = list[Particle]()
     for i, line in enumerate(input.read_text().splitlines()):
-        p, v, a = map(
-            lambda a: Vector(*map(int, a.strip("avp=<>").split(","))),
-            line.split(", "),
+        p, v, a = (
+            Vector(*map(int, a.strip("avp=<>").split(","))) for a in line.split(", ")
         )
         particles.append(Particle(i, p, v, a))
 
@@ -64,9 +64,8 @@ def part_1() -> int:
 def part_2() -> int:
     particles = list[Particle]()
     for i, line in enumerate(input.read_text().splitlines()):
-        p, v, a = map(
-            lambda a: Vector(*map(int, a.strip("avp=<>").split(","))),
-            line.split(", "),
+        p, v, a = (
+            Vector(*map(int, a.strip("avp=<>").split(","))) for a in line.split(", ")
         )
         particles.append(Particle(i, p, v, a))
 

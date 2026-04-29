@@ -146,9 +146,7 @@ def part_1() -> int:
                 for i, j in neighborhood(*current):
                     height_bounds = i >= 0 and i < height
                     width_bounds = j >= 0 and j < width
-                    if not height_bounds or not width_bounds:
-                        region.edges.append((i, j))
-                    elif grid[i][j] != crop:
+                    if not height_bounds or not width_bounds or grid[i][j] != crop:
                         region.edges.append((i, j))
                     else:
                         queue.append((i, j))
@@ -184,9 +182,7 @@ def part_2() -> int:
                 for i, j in neighborhood(*current):
                     height_bounds = i >= 0 and i < height
                     width_bounds = j >= 0 and j < width
-                    if not height_bounds or not width_bounds:
-                        region.edges.append((i, j))
-                    elif grid[i][j] != crop:
+                    if not height_bounds or not width_bounds or grid[i][j] != crop:
                         region.edges.append((i, j))
                     else:
                         queue.append((i, j))

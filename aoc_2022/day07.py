@@ -65,10 +65,8 @@ def main(args: Arguments) -> None:
 
     smallest = nodes["/"].size
     for node in nodes.values():
-        if node.type == "d":
-            if free_space + node.size >= needed_space:
-                if node.size < smallest:
-                    smallest = node.size
+        if node.type == "d" and free_space + node.size >= needed_space:
+            smallest = min(smallest, node.size)
     print(smallest)
 
 

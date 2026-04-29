@@ -1,4 +1,5 @@
 import argparse
+import itertools
 import sys
 from collections.abc import Iterator
 from dataclasses import dataclass
@@ -20,9 +21,10 @@ def area(*vertices: tuple[int, int]) -> int:
     Calculate the area of a polygon given its vertices.
     """
     polygon = [*vertices, vertices[0]]
-    area = sum(x1 * y2 - x2 * y1 for (x1, y1), (x2, y2) in zip(polygon, polygon[1:]))
+    area = sum(x1 * y2 - x2 * y1 for (x1, y1), (x2, y2) in itertools.pairwise(polygon))
     perimeter = sum(
-        abs(x1 - x2) + abs(y1 - y2) for (x1, y1), (x2, y2) in zip(polygon, polygon[1:])
+        abs(x1 - x2) + abs(y1 - y2)
+        for (x1, y1), (x2, y2) in itertools.pairwise(polygon)
     )
     return abs(area) // 2 + perimeter // 2 + 1
 

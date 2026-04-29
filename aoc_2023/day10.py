@@ -4,7 +4,7 @@ import argparse
 import sys
 from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import TextIO
+from typing import ClassVar, TextIO
 
 
 @dataclass
@@ -29,7 +29,7 @@ Position = tuple[int, int]
 
 
 class Walker:
-    PIPES = {
+    PIPES: ClassVar = {
         "|": {N: N, S: S},
         "L": {S: E, W: N},
         "F": {N: E, W: S},
@@ -58,9 +58,9 @@ class Walker:
             return self.initial_direction
 
         if next_pipe not in self.PIPES:
-            raise Exception()
+            raise RuntimeError(f"Invalid pipe: {next_pipe}")
         if direction not in self.PIPES[next_pipe]:
-            raise Exception()
+            raise RuntimeError(f"Invalid direction {direction} for pipe {next_pipe}")
         self.loop.append((x, y))
         return self.PIPES[next_pipe][direction]
 
@@ -87,9 +87,8 @@ class Walker:
         for i in range(len(vertices)):
             x1, y1 = vertices[i]
             x2, y2 = vertices[(i + 1) % len(vertices)]
-            if (y1 > y) != (y2 > y):
-                if x1 + (y - y1) / (y2 - y1) * (x2 - x1) > x:
-                    count += 1
+            if (y1 > y) != (y2 > y) and x1 + (y - y1) / (y2 - y1) * (x2 - x1) > x:
+                count += 1
         return count % 2 == 1
 
 
@@ -110,7 +109,7 @@ def part_1(file: TextIO) -> None:
             last_direction = direction
             direction = walker.walk(last_direction)
             next_x, next_y = walker.position
-        except Exception:
+        except RuntimeError:
             continue
         steps = 1
 
@@ -120,7 +119,7 @@ def part_1(file: TextIO) -> None:
                 direction = walker.walk(last_direction)
                 steps += 1
                 next_x, next_y = walker.position
-            except Exception:
+            except RuntimeError:
                 break
         else:
             print(steps // 2)

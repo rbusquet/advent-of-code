@@ -4,7 +4,7 @@ from collections import defaultdict
 
 def read_file():
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 def apply_mask(mask: str, value: int) -> int:
@@ -41,7 +41,7 @@ def memory_address_decoder(mask: str, value: int):
     for i, bit in enumerate(mask):
         if bit == "X":
             x_indexes.append(i)
-        result.append(binary[i] if bit == "0" else mask[i])
+        result.append(binary[i] if bit == "0" else bit)
     # pow(2, len(x_indexes)) is the amount of addresses written
     # in this instruction
     x_format = f"{{0:0{len(x_indexes)}b}}"

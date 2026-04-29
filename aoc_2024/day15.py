@@ -30,7 +30,7 @@ class Universe(dict[Position, "Movable"]):
         grid = self
         maxx, maxy = max(grid)
 
-        for x in range(0, maxx + 1):
+        for x in range(maxx + 1):
             y = 0
             while y < maxy + 2:
                 label = str(self.get((x, y)) or ".")

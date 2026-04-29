@@ -52,7 +52,7 @@ def part_1() -> int:
             all_antennas[antenna].append((x, y))
 
     antinodes = set[Node]()
-    for label, antennas in all_antennas.items():
+    for antennas in all_antennas.values():
         pairs = combinations(antennas, 2)
         for pair in pairs:
             # g = deepcopy(grid)
@@ -78,7 +78,7 @@ def part_2() -> int:
             all_antennas[antenna].append((x, y))
 
     antinodes = set[Node]()
-    for label, antennas in all_antennas.items():
+    for antennas in all_antennas.values():
         pairs = combinations(antennas, 2)
         for pair in pairs:
             # g = deepcopy(grid)

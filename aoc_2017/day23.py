@@ -53,14 +53,12 @@ class Computer(defaultdict[str, int]):
                     self[args[0]] = received
                 else:
                     continue
-            if op in "jgz":
-                if self.get_value(args[0]) > 0:
-                    pointer += self.get_value(args[1])
-                    continue
-            if op in "jnz":
-                if self.get_value(args[0]) != 0:
-                    pointer += self.get_value(args[1])
-                    continue
+            if op in "jgz" and self.get_value(args[0]) > 0:
+                pointer += self.get_value(args[1])
+                continue
+            if op in "jnz" and self.get_value(args[0]) != 0:
+                pointer += self.get_value(args[1])
+                continue
             pointer += 1
 
     def __str__(self) -> str:
@@ -105,14 +103,14 @@ def decompiled_program(a: int):
 
     h = 0
 
-    for b in range(b, c + 1, 17):
+    for b_val in range(b, c + 1, 17):
         f = 1
-        # pairwise multiplying every number between 2 and b
-        # and finding if any of them results in b. if it does,
-        # b is not prime
-        for d in range(2, b):
-            for e in range(2, b):
-                if d * e == b:
+        # pairwise multiplying every number between 2 and b_val
+        # and finding if any of them results in b_val. if it does,
+        # b_val is not prime
+        for d in range(2, b_val):
+            for e in range(2, b_val):
+                if d * e == b_val:
                     f = 0
                     break
             if f == 0:

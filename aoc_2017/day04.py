@@ -16,7 +16,7 @@ def part_2() -> int:
     valid = 0
     for line in input.read_text().splitlines():
         phrase = line.split()
-        unique = set(frozenset(word) for word in phrase)
+        unique = {frozenset(word) for word in phrase}
         valid += len(unique) == len(phrase)
     return valid
 

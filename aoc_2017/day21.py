@@ -7,7 +7,7 @@ input = Path(__file__).parent / "input.txt"
 
 
 def to_array(line: str) -> np.ndarray:
-    return np.array(list(map(lambda a: [int(c == "#") for c in a], line.split("/"))))
+    return np.array([[int(c == "#") for c in a] for a in line.split("/")])
 
 
 def to_bytes(arr: np.ndarray) -> bytes:
@@ -48,7 +48,7 @@ def solve(count: int) -> int:
             result.append(np.concat(row, axis=1))
         start = np.concat(result)
 
-    return np.count_nonzero(start)
+    return int(np.count_nonzero(start))
 
 
 print(solve(5))

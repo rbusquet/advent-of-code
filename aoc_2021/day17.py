@@ -24,7 +24,7 @@ def quadratic(a: float, b: float, c: float) -> int:
     return math.floor(max(a1, a2))
 
 
-def part_2() -> int:  # noqa: C901
+def part_2() -> int:
     min_x, max_x, min_y, max_y = parse_input()
 
     # min_vx = quadratic(0.5, -0.5, -min_x)
@@ -32,7 +32,7 @@ def part_2() -> int:  # noqa: C901
 
     valid_initial_x_speeds = list[tuple[int, int]]()
     hover_speeds = defaultdict(list)
-    for velocity in range(0, 1000):
+    for velocity in range(1000):
         ivx = velocity
         posx = 0
 

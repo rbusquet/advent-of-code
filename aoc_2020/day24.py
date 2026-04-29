@@ -29,7 +29,7 @@ cube_directions = {
 
 def read_file():
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 hex_grid = defaultdict[Cube, bool](bool)
@@ -62,8 +62,8 @@ print(sum(hex_grid.values()))
 
 def neighborhood(cube: Cube):
     yield cube
-    for direction in cube_directions:
-        yield cube + cube_directions[direction]
+    for vector in cube_directions.values():
+        yield cube + vector
 
 
 def full_cycle(grid, days):

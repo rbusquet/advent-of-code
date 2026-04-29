@@ -43,12 +43,10 @@ def part_1(file: TextIO) -> int:
         nodes[name] = (left, right)
 
     node = nodes["AAA"]
-    count = 0
-    for instruction in instructions:
+    for count, instruction in enumerate(instructions):
         if node[instruction] == "ZZZ":
             return count + 1
         node = nodes[node[instruction]]
-        count += 1
     return -1
 
 
@@ -76,13 +74,11 @@ def part_2(file: TextIO) -> int:
 
     for a_node in current_nodes:
         node = nodes[a_node]
-        count = 0
-        for instruction in instructions:
+        for count, instruction in enumerate(instructions):
             if node[instruction].endswith("Z"):
                 counts[a_node] = count + 1
                 break
             node = nodes[node[instruction]]
-            count += 1
 
     return lcm(*counts.values())
 

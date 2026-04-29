@@ -46,7 +46,7 @@ def main(args: Arguments) -> None:
         stacks_2[int(to)].extend(stacks_2_move)
         # pprint(stacks_2)
 
-    print("")
+    print()
     for _, stack in sorted(stacks_1.items()):
         print(stack.pop(), end="")
     print()

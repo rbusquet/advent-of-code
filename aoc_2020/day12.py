@@ -6,7 +6,7 @@ from math import cos, radians, sin
 
 def read_file() -> Iterable[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 @dataclass

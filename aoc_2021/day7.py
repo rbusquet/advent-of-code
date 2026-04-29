@@ -12,8 +12,7 @@ def best_alignment(crabs: list[int]) -> int:
             if fuel > min_fuel:
                 # print(f"{position=} is already bad")
                 break
-        if fuel < min_fuel:
-            min_fuel = fuel
+        min_fuel = min(min_fuel, fuel)
     return min_fuel
 
 
@@ -34,8 +33,7 @@ def best_alignment_part_2(crabs: list[int]) -> int:
             if fuel > min_fuel:
                 # print(f"{position=} is already bad")
                 break
-        if fuel < min_fuel:
-            min_fuel = fuel
+        min_fuel = min(min_fuel, fuel)
     return min_fuel
 
 

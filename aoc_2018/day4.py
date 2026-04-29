@@ -14,11 +14,14 @@ class Entry(NamedTuple):
 entries = list[Entry]()
 entry_regex = re.compile(r"\[([:\d\s-]+)\] (.*)")
 with open("input4.txt") as f:
-    for line in f.readlines():
+    for line in f:
         if (match := entry_regex.match(line)) is None:
             continue
         date_time, info = match.groups()
-        parsed_datetime = datetime.datetime.strptime(date_time, "%Y-%m-%d %H:%M")
+        dt_str = "%Y-%m-%d %H:%M"
+        parsed_datetime = datetime.datetime.strptime(date_time, dt_str).replace(
+            tzinfo=datetime.UTC
+        )
         entries.append(Entry(parsed_datetime, info))
 
 entries = sorted(entries, key=lambda e: e.date_time)

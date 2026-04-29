@@ -17,8 +17,8 @@ def find_maximal_cliques(
         yield frozenset(current_clique)
         return
     pivot = first(candidates, None)
-    neighboors = n(pivot) if pivot else set()
-    for vertex in candidates - neighboors:
+    neighbors = n(pivot) if pivot else set()
+    for vertex in candidates - neighbors:
         yield from find_maximal_cliques(
             current_clique | {vertex},
             candidates & n(vertex),
@@ -66,7 +66,7 @@ def part_2() -> str:
 
     largest = max(
         find_maximal_cliques(set(), set(matrix.keys()), set(), lambda x: matrix[x]),
-        key=len,
+        key=lambda c: len(c),
     )
 
     return ",".join(sorted(largest))

@@ -24,8 +24,9 @@ def part_1() -> int:
                 if n == (x, y):
                     continue
                 if 0 <= n[0] < len(lines) and 0 <= n[1] < len(lines[x]):
-                    if lines[n[0]][n[1]] == "@" or lines[n[0]][n[1]] == "x":
-                        count_at += 1
+                    count_at += bool(
+                        lines[n[0]][n[1]] == "@" or lines[n[0]][n[1]] == "x"
+                    )
             if count_at < 4:
                 valid_rolls += 1
                 lines[x][y] = "x"
@@ -50,8 +51,9 @@ def part_2() -> int:
                     if n == (x, y):
                         continue
                     if 0 <= n[0] < len(lines) and 0 <= n[1] < len(lines[x]):
-                        if lines[n[0]][n[1]] == "@" or lines[n[0]][n[1]] == str(run):
-                            count_at += 1
+                        count_at += bool(
+                            lines[n[0]][n[1]] == "@" or lines[n[0]][n[1]] == str(run)
+                        )
                 if count_at < 4:
                     valid_rolls += 1
                     lines[x][y] = str(run)

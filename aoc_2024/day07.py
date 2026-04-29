@@ -1,6 +1,8 @@
+import functools
+from collections.abc import Iterator
 from functools import reduce
 from itertools import product
-from math import floor, log
+from math import floor, log10
 from operator import add, mul
 from pathlib import Path
 
@@ -11,6 +13,11 @@ def parse(equation: str) -> tuple[int, tuple[int, ...]]:
     test, operands = equation.split(":")
 
     return (int(test), tuple(map(int, operands.split())))
+
+
+def processor_part_1(it: Iterator[str], a: int, b: int) -> int:
+    op = next(it)
+    return eval(f"{a}{op}{b}")
 
 
 def part_1() -> int:
@@ -24,11 +31,7 @@ def part_1() -> int:
         for operation in operations:
             it = iter(operation)
 
-            def func(a: int, b: int) -> int:
-                op = next(it)
-                return eval(f"{a}{op}{b}")
-
-            result = reduce(func, operands)
+            result = reduce(functools.partial(processor_part_1, it=it), operands)
             if result == test:
                 total += result
                 break
@@ -36,15 +39,28 @@ def part_1() -> int:
 
 
 def concat(a: int, b: int) -> int:
-    digits_b = floor(log(b, 10) + 1)
+    digits_b = floor(log10(b) + 1)
     return int(a * (10**digits_b) + b)
+
+
+o_to_f = {"*": mul, "+": add, "||": concat}
+
+
+class WontWork(Exception):
+    pass
+
+
+def processor_part_2(it: Iterator[str], a: int, b: int, test: int) -> int:
+    op = next(it)
+    result = o_to_f[op](a, b)
+    if result > test:
+        raise WontWork()
+    return result
 
 
 def part_2() -> int:
     total = 0
     operators = ["*", "+", "||"]
-
-    o_to_f = {"*": mul, "+": add, "||": concat}
 
     for line in input.read_text().splitlines():
         test, operands = parse(line)
@@ -53,16 +69,11 @@ def part_2() -> int:
         for operation in operations:
             it = iter(operation)
 
-            def func(a: int, b: int) -> int:
-                op = next(it)
-                result = o_to_f[op](a, b)
-                if result > test:
-                    raise Exception("wont work")
-                return result
-
             try:
-                result = reduce(func, operands)
-            except Exception:
+                result = reduce(
+                    functools.partial(processor_part_2, it=it, test=test), operands
+                )
+            except WontWork:
                 continue
             if result == test:
                 total += result

@@ -41,7 +41,9 @@ if __name__ == "__main__":
         if not first:
             first = node
 
-    def open(cur: Node, rate={}, timer=0, *open_valves):
+    def open(cur: Node, rate=None, timer=0, *open_valves):
+        if rate is None:
+            rate = {}
         next_valves = cur["leads"].split(", ")
 
         rate = defaultdict(int, rate)
@@ -63,6 +65,6 @@ if __name__ == "__main__":
         return rates
 
     if first is None:
-        exit()
+        sys.exit()
     result = open(first)
     print(result)

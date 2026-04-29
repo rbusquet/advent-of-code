@@ -1,8 +1,6 @@
 from collections.abc import Iterator
 from pathlib import Path
 
-import progressbar
-
 input = Path(__file__).parent / "input.txt"
 
 lines = input.read_text().splitlines()
@@ -29,7 +27,7 @@ def part_1() -> int:
     mask = 0xFFFF
 
     count = 0
-    for _ in progressbar.progressbar(range(40_000_000)):
+    for _ in range(40_000_000):
         a = next(gen_a) & mask
         b = next(gen_b) & mask
         count += a == b
@@ -42,7 +40,7 @@ def part_2() -> int:
     mask = 0xFFFF
 
     count = 0
-    for _ in progressbar.progressbar(range(5_000_000)):
+    for _ in range(5_000_000):
         a = next(gen_a) & mask
         b = next(gen_b) & mask
         count += a == b

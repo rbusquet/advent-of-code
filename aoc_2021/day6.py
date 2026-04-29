@@ -6,20 +6,21 @@ from collections import Counter, defaultdict
 from collections.abc import Callable
 from heapq import heapify, heappop, heappush
 from pathlib import Path
-from typing import cast
 
 DAYS = 80
 
 
 def time_it[**P, T](fn: Callable[P, T]) -> Callable[P, T]:
+    fn_name = getattr(fn, "__name__", repr(fn))
+
     @functools.wraps(fn)
     def timed(*args: P.args, **kwargs: P.kwargs) -> T:
         before = time.process_time_ns()
         result = fn(*args, **kwargs)
         after = time.process_time_ns()
         diff = after - before
-        print(f"{fn.__name__} ran in {diff}ns")
-        return cast(T, result)
+        print(f"{fn_name} ran in {diff}ns")
+        return result
 
     return timed
 

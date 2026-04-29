@@ -29,8 +29,7 @@ def part_1() -> int:
     max_happiness = 0
     for arrangement in permutations(names):
         current_happiness = calculate_happiness(arrangement)
-        if current_happiness > max_happiness:
-            max_happiness = current_happiness
+        max_happiness = max(max_happiness, current_happiness)
 
     return max_happiness
 
@@ -64,8 +63,7 @@ def part_2() -> int:
     max_happiness = 0
     for arrangement in permutations(names):
         current_happiness = calculate_happiness(arrangement)
-        if current_happiness > max_happiness:
-            max_happiness = current_happiness
+        max_happiness = max(max_happiness, current_happiness)
 
     return max_happiness
 

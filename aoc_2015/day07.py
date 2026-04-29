@@ -1,6 +1,6 @@
 # mypy: ignore-errors
 from pathlib import Path
-from typing import Literal
+from typing import ClassVar, Literal
 
 Operators = Literal["AND", "OR", "LSHIFT", "RSHIFT"]
 Negate = tuple[Literal["NOT"], str | int]
@@ -9,7 +9,7 @@ Single = tuple[str | int]
 
 
 class Solver:
-    operators = {
+    operators: ClassVar = {
         "AND": lambda a, b: a & b,
         "OR": lambda a, b: a | b,
         "LSHIFT": lambda a, b: a << b,
@@ -61,7 +61,7 @@ def part_1() -> int:
     solver.do_work("a")
     if isinstance(solver.results["a"], int):
         return int(solver.results["a"])
-    raise Exception
+    raise RuntimeError("wire 'a' did not resolve to an integer")
 
 
 def part_2(part_1_result) -> int:
@@ -70,7 +70,7 @@ def part_2(part_1_result) -> int:
     solver.do_work("a")
     if isinstance(solver.results["a"], int):
         return int(solver.results["a"])
-    raise Exception
+    raise RuntimeError("wire 'a' did not resolve to an integer")
 
 
 if __name__ == "__main__":

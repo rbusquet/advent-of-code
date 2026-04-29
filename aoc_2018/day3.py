@@ -16,7 +16,7 @@ claims = []
 
 regex = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
 with open("input3.txt") as f:
-    for line in f.readlines():
+    for line in f:
         if match := regex.match(line):
             claims.append(Claim(*[int(x) for x in match.groups()]))
 

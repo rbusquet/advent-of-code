@@ -30,8 +30,8 @@ def part_1() -> int:
 
 class Memory(defaultdict[str, int]):
     def __init__(self):
+        super().__init__(int)
         self.max_value = 0
-        return super().__init__(int)
 
     def __setitem__(self, key: str, value: int) -> None:
         self.max_value = max(self.max_value, value)

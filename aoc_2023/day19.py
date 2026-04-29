@@ -102,7 +102,7 @@ def parse_workflow(line: str) -> Workflow:
 
 def parse_item(line: str) -> dict[str, int]:
     regex = re.compile(r"(\w)=(\d+)")
-    return dict((key, int(value)) for key, value in regex.findall(line))
+    return {key: int(value) for key, value in regex.findall(line)}
 
 
 def part_1(file: TextIO) -> int:

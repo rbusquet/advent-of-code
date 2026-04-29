@@ -18,7 +18,7 @@ def part_2() -> int:
             if floor == -1:
                 return position
             position += 1
-        raise Exception("Something went wrong")
+        raise RuntimeError("Something went wrong")
 
 
 if __name__ == "__main__":

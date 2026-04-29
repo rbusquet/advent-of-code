@@ -111,7 +111,7 @@ def part_1(file: TextIO) -> int:
                     return alt
                 distances[n] = alt
                 queue.add_task(n, alt)
-    raise Exception(f"{end} not found")
+    raise RuntimeError(f"{end} not found")
 
 
 def part_2(file: TextIO) -> int:

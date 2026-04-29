@@ -75,7 +75,7 @@ def part_1(file: TextIO) -> int:
         break
 
     can_reach = 0
-    for k, v in costs.items():
+    for v in costs.values():
         if v % 2 == 0:
             can_reach += 1
 

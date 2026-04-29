@@ -4,7 +4,7 @@ from itertools import product
 
 def read_file() -> Iterable[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 Layout = dict[tuple[int, int], str]

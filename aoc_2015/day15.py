@@ -51,8 +51,7 @@ def part_1() -> int:
             calories += ingredient.calories * count
 
         score = reduce(mul, [max(s, 0) for s in components])
-        if score > max_score:
-            max_score = score
+        max_score = max(max_score, score)
     return max_score
 
 
@@ -81,8 +80,7 @@ def part_2() -> int:
         if calories != 500:
             continue
         score = reduce(mul, [max(s, 0) for s in components])
-        if score > max_score:
-            max_score = score
+        max_score = max(max_score, score)
     return max_score
 
 

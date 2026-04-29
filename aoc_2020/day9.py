@@ -3,7 +3,7 @@ from collections.abc import Iterator
 
 def read_file() -> Iterator[str]:
     with open("./input.txt") as f:
-        yield from (c.strip() for c in f.readlines())
+        yield from (c.strip() for c in f)
 
 
 preamble: list[int] = []

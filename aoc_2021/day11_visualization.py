@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Iterator
 
 if TYPE_CHECKING:
-    from curses import _CursesWindow as Window
+    from curses import window
 
 Point = tuple[int, int]
 
@@ -22,7 +22,7 @@ def neighborhood(point: Point) -> Iterator[Point]:
         yield x + i, y + j
 
 
-def main(stdscr: Window) -> None:
+def main(stdscr: window) -> None:
     universe = dict[Point, int]()
 
     curses.use_default_colors()

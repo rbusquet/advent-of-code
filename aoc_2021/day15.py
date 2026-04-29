@@ -30,13 +30,13 @@ class Queue[T]:
             self.remove_task(task)
         count = next(self.counter)
         entry = [priority, count, task]
-        self.entry_finder[task] = entry  # type: ignore[assignment]
-        heappush(self.pq, entry)  # type: ignore[misc]
+        self.entry_finder[task] = entry  # type: ignore[assignment]  # ty:ignore[invalid-assignment]
+        heappush(self.pq, entry)  # type: ignore[misc]  # ty:ignore[invalid-argument-type]
 
     def remove_task(self, task: T) -> None:
         "Mark an existing task as REMOVED.  Raise KeyError if not found."
         entry = self.entry_finder.pop(task)
-        entry[-1] = self.REMOVED  # type: ignore[index]
+        entry[-1] = self.REMOVED  # type: ignore[index]  # ty:ignore[invalid-assignment]
 
     def pop_task(self) -> T | None:
         "Remove and return the lowest priority task. Return None if empty."

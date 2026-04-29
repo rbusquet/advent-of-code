@@ -33,7 +33,7 @@ vectors: list[Vector] = []
 min_x = min_y = 0
 
 with open("input10.txt") as f:
-    for line in f.readlines():
+    for line in f:
         if (match := regex.match(line)) is None:
             continue
         px, py, vx, vy = map(int, match.groups())

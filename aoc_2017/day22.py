@@ -1,5 +1,6 @@
 import enum
 from pathlib import Path
+from typing import ClassVar
 
 input = Path(__file__).parent / "input.txt"
 
@@ -12,29 +13,29 @@ class DirectionEnum(enum.Enum):
 
 
 class Direction:
-    def __init__(self, initial: DirectionEnum) -> None:
-        self.d = initial
-
-    OPPOSITES = {
+    OPPOSITES: ClassVar = {
         DirectionEnum.N: DirectionEnum.S,
         DirectionEnum.E: DirectionEnum.W,
         DirectionEnum.S: DirectionEnum.N,
         DirectionEnum.W: DirectionEnum.E,
     }
 
-    RIGHT_TURNS = {
+    RIGHT_TURNS: ClassVar = {
         DirectionEnum.N: DirectionEnum.E,
         DirectionEnum.E: DirectionEnum.S,
         DirectionEnum.S: DirectionEnum.W,
         DirectionEnum.W: DirectionEnum.N,
     }
 
-    LEFT_TURNS = {
+    LEFT_TURNS: ClassVar = {
         DirectionEnum.N: DirectionEnum.W,
         DirectionEnum.E: DirectionEnum.N,
         DirectionEnum.S: DirectionEnum.E,
         DirectionEnum.W: DirectionEnum.S,
     }
+
+    def __init__(self, initial: DirectionEnum) -> None:
+        self.d = initial
 
     def turn_right(self):
         self.d = self.RIGHT_TURNS[self.d]

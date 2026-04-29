@@ -12,13 +12,13 @@ class Node(NamedTuple):
     x: int
     y: int
 
-    def neighboors(self) -> Generator[Node]:
+    def neighbors(self) -> Generator[Node]:
         for x, y in product([-1, 0, 1], repeat=2):
             neighbor = Node(self.x + x, self.y + y)
             yield neighbor
 
     def touches(self, other: Node) -> bool:
-        return any(other == n for n in self.neighboors())
+        return any(other == n for n in self.neighbors())
 
     def follow(self, other: Node) -> Node:
         if self.touches(other):
