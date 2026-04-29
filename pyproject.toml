@@ -27,4 +27,5 @@ dev = [
     "pre-commit>=4.6.0",
     "ruff>=0.9.7",
     "scipy-stubs>=1.16.3.3",
+    "ty>=0.0.33",
 ]
