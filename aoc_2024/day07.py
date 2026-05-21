@@ -31,7 +31,7 @@ def part_1() -> int:
         for operation in operations:
             it = iter(operation)
 
-            result = reduce(functools.partial(processor_part_1, it=it), operands)
+            result = reduce(functools.partial(processor_part_1, it), operands)
             if result == test:
                 total += result
                 break
@@ -71,7 +71,7 @@ def part_2() -> int:
 
             try:
                 result = reduce(
-                    functools.partial(processor_part_2, it=it, test=test), operands
+                    functools.partial(processor_part_2, it, test=test), operands
                 )
             except WontWork:
                 continue
