@@ -63,9 +63,12 @@ class Arguments:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("infile", type=argparse.FileType("r"))
+    parser.add_argument("infile")
 
     args = Arguments()
     parser.parse_args(namespace=args)
+    path = args.infile if isinstance(args.infile, str) else args.infile.name
+    with open(path) as file:
+        args.infile = file
 
-    main(args)
+        main(args)

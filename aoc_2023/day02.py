@@ -55,9 +55,12 @@ def part_2(file: TextIO) -> int:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("file", type=argparse.FileType("r"))
+    parser.add_argument("file")
     args = Arguments()
     parser.parse_args(namespace=args)
-    print(part_1(args.file))
-    args.file.seek(0)
-    print(part_2(args.file))
+    path = args.file if isinstance(args.file, str) else args.file.name
+    with open(path) as file:
+        args.file = file
+        print(part_1(args.file))
+        args.file.seek(0)
+        print(part_2(args.file))

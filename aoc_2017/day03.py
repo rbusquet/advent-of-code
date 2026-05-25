@@ -52,6 +52,7 @@ def part_2() -> int:
 
     x = y = 0
     direction = Direction.RIGHT
+    value = -1
     for step in count():
         x += direction.value[0]
         y += direction.value[1]

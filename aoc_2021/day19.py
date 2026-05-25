@@ -16,6 +16,7 @@ def parse_scanners() -> Scanners:
     with open(Path(__file__).parent / "input.txt") as file:
         for line in file:
             data = line.split()
+            scanner_id = -1
             if len(data) == 4:
                 scanner_id = int(data[2])
                 scanners[int(scanner_id)] = []

@@ -8,15 +8,12 @@ dependencies = [
     "ipython>=9.8.0",
     "more-itertools>=10.6.0",
     "numpy>=2.2.3",
-    "progressbar2>=4.5.0",
     "scipy>=1.16.3",
     "types-requests>=2.33.0.20260518",
 ]
 
-[tool.mypy]
-python_version = "3.13"
-warn_unused_configs = true
-mypy_path = "$MYPY_CONFIG_FILE_DIR/stubs"
+[tool.ty.rules]
+all = "error"
 
 [tool.ruff.lint]
 extend-select = ['T10', 'E', 'W', 'DJ', 'I', 'UP']
@@ -24,7 +21,6 @@ preview = true
 
 [dependency-groups]
 dev = [
-    "mypy>=1.15.0",
     "pre-commit>=4.6.0",
     "ruff>=0.9.7",
     "scipy-stubs>=1.16.3.3",

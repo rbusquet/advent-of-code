@@ -31,6 +31,7 @@ def part_1_and_2() -> tuple[int, int]:
                 universe[i, j] = int(brightness)
 
     flashes_after_100 = 0
+    step = 0
     for step in count():
         flashed = propagate_energy(universe)
 
@@ -42,6 +43,7 @@ def part_1_and_2() -> tuple[int, int]:
         for point in universe:
             if universe[point] > 9:
                 universe[point] = 0
+
     return flashes_after_100, step
 
 

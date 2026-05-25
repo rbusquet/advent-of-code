@@ -103,6 +103,7 @@ def part_2() -> int:
         tile_i += 1
         tile_j += 1
 
+        risk = 0
         for i in range(tile_i * 5):
             for j in range(tile_j * 5):
                 if (i, j) in risk_map:

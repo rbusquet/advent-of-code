@@ -1,4 +1,3 @@
-# mypy: ignore-errors
 from pathlib import Path
 from typing import ClassVar, Literal
 
@@ -42,6 +41,7 @@ class Solver:
         if isinstance(wire, int) or wire.isdigit():
             return int(wire)
         value = self.results[wire]
+        result = None
         match value:
             case int():
                 result = value
@@ -52,8 +52,10 @@ class Solver:
             case (a, operator, b):
                 op = self.operators[operator]
                 result = op(self.do_work(a), self.do_work(b))
-        self.results[wire] = result
-        return result
+        if isinstance(result, int):
+            self.results[wire] = result
+            return result
+        raise RuntimeError(f"wire '{wire}' did not resolve to an integer")
 
 
 def part_1() -> int:

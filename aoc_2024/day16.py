@@ -96,6 +96,7 @@ class Maze:
 
 def run() -> tuple[int, int]:
     grid = {}
+    goal = start = 0, 0
     for x, line in enumerate(input.read_text().splitlines()):
         for y, tile in enumerate(line):
             grid[x, y] = tile
